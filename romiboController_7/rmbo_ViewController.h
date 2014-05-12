@@ -83,6 +83,8 @@ typedef enum {
 - (IBAction) connectAction:(id)sender;
 - (IBAction) logInAction:(id)sender;
 
+- (IBAction)doActionFromButton:(id)sender;
+
 - (void) layoutActionViewWithPallete:(uint32_t)index;
 
 @end

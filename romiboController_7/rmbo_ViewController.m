@@ -336,6 +336,7 @@ const NSString * kRomiboWebURL_palettes = @"/api/v1/palettes";
     [postDataTask resume];
 }
 
+
 - (void) parsePalettes:(NSDictionary *)paletteDict
 {
     NSLog(@"paletteDict: %@", paletteDict);
@@ -479,11 +480,56 @@ const NSString * kRomiboWebURL_palettes = @"/api/v1/palettes";
     NSInteger buttonIndex = theButton.tag;
     
     // Fetch button with buttonIndex
+    rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
+
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+
+    NSString *attributeName = @"index";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %d",
+                              attributeName, buttonIndex];
+
+    [request setPredicate:(NSPredicate *)predicate];
+
+    NSError * error;
+    NSArray * fetchedButtons = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
     
-    // Get action from button
+    if (fetchedButtons.count != 1)
+        return;
+
+    ButtonEntity * buttonEntity = (ButtonEntity *)fetchedButtons[0];
+    
+    NSSet * actionSet = buttonEntity.actions;
+    ActionEntity * actionEntity = [actionSet anyObject];        // Right now only one action present ever
     
     // do action
 
+    switch ([actionEntity.actionType integerValue]) {
+
+        case eActionType_talk:
+        {
+            NSString * textToSpeak = actionEntity.speechText;
+            float speechRate = [actionEntity.speechSpeed floatValue];
+            [self sendSpeechPhraseToRobot:textToSpeak atSpeechRate:speechRate];
+        }
+            break;
+ 
+        case eActionType_emotion:
+            ;
+            break;
+
+        case eActionType_drive:
+            ;
+            break;
+
+        case eActionType_tilt:
+            ;
+            break;
+            
+        default:
+            break;
+    }
     
 }
 
@@ -649,6 +695,8 @@ const CGFloat kButtonInset_y =   4.0;
 
         actionButton.frame = actionFrame;
         actionButton.titleLabel.frame = actionFrame;
+
+        [actionButton addTarget:self action:@selector(doActionFromButton:) forControlEvents:UIControlEventTouchUpInside];
 
         actionButton.tag = [buttonEntity.index integerValue]; // To fetch button and action from button press
 
