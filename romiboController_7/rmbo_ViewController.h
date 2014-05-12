@@ -10,12 +10,24 @@
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 #import <CoreData/CoreData.h>
 
+typedef enum {
+    eActionType_talk,
+    eActionType_emotion,
+    eActionType_drive,
+    eActionType_tilt
+} eActionType;
+
+
+
 @interface rmbo_ViewController : UIViewController
 <
     UITableViewDataSource,
     UITableViewDelegate,
     MCSessionDelegate,
-    MCBrowserViewControllerDelegate
+    MCBrowserViewControllerDelegate,
+    NSURLSessionTaskDelegate,
+    NSURLSessionDataDelegate,
+    NSURLSessionDelegate
 >
 
 //Commands
@@ -36,6 +48,9 @@
 @property (nonatomic, strong) MCBrowserViewController * multipeerBrowser;
 
 @property (assign, nonatomic) BOOL connectedToiPod;
+
+@property (strong, nonatomic) NSURLSession * URLsession;
+@property (strong, nonatomic) NSString * authTokenStr;
 
 @property (strong, nonatomic) IBOutlet UIView * actionsView;
 @property (strong, nonatomic) IBOutlet UIView * paletteView;

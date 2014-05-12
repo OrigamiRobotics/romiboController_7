@@ -8,8 +8,9 @@
 
 #import "rmbo_AppDelegate.h"
 #import "rmbo_ViewController.h"
-#import "Palette.h"
-#import "Action.h"
+#import "PaletteEntity.h"
+#import "ButtonEntity.h"
+#import "ActionEntity.h"
 
 @implementation rmbo_AppDelegate
 
@@ -165,56 +166,94 @@
         NSData *data = [_jsonString dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
         
-//        NSDictionary * paletteDict = jsonDict[@"palette"];
         NSDictionary * paletteDict = jsonDict;
         NSDictionary * actionsDict = paletteDict[@"actions"];
         
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Palette" inManagedObjectContext:self.managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:self.managedObjectContext];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entity];
         
         NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
         [request setSortDescriptors:@[descriptor]];
 
-        NSArray *fetchedCategories = [self.managedObjectContext executeFetchRequest:request error:&error];
+        NSArray *fetchedPalettes = [self.managedObjectContext executeFetchRequest:request error:&error];
         
-        Palette * palette = [NSEntityDescription insertNewObjectForEntityForName:@"Palette" inManagedObjectContext:self.managedObjectContext];
+        entity = [NSEntityDescription entityForName:@"ButtonEntity" inManagedObjectContext:self.managedObjectContext];
+        request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
         
-        [palette setIndex:[NSNumber numberWithInteger:fetchedCategories.count + 1]];
-        [palette setTitle:paletteDict[@"name"]];
+        descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+        [request setSortDescriptors:@[descriptor]];
+        
+        NSArray *fetchedButtons = [self.managedObjectContext executeFetchRequest:request error:&error];
 
-        int32_t index = 0;
+        entity = [NSEntityDescription entityForName:@"ActionEntity" inManagedObjectContext:self.managedObjectContext];
+        request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        
+        descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+        [request setSortDescriptors:@[descriptor]];
+        
+        NSArray *fetchedActions = [self.managedObjectContext executeFetchRequest:request error:&error];
+        
+
+        NSUInteger numPalettes = fetchedPalettes.count;
+        NSUInteger numButtons  = fetchedButtons.count;
+        NSUInteger numActions  = fetchedActions.count;
+    
+        
+        PaletteEntity * paletteEntity = [NSEntityDescription insertNewObjectForEntityForName:@"PaletteEntity" inManagedObjectContext:self.managedObjectContext];
+        
+        [paletteEntity setIndex:[NSNumber numberWithInteger:numPalettes + 1]];
+        [paletteEntity setTitle:paletteDict[@"name"]];
+
         for (NSDictionary *actionDict in actionsDict) {
             NSLog(@"actionDict: %@", actionDict);
             NSLog(@"buttonTitle    : %@", actionDict[@"buttonTitle"] );
             NSLog(@"speechPhrase   : %@", actionDict[@"speechPhrase"] );
             NSLog(@"speechSpeedRate: %@", actionDict[@"speechSpeedRate"] );
-            NSLog(@"index          : %d", index);
 
-            Action * action = [NSEntityDescription insertNewObjectForEntityForName:@"Action" inManagedObjectContext:self.managedObjectContext];
-            [action setSpeechText:actionDict[@"speechPhrase"]];
-            [action setTitle:actionDict[@"buttonTitle"]];
-            [action setSpeechSpeed:actionDict[@"speechSpeedRate"]];
-            [action setIndex:[NSNumber numberWithInt:index]];
-            index++;
+           ButtonEntity * buttonEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ButtonEntity" inManagedObjectContext:self.managedObjectContext];
+
+            [buttonEntity setTitle:actionDict[@"buttonTitle"]];
+            [buttonEntity setPalette:paletteEntity];
+            numButtons++;
+            [buttonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
+            NSLog(@"numButtons          : %d", (uint32_t)numButtons);
+
+            ActionEntity * actionEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ActionEntity" inManagedObjectContext:self.managedObjectContext];
+            [actionEntity setSpeechText:actionDict[@"speechPhrase"]];
+            [actionEntity setSpeechSpeed:actionDict[@"speechSpeedRate"]];
+            numActions++;
+            [actionEntity setIndex: [NSNumber numberWithInt:(uint32_t)numActions]];
+            NSLog(@"numActions          : %d", (uint32_t)numActions);
+
+            [actionEntity setActions:nil];
+            [actionEntity setButton:buttonEntity];
+
+            NSSet * actionsSet = [NSSet setWithObject:actionEntity];
+            [buttonEntity setActions:actionsSet];
             
-            [action setAction:nil];
-            [action setPalette:palette];
-            NSSet * actionSet = [NSSet setWithObject:action];
-            [palette addAction:actionSet];
-            
-            NSLog(@"        action: %@", action);
+            NSSet * buttonSet = [NSSet setWithObject:buttonEntity];
+            if (paletteEntity.buttons == nil) {
+                [paletteEntity addButtons:buttonSet];
+            }
+            else {
+                NSMutableSet *newSet = [[NSMutableSet alloc] init];
+                [newSet setSet:paletteEntity.buttons];
+                [newSet unionSet:buttonSet];
+                [paletteEntity addButtons:newSet];
+           }
+
         }
         
         [self.managedObjectContext save:nil];
         
-        NSArray * fetchedPalettes = [self.managedObjectContext executeFetchRequest:request error:&error];
-        NSLog(@"fetchedPalettes: %@", fetchedPalettes);
 
         rmbo_ViewController * mainViewController = (rmbo_ViewController *)  self.window.rootViewController;
         
         [mainViewController.paletteTableView reloadData];
-        [mainViewController layoutActionViewWithPallete: [palette.index intValue]];
+        [mainViewController layoutActionViewWithPallete: [paletteEntity.index intValue]];
 
     }
 }

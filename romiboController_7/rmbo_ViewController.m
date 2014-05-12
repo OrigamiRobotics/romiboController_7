@@ -8,14 +8,18 @@
 
 #import "rmbo_ViewController.h"
 #import "rmbo_AppDelegate.h"
-#import "Palette.h"
-#import "Action.h"
+#import "PaletteEntity.h"
+#import "ButtonEntity.h"
+#import "ActionEntity.h"
 
 @interface rmbo_ViewController ()
 
 @end
 
 @implementation rmbo_ViewController
+
+
+
 
 - (void)viewDidLoad
 {
@@ -26,12 +30,74 @@
     [self setupMultipeerConnectivity];
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - NSURLSessionDelegate
+
+- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
+{
+    NSLog(@"NSURLSessionDelegate didBecomeInvalidWithError");
+}
+
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
+{
+    NSLog(@"NSURLSessionDelegate didReceiveChallenge");
+}
+
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session;
+
+{
+    NSLog(@"NSURLSessionDelegate URLSessionDidFinishEventsForBackgroundURLSession");
+}
+
+#pragma mark - NSURLSessionDataDelegate
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
+{
+    NSLog(@"NSURLSessionDataDelegate didBecomeDownloadTask");
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
+{
+    NSLog(@"NSURLSessionDataDelegate didReceiveData");
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+    NSLog(@"NSURLSessionDataDelegate didReceiveResponse");
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask willCacheResponse:(NSCachedURLResponse *)proposedResponse completionHandler:(void (^)(NSCachedURLResponse *cachedResponse))completionHandler
+{
+    NSLog(@"NSURLSessionDataDelegate willCacheResponse");
+}
+
+
+#pragma mark - NSURLSessionTaskDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    NSLog(@"NSURLSessionTaskDelegate didCompleteWithError");
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
+{
+    NSLog(@"NSURLSessionTaskDelegate didReceiveChallenge");
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
+{
+    NSLog(@"NSURLSessionTaskDelegate didSendBodyData");
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
+{
+    NSLog(@"NSURLSessionTaskDelegate needNewBodyStream");
+}
 
 #pragma mark - Multipeer Connectivity
 
@@ -39,6 +105,7 @@
 {
     [self manageRobotConnection];
 }
+
 
 - (void)manageRobotConnection
 {
@@ -193,17 +260,280 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 }
 
-#define kRomiboWebServer @"create.romibo.com"
+
+const NSString * kRomiboWebURL = @"http://create.romibo.com";
+const NSString * kRomiboWebURL_login = @"/api/v1/login";
+const NSString * kRomiboWebURL_palettes = @"/api/v1/palettes";
+
+
 
 - (IBAction) logInAction:(id)sender
 {
     NSString * logInName = self.loginName_TextField.text;
     NSString * password  = self.password_TextFIeld.text;
 
-    NSLog(@"Logging Into %@   with name: %@  password: %@ ", kRomiboWebServer, logInName, password);
+    
+    NSString * loginStrURL = [kRomiboWebURL stringByAppendingString:(NSString*)kRomiboWebURL_login];
+    
+    
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    sessionConfiguration.HTTPAdditionalHeaders = @{
+                                                   @"Content-Type"  : @"application/json"
+                                                   };
+    
+    self.URLsession = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+
+#define auto_login 1
+#if auto_login
+    NSString * loginStrParams = @"{\"user\": {\"email\":\"tracy_lakin@earthlink.net\",\"password\":\"tracyromibo\"}}";
+#else
+    NSString * kLoginStrParams = @"{\"user\": {\"email\":\"%@\",\"password\":\"%@\"}}";
+    NSString * loginStrParams = [NSString stringWithFormat:kLoginStrParams, logInName, password];
+#endif
+    
+    NSURL *url = [NSURL URLWithString:loginStrURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPBody = [loginStrParams dataUsingEncoding:NSUTF8StringEncoding];
+    request.HTTPMethod = @"POST";
+    NSURLSessionDataTask *postDataTask = [self.URLsession dataTaskWithRequest:request
+                                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                          {
+//                                              NSLog(@"postDataTask completion error: %@   response: %@   data: %@", error, response, data);
+
+                                              NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//                                              NSLog(@"Login data as json: %@", json);
+                                              
+                                              NSString * tokenStr     = @"Token token=";
+                                              NSString * jsonTokenStr = [json objectForKey:@"auth_token"];
+                                              self.authTokenStr = [tokenStr stringByAppendingString:jsonTokenStr];
+                                              
+                                              NSLog(@"loginStrURL: %@",  loginStrURL);
+                                              NSLog(@"jsonTokenStr: %@", jsonTokenStr);
+                                              NSLog(@"authTokenStr: %@", self.authTokenStr);
+                                          }];
+    [postDataTask resume];
+
 }
 
+
+
+- (IBAction) fetchPalettes:(id)sender
+{
+    NSString * loginStrURL  = [kRomiboWebURL stringByAppendingString:(NSString*)kRomiboWebURL_palettes];
+
+    NSURL * url = [NSURL URLWithString:loginStrURL];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+    [request setValue:self.authTokenStr forHTTPHeaderField:@"Authorization"];
+    
+    request.HTTPMethod = @"GET";
+    NSURLSessionDataTask *postDataTask = [self.URLsession dataTaskWithRequest:request
+                                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                          {
+//                                              NSLog(@"fetchPalettesFromWeb postDataTask completion error: %@   response: %@   data: %@", error, response, data);
+                                              NSDictionary *paletteDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                              [self parsePalettes:paletteDict];
+                                          }];
+    [postDataTask resume];
+}
+
+- (void) parsePalettes:(NSDictionary *)paletteDict
+{
+    NSLog(@"paletteDict: %@", paletteDict);
+    
+    
+    rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    
+    NSError * error;
+
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+    [request setSortDescriptors:@[descriptor]];
+    
+    NSArray *fetchedPalettes = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    
+    entity = [NSEntityDescription entityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+    request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+    [request setSortDescriptors:@[descriptor]];
+    
+    NSArray *fetchedButtons = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    
+    entity = [NSEntityDescription entityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+    request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+    [request setSortDescriptors:@[descriptor]];
+    
+    NSArray *fetchedActions = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    
+    
+    NSUInteger numPalettes = fetchedPalettes.count;
+    NSUInteger numButtons  = fetchedButtons.count;
+    NSUInteger numActions  = fetchedActions.count;
+
+    
+    
+    
+    NSDictionary * palettes = paletteDict[@"palettes"];
+    for (NSDictionary *palette in palettes) {
+        NSLog(@"palette: %@", palette);
+        PaletteEntity * newPaletteEntity = [NSEntityDescription insertNewObjectForEntityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+
+        NSDictionary * thePaletteDict = palette[@"palette"];
+        NSLog(@"thePaletteDict: %@", thePaletteDict);
+
+        numPalettes++;
+        [newPaletteEntity setIndex:[NSNumber numberWithInteger:numPalettes]];
+        [newPaletteEntity setTitle:thePaletteDict[@"title"]];
+//        [newPalette setColor:thePaletteDict[@"color"]];   // Deal with nil  TODO:
+        
+        
+        NSDictionary * buttons = thePaletteDict[@"buttons"];
+
+        for (NSDictionary *buttonsDict in buttons) {
+            NSDictionary * theButtonDict = buttonsDict[@"button"];
+//            NSLog(@"buttonsDict: %@", buttonsDict);
+//            NSLog(@"theButtonDict: %@", theButtonDict);
+            
+            NSLog(@"buttonTitle    : %@", theButtonDict[@"title"] );
+            NSLog(@"speechPhrase   : %@", theButtonDict[@"speech_phrase"] );
+            NSLog(@"speechSpeedRate: %@", theButtonDict[@"speech_speed_rate"] );
+            NSLog(@"size           : %@", theButtonDict[@"size"] );
+
+            ButtonEntity * buttonEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+            
+            [buttonEntity setTitle :theButtonDict[@"title"]];
+            [buttonEntity setColor :theButtonDict[@"color"]];
+            [buttonEntity setRow   :theButtonDict[@"row"]];
+            [buttonEntity setColumn:theButtonDict[@"col"]];
+            NSString * size = theButtonDict[@"size"];
+            if ([size isEqualToString:@"Small"])
+            {
+                [buttonEntity setWidth:[NSNumber numberWithInt:1]];
+                [buttonEntity setHeight:[NSNumber numberWithInt:1]];
+            }
+            else if ([size isEqualToString:@"Medium"])
+            {
+                [buttonEntity setWidth:[NSNumber numberWithInt:2]];
+                [buttonEntity setHeight:[NSNumber numberWithInt:1]];
+            }
+            else if ([size isEqualToString:@"Large"])
+            {
+                [buttonEntity setWidth:[NSNumber numberWithInt:4]];
+                [buttonEntity setHeight:[NSNumber numberWithInt:1]];
+            }
+ 
+            [buttonEntity setPalette:newPaletteEntity];
+            numButtons++;
+            [buttonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
+            NSLog(@"numButtons          : %d", (uint32_t)numButtons);
+            
+            ActionEntity * actionEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+            [actionEntity setSpeechText:theButtonDict[@"speech_phrase"]];
+            [actionEntity setSpeechSpeed:theButtonDict[@"speech_speed_rate"]];
+            [actionEntity setActionType:[NSNumber numberWithInt:eActionType_talk]];
+            numActions++;
+            [actionEntity setIndex: [NSNumber numberWithInt:(uint32_t)numActions]];
+            NSLog(@"numActions          : %d", (uint32_t)numActions);
+            
+            [actionEntity setActions:nil];
+            [actionEntity setButton:buttonEntity];
+            
+            NSSet * actionsSet = [NSSet setWithObject:actionEntity];
+            [buttonEntity setActions:actionsSet];
+            
+            NSSet * buttonSet = [NSSet setWithObject:buttonEntity];
+            if (newPaletteEntity.buttons == nil) {
+                [newPaletteEntity addButtons:buttonSet];
+            }
+            else {
+                NSMutableSet *newSet = [[NSMutableSet alloc] init];
+                [newSet setSet:newPaletteEntity.buttons];
+                [newSet unionSet:buttonSet];
+                [newPaletteEntity addButtons:newSet];
+            }
+        }
+    }
+    
+    [appDelegate.managedObjectContext save:nil];
+
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self.paletteTableView reloadData];
+        [self layoutActionViewWithPallete: 0];
+    });
+
+
+  }
+
+
+- (IBAction)doActionFromButton:(id)sender
+{
+    UIButton * theButton = (UIButton *)sender;
+    NSInteger buttonIndex = theButton.tag;
+    
+    // Fetch button with buttonIndex
+    
+    // Get action from button
+    
+    // do action
+
+    
+}
+
+
+
+
 #pragma mark - action button view
+
+-(UIColor*)colorWithHexString:(NSString*)hex
+{
+    NSString *cString = [[hex stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+
+    // String should be 6 or 8 characters
+    if ([cString length] < 6) return [UIColor grayColor];
+    
+    // strip # if it appears
+    if ([cString hasPrefix:@"#"]) cString = [cString substringFromIndex:1];
+    
+    // strip 0X if it appears
+    if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
+    
+    if ([cString length] != 6) return  [UIColor grayColor];
+    
+    // Separate into r, g, b substrings
+    NSRange range;
+    range.location = 0;
+    range.length = 2;
+    NSString *rString = [cString substringWithRange:range];
+    
+    range.location = 2;
+    NSString *gString = [cString substringWithRange:range];
+    
+    range.location = 4;
+    NSString *bString = [cString substringWithRange:range];
+    
+    // Scan values
+    unsigned int r, g, b;
+    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+    
+    return [UIColor colorWithRed:((float) r / 255.0f)
+                           green:((float) g / 255.0f)
+                            blue:((float) b / 255.0f)
+                           alpha:1.0f];
+} 
+
+
+
+const CGFloat kButtonSizeUnit     =  50.0;
 
 const CGFloat kSmallButtonWidth     =  50.0;
 const CGFloat kMediumButtonWidth    = 102.0;
@@ -219,7 +549,7 @@ const CGFloat kButtonInset_y =   4.0;
 {
     rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
 
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Palette" inManagedObjectContext:appDelegate.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entity];
 
@@ -233,23 +563,27 @@ const CGFloat kButtonInset_y =   4.0;
     if (index >= fetchedPalettes.count)
         return;
     
-    Palette * palette = fetchedPalettes[index];
-    NSSet * actions = palette.action;
+    PaletteEntity * palette = fetchedPalettes[index];
+    NSSet * buttons = palette.buttons;
     
     NSSortDescriptor *actionSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
     NSArray * sortDescArray = [NSArray arrayWithObject:actionSortDescriptor];
-    NSArray * sortedActions = [actions sortedArrayUsingDescriptors:sortDescArray];
+    NSArray * sortedButtons = [buttons sortedArrayUsingDescriptors:sortDescArray];
 
+    ButtonEntity * firstButton = sortedButtons[0];
+    BOOL hasRowCol = [firstButton.width integerValue] != 0;
 
     NSInteger max_columns = 6;      // right now no size info. So use all medium buttons. Allow 6 max in 630 pixel wide view.
     NSInteger current_row = 0;
     NSInteger current_column = 0;
-    for (Action * action in sortedActions) {
+    for (ButtonEntity * buttonEntity in sortedButtons) {
         
-        NSLog(@"action: %@", action);
-        NSLog(@"action   title     : %@", action.title);
-        NSLog(@"action   SpeechText: %@", action.speechText);
-        NSLog(@"action   index     : %@", action.index);
+        
+        
+        NSLog(@"buttonEntity: %@", buttonEntity);
+        
+        NSLog(@"buttonEntity   title     : %@", buttonEntity.title);
+        NSLog(@"buttonEntity   index     : %@", buttonEntity.index);
  
         if (current_column == max_columns)
         {
@@ -257,34 +591,66 @@ const CGFloat kButtonInset_y =   4.0;
             current_row++;
         }
 
-        CGFloat xPosition = kButtonInset_x + (current_column * (kMediumButtonWidth + kButtonSeparatorWidth));
-        CGFloat yPosition = kButtonInset_y + (current_row    * (kButtonHeight + kButtonSeparatorWidth));
-        NSLog(@"xPosition: %f   yPosition: %f", xPosition, yPosition);
+        CGFloat xPosition = 0;
+        CGFloat yPosition = 0;
+        if (hasRowCol == YES) {
+            NSInteger zeroBasedRow    = [buttonEntity.row integerValue] - 1;
+            NSInteger zeroBasedColumn = [buttonEntity.column integerValue] - 1;
+            xPosition = kButtonInset_x + (zeroBasedColumn * (kButtonSizeUnit + kButtonSeparatorWidth));
+            yPosition = kButtonInset_y + (zeroBasedRow    * (kButtonSizeUnit + kButtonSeparatorWidth));
+            NSLog(@"xPosition: %f   yPosition: %f", xPosition, yPosition);
+        }
+        else {
+            xPosition = kButtonInset_x + (current_column * (kMediumButtonWidth + kButtonSeparatorWidth));
+            yPosition = kButtonInset_y + (current_row    * (kButtonHeight + kButtonSeparatorWidth));
+            NSLog(@"xPosition: %f   yPosition: %f", xPosition, yPosition);
+        }
 
         UIButton * actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
         UIFont * titleFont = [UIFont fontWithName:@"Helvetica" size:14.0];
         NSDictionary * titleStringAttrDict = [NSDictionary dictionaryWithObjectsAndKeys:titleFont, NSFontAttributeName, nil];
 
-        NSAttributedString * attrString = [[NSAttributedString alloc] initWithString:action.title attributes:titleStringAttrDict];
+        NSAttributedString * attrString = [[NSAttributedString alloc] initWithString:buttonEntity.title attributes:titleStringAttrDict];
         [actionButton setAttributedTitle:attrString forState:UIControlStateNormal];
 
         [actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 
-        [actionButton setBackgroundImage: [UIImage imageNamed:@"smActionButton"]
-                      forState: UIControlStateNormal];
 
-//        UIImage *buttonImage = [UIImage imageNamed:@"smActionButton" withTintColor:[action buttonColor]];
-//        [actionButton setTintColor:[action buttonTitleColor]];
+        if (hasRowCol == YES)
+        {
+            UIColor * buttonColor = [self colorWithHexString:buttonEntity.color];
+//            [actionButton setTintColor:buttonTintColor];
+            [actionButton setBackgroundColor:buttonColor];
+        }
+
+//        [actionButton setBackgroundImage: [UIImage imageNamed:@"smActionButton"]
+//                                forState: UIControlStateNormal];
 
         CGRect actionFrame      = actionButton.frame;
         actionFrame.origin.x    = xPosition;
         actionFrame.origin.y    = yPosition;
-        actionFrame.size.height = kButtonHeight;
-        actionFrame.size.width  = kMediumButtonWidth;
+        
+        if (hasRowCol == YES)
+        {
+            actionFrame.size.height = kButtonHeight;
+            
+            NSInteger widthUnits = [buttonEntity.width integerValue];
+            NSInteger internalSpacing = (widthUnits - 1) * kButtonSeparatorWidth;
+            actionFrame.size.width    = (widthUnits * kButtonSizeUnit) + internalSpacing;
+        }
+        else
+        {
+            actionFrame.size.height = kButtonHeight;
+            actionFrame.size.width  = kMediumButtonWidth;
+        }
+
+        NSLog(@"actionFrame: %@", NSStringFromCGRect(actionFrame));
 
         actionButton.frame = actionFrame;
         actionButton.titleLabel.frame = actionFrame;
+
+        actionButton.tag = [buttonEntity.index integerValue]; // To fetch button and action from button press
 
         [self.actionsView addSubview:actionButton];
 
@@ -306,15 +672,18 @@ const CGFloat kButtonInset_y =   4.0;
     }
     rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Palette" inManagedObjectContext:appDelegate.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entity];
     
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+    [request setSortDescriptors:@[descriptor]];
+
     NSError * error;
     NSArray * fetchedPalettes = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-    NSLog(@"fetchedPalettes: %@", fetchedPalettes);
+//    NSLog(@"fetchedPalettes: %@", fetchedPalettes);
     if (fetchedPalettes != nil) {
-        Palette * palette = fetchedPalettes[0];
+        PaletteEntity * palette = fetchedPalettes[indexPath.row];
         cell.textLabel.text = palette.title;
     }
     else {
@@ -328,7 +697,7 @@ const CGFloat kButtonInset_y =   4.0;
 {
     rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
 
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Palette" inManagedObjectContext:appDelegate.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entity];
 
@@ -343,6 +712,13 @@ const CGFloat kButtonInset_y =   4.0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     uint32_t index = (uint32_t)indexPath.row;
+
+    NSArray * subViews = [self.actionsView subviews];
+    for (UIView * subView in subViews)
+    {
+        [subView removeFromSuperview];
+    }
+
     [self layoutActionViewWithPallete:index];
 }
 

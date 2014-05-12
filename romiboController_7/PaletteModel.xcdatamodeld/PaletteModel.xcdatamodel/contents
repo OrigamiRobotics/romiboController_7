@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Action" representedClassName="Action" syncable="YES">
-        <attribute name="color" optional="YES" attributeType="Binary" syncable="YES"/>
+    <entity name="ActionEntity" representedClassName="ActionEntity" syncable="YES">
+        <attribute name="actionType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="speechSpeed" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="speechText" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActionEntity" inverseName="actions" inverseEntity="ActionEntity" syncable="YES"/>
+        <relationship name="button" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ButtonEntity" inverseName="actions" inverseEntity="ButtonEntity" syncable="YES"/>
+    </entity>
+    <entity name="ButtonEntity" representedClassName="ButtonEntity" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="column" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="height" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="row" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="speechSpeed" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="speechText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="width" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="action" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Action" inverseName="action" inverseEntity="Action" syncable="YES"/>
-        <relationship name="palette" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Palette" inverseName="action" inverseEntity="Palette" syncable="YES"/>
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActionEntity" inverseName="button" inverseEntity="ActionEntity" syncable="YES"/>
+        <relationship name="palette" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PaletteEntity" inverseName="buttons" inverseEntity="PaletteEntity" syncable="YES"/>
     </entity>
-    <entity name="Palette" representedClassName="Palette" syncable="YES">
-        <attribute name="color" optional="YES" attributeType="Binary" syncable="YES"/>
+    <entity name="PaletteEntity" representedClassName="PaletteEntity" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="action" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Action" inverseName="palette" inverseEntity="Action" syncable="YES"/>
+        <relationship name="buttons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ButtonEntity" inverseName="palette" inverseEntity="ButtonEntity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Action" positionX="-317" positionY="-0" width="128" height="208"/>
-        <element name="Palette" positionX="-567" positionY="-9" width="128" height="103"/>
+        <element name="ActionEntity" positionX="-182" positionY="-0" width="128" height="133"/>
+        <element name="PaletteEntity" positionX="-675" positionY="86" width="128" height="103"/>
+        <element name="ButtonEntity" positionX="-432" positionY="90" width="128" height="178"/>
     </elements>
 </model>

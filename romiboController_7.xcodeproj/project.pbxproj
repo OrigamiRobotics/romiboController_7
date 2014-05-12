@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
+		B1E6442B1920B7E700850F12 /* ButtonEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E6442A1920B7E700850F12 /* ButtonEntity.m */; };
+		B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E6442D1920B7E700850F12 /* ActionEntity.m */; };
 		B1EDAF6E1910537600C17EBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF6D1910537600C17EBC /* Foundation.framework */; };
 		B1EDAF701910537600C17EBC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF6F1910537600C17EBC /* CoreGraphics.framework */; };
 		B1EDAF721910537600C17EBC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF711910537600C17EBC /* UIKit.framework */; };
@@ -26,8 +29,6 @@
 		B1EDAFA81910A84600C17EBC /* whiteBorderButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFA61910A84600C17EBC /* whiteBorderButton@2x.png */; };
 		B1EDAFAA1910BCBE00C17EBC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAFA91910BCBE00C17EBC /* CoreData.framework */; };
 		B1EDAFAD1911969400C17EBC /* PaletteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAFAB1911969400C17EBC /* PaletteModel.xcdatamodeld */; };
-		B1EDAFB3191198AD00C17EBC /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAFB2191198AD00C17EBC /* Palette.m */; };
-		B1EDAFB619119A0000C17EBC /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAFB519119A0000C17EBC /* Action.m */; };
 		B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAFB81911A69900C17EBC /* rmbo_paletteTableViewCell.m */; };
 		B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */; };
 		B1EDAFBE19122F1C00C17EBC /* smActionButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFBC19122F1B00C17EBC /* smActionButton.png */; };
@@ -45,6 +46,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B1E644261920B7E600850F12 /* PaletteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteEntity.h; sourceTree = "<group>"; };
+		B1E644271920B7E600850F12 /* PaletteEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaletteEntity.m; sourceTree = "<group>"; };
+		B1E644291920B7E700850F12 /* ButtonEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonEntity.h; sourceTree = "<group>"; };
+		B1E6442A1920B7E700850F12 /* ButtonEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonEntity.m; sourceTree = "<group>"; };
+		B1E6442C1920B7E700850F12 /* ActionEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionEntity.h; sourceTree = "<group>"; };
+		B1E6442D1920B7E700850F12 /* ActionEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionEntity.m; sourceTree = "<group>"; };
 		B1EDAF6A1910537600C17EBC /* romiboController_7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = romiboController_7.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1EDAF6D1910537600C17EBC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B1EDAF6F1910537600C17EBC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -69,10 +76,6 @@
 		B1EDAFA61910A84600C17EBC /* whiteBorderButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteBorderButton@2x.png"; sourceTree = "<group>"; };
 		B1EDAFA91910BCBE00C17EBC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B1EDAFAC1911969400C17EBC /* PaletteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PaletteModel.xcdatamodel; sourceTree = "<group>"; };
-		B1EDAFB1191198AD00C17EBC /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
-		B1EDAFB2191198AD00C17EBC /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Palette.m; sourceTree = "<group>"; };
-		B1EDAFB419119A0000C17EBC /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
-		B1EDAFB519119A0000C17EBC /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Action.m; sourceTree = "<group>"; };
 		B1EDAFB71911A69900C17EBC /* rmbo_paletteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rmbo_paletteTableViewCell.h; sourceTree = "<group>"; };
 		B1EDAFB81911A69900C17EBC /* rmbo_paletteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = rmbo_paletteTableViewCell.m; sourceTree = "<group>"; };
 		B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = rmbo_paletteTableViewCell.xib; sourceTree = "<group>"; };
@@ -139,6 +142,12 @@
 		B1EDAF731910537600C17EBC /* romiboController_7 */ = {
 			isa = PBXGroup;
 			children = (
+				B1E6442C1920B7E700850F12 /* ActionEntity.h */,
+				B1E6442D1920B7E700850F12 /* ActionEntity.m */,
+				B1E644291920B7E700850F12 /* ButtonEntity.h */,
+				B1E6442A1920B7E700850F12 /* ButtonEntity.m */,
+				B1E644261920B7E600850F12 /* PaletteEntity.h */,
+				B1E644271920B7E600850F12 /* PaletteEntity.m */,
 				B1EDAF7C1910537600C17EBC /* rmbo_AppDelegate.h */,
 				B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */,
 				B1EDAF7F1910537600C17EBC /* Main_iPhone.storyboard */,
@@ -149,10 +158,6 @@
 				B1EDAFB81911A69900C17EBC /* rmbo_paletteTableViewCell.m */,
 				B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */,
 				B1EDAFAB1911969400C17EBC /* PaletteModel.xcdatamodeld */,
-				B1EDAFB419119A0000C17EBC /* Action.h */,
-				B1EDAFB519119A0000C17EBC /* Action.m */,
-				B1EDAFB1191198AD00C17EBC /* Palette.h */,
-				B1EDAFB2191198AD00C17EBC /* Palette.m */,
 				B1EDAF881910537600C17EBC /* Images.xcassets */,
 				B1EDAFBC19122F1B00C17EBC /* smActionButton.png */,
 				B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */,
@@ -306,10 +311,11 @@
 			files = (
 				B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */,
 				B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */,
+				B1E6442B1920B7E700850F12 /* ButtonEntity.m in Sources */,
 				B1EDAFAD1911969400C17EBC /* PaletteModel.xcdatamodeld in Sources */,
-				B1EDAFB3191198AD00C17EBC /* Palette.m in Sources */,
-				B1EDAFB619119A0000C17EBC /* Action.m in Sources */,
+				B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */,
 				B1EDAF871910537600C17EBC /* rmbo_ViewController.m in Sources */,
+				B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */,
 				B1EDAF7A1910537600C17EBC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
