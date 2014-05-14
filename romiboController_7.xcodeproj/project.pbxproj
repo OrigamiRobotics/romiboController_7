@@ -10,6 +10,11 @@
 		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
 		B1E6442B1920B7E700850F12 /* ButtonEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E6442A1920B7E700850F12 /* ButtonEntity.m */; };
 		B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E6442D1920B7E700850F12 /* ActionEntity.m */; };
+		B1E64432192300CA00850F12 /* colorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E64430192300CA00850F12 /* colorPickerViewController.m */; };
+		B1E64433192300CA00850F12 /* colorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1E64431192300CA00850F12 /* colorPickerViewController.xib */; };
+		B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E64435192300F600850F12 /* buttonSizePickerViewController.m */; };
+		B1E64438192300F600850F12 /* buttonSizePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1E64436192300F600850F12 /* buttonSizePickerViewController.xib */; };
+		B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E6443A1923120700850F12 /* UIColor+RMBOColors.m */; };
 		B1EDAF6E1910537600C17EBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF6D1910537600C17EBC /* Foundation.framework */; };
 		B1EDAF701910537600C17EBC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF6F1910537600C17EBC /* CoreGraphics.framework */; };
 		B1EDAF721910537600C17EBC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF711910537600C17EBC /* UIKit.framework */; };
@@ -52,6 +57,14 @@
 		B1E6442A1920B7E700850F12 /* ButtonEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonEntity.m; sourceTree = "<group>"; };
 		B1E6442C1920B7E700850F12 /* ActionEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionEntity.h; sourceTree = "<group>"; };
 		B1E6442D1920B7E700850F12 /* ActionEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionEntity.m; sourceTree = "<group>"; };
+		B1E6442F192300CA00850F12 /* colorPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorPickerViewController.h; sourceTree = "<group>"; };
+		B1E64430192300CA00850F12 /* colorPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = colorPickerViewController.m; sourceTree = "<group>"; };
+		B1E64431192300CA00850F12 /* colorPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = colorPickerViewController.xib; sourceTree = "<group>"; };
+		B1E64434192300F600850F12 /* buttonSizePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buttonSizePickerViewController.h; sourceTree = "<group>"; };
+		B1E64435192300F600850F12 /* buttonSizePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = buttonSizePickerViewController.m; sourceTree = "<group>"; };
+		B1E64436192300F600850F12 /* buttonSizePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = buttonSizePickerViewController.xib; sourceTree = "<group>"; };
+		B1E644391923120700850F12 /* UIColor+RMBOColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RMBOColors.h"; sourceTree = "<group>"; };
+		B1E6443A1923120700850F12 /* UIColor+RMBOColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RMBOColors.m"; sourceTree = "<group>"; };
 		B1EDAF6A1910537600C17EBC /* romiboController_7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = romiboController_7.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1EDAF6D1910537600C17EBC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B1EDAF6F1910537600C17EBC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -142,6 +155,8 @@
 		B1EDAF731910537600C17EBC /* romiboController_7 */ = {
 			isa = PBXGroup;
 			children = (
+				B1E644391923120700850F12 /* UIColor+RMBOColors.h */,
+				B1E6443A1923120700850F12 /* UIColor+RMBOColors.m */,
 				B1E6442C1920B7E700850F12 /* ActionEntity.h */,
 				B1E6442D1920B7E700850F12 /* ActionEntity.m */,
 				B1E644291920B7E700850F12 /* ButtonEntity.h */,
@@ -164,6 +179,12 @@
 				B1EDAFA51910A84600C17EBC /* whiteBorderButton.png */,
 				B1EDAFA61910A84600C17EBC /* whiteBorderButton@2x.png */,
 				B1EDAF741910537600C17EBC /* Supporting Files */,
+				B1E6442F192300CA00850F12 /* colorPickerViewController.h */,
+				B1E64430192300CA00850F12 /* colorPickerViewController.m */,
+				B1E64431192300CA00850F12 /* colorPickerViewController.xib */,
+				B1E64434192300F600850F12 /* buttonSizePickerViewController.h */,
+				B1E64435192300F600850F12 /* buttonSizePickerViewController.m */,
+				B1E64436192300F600850F12 /* buttonSizePickerViewController.xib */,
 			);
 			path = romiboController_7;
 			sourceTree = "<group>";
@@ -284,8 +305,10 @@
 			files = (
 				B1EDAF841910537600C17EBC /* Main_iPad.storyboard in Resources */,
 				B1EDAF891910537600C17EBC /* Images.xcassets in Resources */,
+				B1E64438192300F600850F12 /* buttonSizePickerViewController.xib in Resources */,
 				B1EDAFA81910A84600C17EBC /* whiteBorderButton@2x.png in Resources */,
 				B1EDAFA71910A84600C17EBC /* whiteBorderButton.png in Resources */,
+				B1E64433192300CA00850F12 /* colorPickerViewController.xib in Resources */,
 				B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */,
 				B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */,
 				B1EDAF811910537600C17EBC /* Main_iPhone.storyboard in Resources */,
@@ -310,10 +333,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */,
+				B1E64432192300CA00850F12 /* colorPickerViewController.m in Sources */,
 				B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */,
 				B1E6442B1920B7E700850F12 /* ButtonEntity.m in Sources */,
 				B1EDAFAD1911969400C17EBC /* PaletteModel.xcdatamodeld in Sources */,
 				B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */,
+				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
+				B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */,
 				B1EDAF871910537600C17EBC /* rmbo_ViewController.m in Sources */,
 				B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */,
 				B1EDAF7A1910537600C17EBC /* main.m in Sources */,

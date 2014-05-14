@@ -10,6 +10,21 @@
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 #import <CoreData/CoreData.h>
 
+
+//Commands
+#define kRMBOSpeakPhrase @"kRMBOSpeakPhrase"
+#define kRMBOMoveRobot @"kRMBOMoveRobot"
+#define kRMBOHeadTilt @"kRMBOHeadTilt"
+#define kRMBODebugLogMessage @"kRMBODebugLogMessage"
+#define kRMBOTurnInPlaceClockwise @"kRMBOTurnInPlaceClockwise"
+#define kRMBOTurnInPlaceCounterClockwise @"kRMBOTurnInPlaceCounterClockwise"
+#define kRMBOStopRobotMovement @"kRMBOStopRobotMovement"
+#define kRMBOChangeMood @"kRMBOChangeMood"
+
+#define kRMBOMaxMutlipeerConnections 1
+#define kRMBOServiceType @"origami-romibo"
+
+
 typedef enum {
     eActionType_talk,
     eActionType_emotion,
@@ -27,21 +42,9 @@ typedef enum {
     MCBrowserViewControllerDelegate,
     NSURLSessionTaskDelegate,
     NSURLSessionDataDelegate,
-    NSURLSessionDelegate
+    NSURLSessionDelegate,
+    UIPopoverControllerDelegate
 >
-
-//Commands
-#define kRMBOSpeakPhrase @"kRMBOSpeakPhrase"
-#define kRMBOMoveRobot @"kRMBOMoveRobot"
-#define kRMBOHeadTilt @"kRMBOHeadTilt"
-#define kRMBODebugLogMessage @"kRMBODebugLogMessage"
-#define kRMBOTurnInPlaceClockwise @"kRMBOTurnInPlaceClockwise"
-#define kRMBOTurnInPlaceCounterClockwise @"kRMBOTurnInPlaceCounterClockwise"
-#define kRMBOStopRobotMovement @"kRMBOStopRobotMovement"
-#define kRMBOChangeMood @"kRMBOChangeMood"
-
-#define kRMBOMaxMutlipeerConnections 1
-#define kRMBOServiceType @"origami-romibo"
 
 
 @property (strong, nonatomic) MCSession * multipeerSession;
@@ -56,11 +59,29 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIView * paletteView;
 @property (strong, nonatomic) IBOutlet UITableView * paletteTableView;
 @property (strong, nonatomic) IBOutlet UIView * editView;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *rightSideView_SegmentedControl;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *leftSideView_SegmentedControl;
+
+
+
+@property (strong, nonatomic) IBOutlet UITextField * edit_buttonTitle_TextField;
+@property (strong, nonatomic) IBOutlet UITextField * edit_actionSpeechPhrase_TextField;
+@property (strong, nonatomic) IBOutlet UITextField * edit_actionSpeechRate_TextField;
+@property (strong, nonatomic) IBOutlet UIView *edit_buttonColorView;
+@property (strong, nonatomic) IBOutlet UILabel     * edit_buttonSize_Label;
+@property (strong, nonatomic) IBOutlet UIButton    * edit_showColorPopover_button;
+@property (strong, nonatomic) IBOutlet UIButton    * edit_showSizePopover_button;
+@property (strong, nonatomic) UIPopoverController * colorPickerViewPopoverController;
+@property (strong, nonatomic) UIPopoverController * sizePickerViewPopoverController;
+
+@property (strong, nonatomic) IBOutlet UIButton    * speak_button;
+@property (strong, nonatomic) IBOutlet UITextField * speakText_TextField;
 
 @property (strong, nonatomic) IBOutlet UIButton * emote1_button;
 @property (strong, nonatomic) IBOutlet UIButton * emote2_button;
 @property (strong, nonatomic) IBOutlet UIButton * emote3_button;
 @property (strong, nonatomic) IBOutlet UIButton * emote4_button;
+@property (strong, nonatomic) IBOutlet UIButton * emote5_button;
 
 @property (strong, nonatomic) IBOutlet UIButton * text1_button;
 @property (strong, nonatomic) IBOutlet UIButton * text2_button;
@@ -68,7 +89,6 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIButton * text4_button;
 @property (strong, nonatomic) IBOutlet UIButton * text5_button;
 
-@property (strong, nonatomic) IBOutlet UIButton * drive_button;
 
 @property (strong, nonatomic) IBOutlet UITextField * loginName_TextField;
 @property (strong, nonatomic) IBOutlet UITextField * password_TextFIeld;
@@ -80,11 +100,20 @@ typedef enum {
 - (IBAction)emoteAction:(id)sender;
 - (IBAction)driveAction:(id)sender;
 
+- (IBAction)leftSideViewAction:(id)sender;
+- (IBAction)rightSideViewAction:(id)sender;
+
 - (IBAction) connectAction:(id)sender;
 - (IBAction) logInAction:(id)sender;
 
-- (IBAction)doActionFromButton:(id)sender;
+- (IBAction) newButtonAction:(id)sender;
+- (IBAction) showColorPopoverAction:(id)sender;
+- (IBAction) showSizePopoverAction:(id)sender;
+- (IBAction) doActionFromButton:(id)sender;
 
-- (void) layoutActionViewWithPallete:(uint32_t)index;
+- (void) setEditButtonColor:(UIColor *) color;
+- (void) setEditButtonSize:(NSString *) sizeStr;
+
+- (void) layoutActionViewWithPallete:(NSInteger)index;
 
 @end
