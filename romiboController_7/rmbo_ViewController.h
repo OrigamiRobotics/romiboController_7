@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 #import <CoreData/CoreData.h>
+#import "AVFoundation/AVFoundation.h"
 
 
 //Commands
@@ -62,11 +63,12 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UISegmentedControl *rightSideView_SegmentedControl;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *leftSideView_SegmentedControl;
 
-
+@property (strong, nonatomic) AVSpeechSynthesizer * speechSynth;
 
 @property (strong, nonatomic) IBOutlet UITextField * edit_buttonTitle_TextField;
-@property (strong, nonatomic) IBOutlet UITextField * edit_actionSpeechPhrase_TextField;
+@property (strong, nonatomic) IBOutlet UITextView *edit_actionSpeechPhrase_TextView;
 @property (strong, nonatomic) IBOutlet UITextField * edit_actionSpeechRate_TextField;
+@property (strong, nonatomic) IBOutlet UIButton *edit_speakPhrase_button;
 @property (strong, nonatomic) IBOutlet UIView *edit_buttonColorView;
 @property (strong, nonatomic) IBOutlet UILabel     * edit_buttonSize_Label;
 @property (strong, nonatomic) IBOutlet UIButton    * edit_showColorPopover_button;

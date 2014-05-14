@@ -43,6 +43,8 @@
 	self.sizePickerViewPopoverController.popoverContentSize = CGSizeMake(sizeFrame.size.width, sizeFrame.size.height);
 	self.sizePickerViewPopoverController.delegate = self;
 
+    self.speechSynth = [[AVSpeechSynthesizer alloc] init];
+
     [self setupMultipeerConnectivity];
 }
 
@@ -341,14 +343,14 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
         }
         lastWidth = [buttonEntity.width integerValue];
     }
-    
+
     // TODO: width fitting on current row or go to next if no fit
     // for now, just go to new row, first column
     maxRow = maxRow + 1;
     maxColumn = 1;
-    
+
     ButtonEntity * buttonEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-    
+
     [buttonEntity setTitle: self.edit_buttonTitle_TextField.text];
     NSString * hexColorStr = [UIColor hexValuesFromUIColor:self.edit_buttonColorView.backgroundColor];
     [buttonEntity setColor: hexColorStr];
@@ -372,13 +374,13 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
         [buttonEntity setWidth:  [NSNumber numberWithInt:4]];
         [buttonEntity setHeight: [NSNumber numberWithInt:1]];
     }
-    
+
     [buttonEntity setPalette:selectedPaletteEntity];
     numButtons++;
     [buttonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
     
     ActionEntity * actionEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-    [actionEntity setSpeechText  : self.edit_actionSpeechPhrase_TextField.text];
+    [actionEntity setSpeechText  : self.edit_actionSpeechPhrase_TextView.text];
     [actionEntity setSpeechSpeed : [NSNumber numberWithFloat: [self.edit_actionSpeechRate_TextField.text floatValue]]];
 
     [actionEntity setActionType:[NSNumber numberWithInt:eActionType_talk]];
@@ -440,6 +442,27 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 {
     self.edit_buttonSize_Label.text = sizeStr;
 }
+
+- (IBAction)speakEditSpeechPhrase:(id)sender
+{
+    NSString * speechPhrase2 = self.edit_actionSpeechPhrase_TextView.text;
+    CGFloat speechRate = [self.edit_actionSpeechRate_TextField.text floatValue];
+
+    [self speakUtterance:speechPhrase2 atSpeechRate:speechRate withVoice:nil];
+}
+
+- (void)speakUtterance:(NSString *)phrase atSpeechRate:(float)speechRate withVoice:(AVSpeechSynthesisVoice *)voice
+{
+    if (!voice) {
+        voice = [AVSpeechSynthesisVoice voiceWithLanguage:[AVSpeechSynthesisVoice currentLanguageCode]];
+    }
+    
+    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:phrase];
+    [utterance setRate:speechRate];
+    [utterance setVoice:voice];
+    [self.speechSynth speakUtterance:utterance];
+}
+
 
 
 #pragma mark Popover controller delegates
