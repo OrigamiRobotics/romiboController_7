@@ -33,6 +33,7 @@
     CGRect colorFrame = colorPickerVC.view.frame;
     self.colorPickerViewPopoverController = [[UIPopoverController alloc] initWithContentViewController:colorPickerVC];
 	self.colorPickerViewPopoverController.popoverContentSize = CGSizeMake(colorFrame.size.width, colorFrame.size.height);
+    self.colorPickerViewPopoverController.backgroundColor = [UIColor lightGrayColor];
 	self.colorPickerViewPopoverController.delegate = self;
     
     buttonSizePickerViewController * sizePickerVC = [[buttonSizePickerViewController alloc] init];
@@ -41,11 +42,20 @@
     CGRect sizeFrame = sizePickerVC.view.frame;
     self.sizePickerViewPopoverController = [[UIPopoverController alloc] initWithContentViewController:sizePickerVC];
 	self.sizePickerViewPopoverController.popoverContentSize = CGSizeMake(sizeFrame.size.width, sizeFrame.size.height);
+    self.sizePickerViewPopoverController.backgroundColor = [UIColor lightGrayColor];
 	self.sizePickerViewPopoverController.delegate = self;
 
     self.speechSynth = [[AVSpeechSynthesizer alloc] init];
 
     [self setupMultipeerConnectivity];
+    
+    // UI specific
+    
+    self.edit_buttonColorView.backgroundColor = [UIColor rmbo_emeraldColor];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self layoutActionViewWithPallete: 0];      // Select first palette in table.
+    });
 }
 
 
@@ -282,10 +292,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
     }
 }
 
-- (IBAction)driveAction:(id)sender
-{
-
-}
 
 
 - (IBAction) newButtonAction:(id)sender
@@ -331,53 +337,64 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
     NSUInteger numButtons  = fetchedButtons.count;
     NSUInteger numActions  = fetchedActions.count;
     
-    NSInteger maxRow = 0;
-    NSInteger maxColumn = 0;
-    NSInteger lastWidth = 0;
-    for (ButtonEntity * buttonEntity in fetchedButtons) {
-        if ([buttonEntity.row integerValue] > maxRow) {
-            maxRow = [buttonEntity.row integerValue];
-        }
-        if ([buttonEntity.column integerValue] > maxColumn) {
-            maxColumn = [buttonEntity.column integerValue];
-        }
-        lastWidth = [buttonEntity.width integerValue];
-    }
 
-    // TODO: width fitting on current row or go to next if no fit
-    // for now, just go to new row, first column
-    maxRow = maxRow + 1;
-    maxColumn = 1;
+    ButtonEntity * newButtonEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
 
-    ButtonEntity * buttonEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-
-    [buttonEntity setTitle: self.edit_buttonTitle_TextField.text];
+    [newButtonEntity setTitle: self.edit_buttonTitle_TextField.text];
     NSString * hexColorStr = [UIColor hexValuesFromUIColor:self.edit_buttonColorView.backgroundColor];
-    [buttonEntity setColor: hexColorStr];
+    [newButtonEntity setColor: hexColorStr];
 
-    [buttonEntity setRow    : [NSNumber numberWithInteger:maxRow]];
-    [buttonEntity setColumn : [NSNumber numberWithInteger:maxColumn]];
 
      NSString * size = self.edit_buttonSize_Label.text;
     if ([size isEqualToString:@"Small"])
     {
-        [buttonEntity setWidth:  [NSNumber numberWithInt:1]];
-        [buttonEntity setHeight: [NSNumber numberWithInt:1]];
+        [newButtonEntity setWidth:  [NSNumber numberWithInt:1]];
+        [newButtonEntity setHeight: [NSNumber numberWithInt:1]];
     }
     else if ([size isEqualToString:@"Medium"])
     {
-        [buttonEntity setWidth:  [NSNumber numberWithInt:2]];
-        [buttonEntity setHeight: [NSNumber numberWithInt:1]];
+        [newButtonEntity setWidth:  [NSNumber numberWithInt:2]];
+        [newButtonEntity setHeight: [NSNumber numberWithInt:1]];
     }
     else if ([size isEqualToString:@"Large"])
     {
-        [buttonEntity setWidth:  [NSNumber numberWithInt:4]];
-        [buttonEntity setHeight: [NSNumber numberWithInt:1]];
+        [newButtonEntity setWidth:  [NSNumber numberWithInt:4]];
+        [newButtonEntity setHeight: [NSNumber numberWithInt:1]];
     }
 
-    [buttonEntity setPalette:selectedPaletteEntity];
+    
+    // Go through the buttons in this palette to determine position of new button
+    NSInteger maxRow = 0;
+    for (ButtonEntity * buttonEntity in selectedPaletteEntity.buttons) {
+        if ([buttonEntity.row integerValue] > maxRow) {
+            maxRow = [buttonEntity.row integerValue];
+        }
+    }
+
+    NSInteger maxColumnInLastRow = 0;
+    NSInteger lastWidth = 0;
+    for (ButtonEntity * buttonEntity in selectedPaletteEntity.buttons) {
+        if ([buttonEntity.row integerValue] == maxRow) {
+            if ([buttonEntity.column integerValue] > maxColumnInLastRow) {
+                maxColumnInLastRow = [buttonEntity.column integerValue];
+                lastWidth = [buttonEntity.width integerValue];
+            }
+        }
+    }
+    
+    NSInteger nextFreeColumn = maxColumnInLastRow += lastWidth;
+    if (nextFreeColumn + ([newButtonEntity.width integerValue] - 1) > 12) {
+        maxRow = maxRow + 1;
+        nextFreeColumn = 1;
+    }
+
+    [newButtonEntity setRow    : [NSNumber numberWithInteger:maxRow]];
+    [newButtonEntity setColumn : [NSNumber numberWithInteger:nextFreeColumn]];
+
+
+    [newButtonEntity setPalette:selectedPaletteEntity];
     numButtons++;
-    [buttonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
+    [newButtonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
     
     ActionEntity * actionEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
     [actionEntity setSpeechText  : self.edit_actionSpeechPhrase_TextView.text];
@@ -388,12 +405,12 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
     [actionEntity setIndex: [NSNumber numberWithInt:(uint32_t)numActions]];
     
     [actionEntity setActions:nil];
-    [actionEntity setButton:buttonEntity];
+    [actionEntity setButton:newButtonEntity];
     
     NSSet * actionsSet = [NSSet setWithObject:actionEntity];
-    [buttonEntity setActions:actionsSet];
+    [newButtonEntity setActions:actionsSet];
     
-    NSSet * buttonSet = [NSSet setWithObject:buttonEntity];
+    NSSet * buttonSet = [NSSet setWithObject:newButtonEntity];
     if (selectedPaletteEntity.buttons == nil) {
         [selectedPaletteEntity addButtons:buttonSet];
     }
@@ -778,6 +795,10 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (void) layoutActionViewWithPallete:(NSInteger)row
 {
+    if ([self.paletteTableView numberOfRowsInSection:0] == 0)
+        return;
+
+    
     rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
     
     NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row inSection:0];

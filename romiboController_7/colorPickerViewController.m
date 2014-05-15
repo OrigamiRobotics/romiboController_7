@@ -74,7 +74,7 @@ const NSInteger kMaxColorColumns = 4;
 {
     UIButton * tappedButton = (UIButton *)sender;
     UIColor * color = tappedButton.backgroundColor;
-    NSLog(@"colorButtonAction color: %@", color);
+//    NSLog(@"colorButtonAction color: %@", color);
     
     [self.mainViewController setEditButtonColor:color];
 }

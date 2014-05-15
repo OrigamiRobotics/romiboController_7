@@ -181,6 +181,21 @@
     return [UIColor colorWithRed:0.498 green:0.549 blue:0.553 alpha:1];
 }
 
++ (UIColor *)rmbo_darkBrownColor
+{
+    return [UIColor colorWithRed:146.0/255.0 green:64.0/255.0 blue:3.0 / 255.0 alpha:1];
+}
+
++ (UIColor *)rmbo_lightBrownColor
+{
+    return [UIColor colorWithRed:253.0/255.0 green:132.0/255.0 blue:37.0/255.0 alpha:1];
+}
+
++ (UIColor *)rmbo_darkBlueColor
+{
+    return [UIColor colorWithRed:37.0/255.0 green:22.0/255.0 blue:128.0/255.0 alpha:1];
+}
+
 + (UIColor *)rmbo_greyGrandientColor
 {
     return [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
@@ -198,26 +213,31 @@
              [UIColor rmbo_greenSeaColor],
              [UIColor rmbo_emeraldColor],
              [UIColor rmbo_nephritisColor],
+
              [UIColor rmbo_peterRiverColor],
              [UIColor rmbo_belizeHoleColor],
              [UIColor rmbo_amethystColor],
              [UIColor rmbo_wisteriaColor],
-             [UIColor rmbo_wetAsphaltColor],
-             [UIColor rmbo_midnightBlueColor],
+             
              [UIColor rmbo_sunFlowerColor],
              [UIColor rmbo_orangeColor],
              [UIColor rmbo_carrotColor],
              [UIColor rmbo_pumpkinColor],
+             
              [UIColor rmbo_alizarinColor],
              [UIColor rmbo_pomegranateColor],
+             [UIColor rmbo_lightBrownColor],
+             [UIColor rmbo_darkBrownColor],
+             
              [UIColor rmbo_cloudsColor],
              [UIColor rmbo_silverColor],
              [UIColor rmbo_concreteColor],
              [UIColor rmbo_asbestosColor],
-             [UIColor redColor],
-             [UIColor greenColor],
-             [UIColor blueColor],
-             [UIColor blackColor]
+
+             [UIColor rmbo_wetAsphaltColor],
+             [UIColor rmbo_midnightBlueColor],
+             [UIColor blackColor],
+             [UIColor rmbo_darkBlueColor]
              ];
 }
 

@@ -100,7 +100,6 @@ typedef enum {
 
 - (IBAction)textAction:(id)sender;
 - (IBAction)emoteAction:(id)sender;
-- (IBAction)driveAction:(id)sender;
 
 - (IBAction)leftSideViewAction:(id)sender;
 - (IBAction)rightSideViewAction:(id)sender;

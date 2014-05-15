@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
+		B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549219248B5E00BEAA76 /* icon-speaker.png */; };
 		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
 		B1E6442B1920B7E700850F12 /* ButtonEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E6442A1920B7E700850F12 /* ButtonEntity.m */; };
 		B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E6442D1920B7E700850F12 /* ActionEntity.m */; };
@@ -21,7 +23,6 @@
 		B1EDAF781910537600C17EBC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAF761910537600C17EBC /* InfoPlist.strings */; };
 		B1EDAF7A1910537600C17EBC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAF791910537600C17EBC /* main.m */; };
 		B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */; };
-		B1EDAF811910537600C17EBC /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAF7F1910537600C17EBC /* Main_iPhone.storyboard */; };
 		B1EDAF841910537600C17EBC /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAF821910537600C17EBC /* Main_iPad.storyboard */; };
 		B1EDAF871910537600C17EBC /* rmbo_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAF861910537600C17EBC /* rmbo_ViewController.m */; };
 		B1EDAF891910537600C17EBC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAF881910537600C17EBC /* Images.xcassets */; };
@@ -51,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left-b.png"; sourceTree = "<group>"; };
+		B1BE549219248B5E00BEAA76 /* icon-speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-speaker.png"; sourceTree = "<group>"; };
 		B1E644261920B7E600850F12 /* PaletteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteEntity.h; sourceTree = "<group>"; };
 		B1E644271920B7E600850F12 /* PaletteEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaletteEntity.m; sourceTree = "<group>"; };
 		B1E644291920B7E700850F12 /* ButtonEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonEntity.h; sourceTree = "<group>"; };
@@ -75,7 +78,6 @@
 		B1EDAF7B1910537600C17EBC /* romiboController_7-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "romiboController_7-Prefix.pch"; sourceTree = "<group>"; };
 		B1EDAF7C1910537600C17EBC /* rmbo_AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rmbo_AppDelegate.h; sourceTree = "<group>"; };
 		B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rmbo_AppDelegate.m; sourceTree = "<group>"; };
-		B1EDAF801910537600C17EBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		B1EDAF831910537600C17EBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		B1EDAF851910537600C17EBC /* rmbo_ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rmbo_ViewController.h; sourceTree = "<group>"; };
 		B1EDAF861910537600C17EBC /* rmbo_ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rmbo_ViewController.m; sourceTree = "<group>"; };
@@ -121,6 +123,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B1BE5495192492A700BEAA76 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				B1EDAFAB1911969400C17EBC /* PaletteModel.xcdatamodeld */,
+				B1E6442C1920B7E700850F12 /* ActionEntity.h */,
+				B1E6442D1920B7E700850F12 /* ActionEntity.m */,
+				B1E644291920B7E700850F12 /* ButtonEntity.h */,
+				B1E6442A1920B7E700850F12 /* ButtonEntity.m */,
+				B1E644261920B7E600850F12 /* PaletteEntity.h */,
+				B1E644271920B7E600850F12 /* PaletteEntity.m */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
 		B1EDAF611910537600C17EBC = {
 			isa = PBXGroup;
 			children = (
@@ -155,36 +171,31 @@
 		B1EDAF731910537600C17EBC /* romiboController_7 */ = {
 			isa = PBXGroup;
 			children = (
-				B1E644391923120700850F12 /* UIColor+RMBOColors.h */,
-				B1E6443A1923120700850F12 /* UIColor+RMBOColors.m */,
-				B1E6442C1920B7E700850F12 /* ActionEntity.h */,
-				B1E6442D1920B7E700850F12 /* ActionEntity.m */,
-				B1E644291920B7E700850F12 /* ButtonEntity.h */,
-				B1E6442A1920B7E700850F12 /* ButtonEntity.m */,
-				B1E644261920B7E600850F12 /* PaletteEntity.h */,
-				B1E644271920B7E600850F12 /* PaletteEntity.m */,
+				B1BE5495192492A700BEAA76 /* Core Data */,
+				B1EDAF821910537600C17EBC /* Main_iPad.storyboard */,
 				B1EDAF7C1910537600C17EBC /* rmbo_AppDelegate.h */,
 				B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */,
-				B1EDAF7F1910537600C17EBC /* Main_iPhone.storyboard */,
-				B1EDAF821910537600C17EBC /* Main_iPad.storyboard */,
 				B1EDAF851910537600C17EBC /* rmbo_ViewController.h */,
 				B1EDAF861910537600C17EBC /* rmbo_ViewController.m */,
 				B1EDAFB71911A69900C17EBC /* rmbo_paletteTableViewCell.h */,
 				B1EDAFB81911A69900C17EBC /* rmbo_paletteTableViewCell.m */,
 				B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */,
-				B1EDAFAB1911969400C17EBC /* PaletteModel.xcdatamodeld */,
-				B1EDAF881910537600C17EBC /* Images.xcassets */,
-				B1EDAFBC19122F1B00C17EBC /* smActionButton.png */,
-				B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */,
-				B1EDAFA51910A84600C17EBC /* whiteBorderButton.png */,
-				B1EDAFA61910A84600C17EBC /* whiteBorderButton@2x.png */,
-				B1EDAF741910537600C17EBC /* Supporting Files */,
 				B1E6442F192300CA00850F12 /* colorPickerViewController.h */,
 				B1E64430192300CA00850F12 /* colorPickerViewController.m */,
 				B1E64431192300CA00850F12 /* colorPickerViewController.xib */,
 				B1E64434192300F600850F12 /* buttonSizePickerViewController.h */,
 				B1E64435192300F600850F12 /* buttonSizePickerViewController.m */,
 				B1E64436192300F600850F12 /* buttonSizePickerViewController.xib */,
+				B1E644391923120700850F12 /* UIColor+RMBOColors.h */,
+				B1E6443A1923120700850F12 /* UIColor+RMBOColors.m */,
+				B1EDAF881910537600C17EBC /* Images.xcassets */,
+				B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */,
+				B1BE549219248B5E00BEAA76 /* icon-speaker.png */,
+				B1EDAFBC19122F1B00C17EBC /* smActionButton.png */,
+				B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */,
+				B1EDAFA51910A84600C17EBC /* whiteBorderButton.png */,
+				B1EDAFA61910A84600C17EBC /* whiteBorderButton@2x.png */,
+				B1EDAF741910537600C17EBC /* Supporting Files */,
 			);
 			path = romiboController_7;
 			sourceTree = "<group>";
@@ -303,6 +314,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */,
 				B1EDAF841910537600C17EBC /* Main_iPad.storyboard in Resources */,
 				B1EDAF891910537600C17EBC /* Images.xcassets in Resources */,
 				B1E64438192300F600850F12 /* buttonSizePickerViewController.xib in Resources */,
@@ -311,7 +323,7 @@
 				B1E64433192300CA00850F12 /* colorPickerViewController.xib in Resources */,
 				B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */,
 				B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */,
-				B1EDAF811910537600C17EBC /* Main_iPhone.storyboard in Resources */,
+				B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */,
 				B1EDAF781910537600C17EBC /* InfoPlist.strings in Resources */,
 				B1EDAFBE19122F1C00C17EBC /* smActionButton.png in Resources */,
 			);
@@ -371,14 +383,6 @@
 				B1EDAF771910537600C17EBC /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		B1EDAF7F1910537600C17EBC /* Main_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B1EDAF801910537600C17EBC /* Base */,
-			);
-			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		B1EDAF821910537600C17EBC /* Main_iPad.storyboard */ = {
@@ -482,6 +486,7 @@
 				GCC_PREFIX_HEADER = "romiboController_7/romiboController_7-Prefix.pch";
 				INFOPLIST_FILE = "romiboController_7/romiboController_7-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -496,6 +501,7 @@
 				GCC_PREFIX_HEADER = "romiboController_7/romiboController_7-Prefix.pch";
 				INFOPLIST_FILE = "romiboController_7/romiboController_7-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
