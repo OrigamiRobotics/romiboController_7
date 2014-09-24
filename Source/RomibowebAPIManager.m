@@ -7,14 +7,11 @@
 //
 
 #import "RomibowebAPIManager.h"
-//const NSString * kRomiboWebURL          = @"http://create.romibo.com";
-const NSString * kRomiboWebURL   = @"http://romiboweb-integration.herokuapp.com";
+//const NSString * kRomiboWebURI          = @"http://create.romibo.com";
+const NSString * kRomiboWebURI   = @"http://romiboweb-integration.herokuapp.com";
 const NSString * kHttpPostMethod = @"POST";
 const NSString * kHttpGetMethod  = @"GET";
 const NSString * kHttpPutMethod  = @"PUT";
-
-const NSString * kRomiboWebURL_login    = @"/api/v1/login";
-const NSString * kRomiboWebURL_palettes = @"/api/v1/palettes";
 
 
 
@@ -45,7 +42,7 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
 #pragma mark RomiboWeb API calls
 - (void)connectToRomiboWebApi:(NSString*)httpMethod forUrl:(NSString*)requestUrl withParams:(NSString *)params
 {
-  NSString * connectionUrl = [kRomiboWebURL stringByAppendingString:(NSString*)requestUrl];
+  NSString * connectionUrl = [kRomiboWebURI stringByAppendingString:(NSString*)requestUrl];
   
   NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
   sessionConfiguration.HTTPAdditionalHeaders = @{@"Content-Type" : @"application/json"};

@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55444B2819D2A53E00192456 /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2319D2A53E00192456 /* Palette.m */; };
+		55444B2919D2A53E00192456 /* PaletteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2519D2A53E00192456 /* PaletteButton.m */; };
+		55444B2A19D2A53E00192456 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2719D2A53E00192456 /* User.m */; };
+		55444B3019D2A5B100192456 /* RomibowebAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2D19D2A5B100192456 /* RomibowebAPIManager.m */; };
+		55444B3119D2A5B100192456 /* UserPalettesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2F19D2A5B100192456 /* UserPalettesManager.m */; };
+		55444B3519D2A5DB00192456 /* AddNewPaletteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */; };
+		55444B3919D2A82C00192456 /* palettes_table_cell_bg_image_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */; };
+		55444B3A19D2A82C00192456 /* palettes_table_cell_bg_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */; };
 		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
 		B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549219248B5E00BEAA76 /* icon-speaker.png */; };
 		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
@@ -52,6 +60,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		55444B2219D2A53E00192456 /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Palette.h; path = Source/Palette.h; sourceTree = SOURCE_ROOT; };
+		55444B2319D2A53E00192456 /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Palette.m; path = Source/Palette.m; sourceTree = SOURCE_ROOT; };
+		55444B2419D2A53E00192456 /* PaletteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaletteButton.h; path = Source/PaletteButton.h; sourceTree = SOURCE_ROOT; };
+		55444B2519D2A53E00192456 /* PaletteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaletteButton.m; path = Source/PaletteButton.m; sourceTree = SOURCE_ROOT; };
+		55444B2619D2A53E00192456 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = Source/User.h; sourceTree = SOURCE_ROOT; };
+		55444B2719D2A53E00192456 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = Source/User.m; sourceTree = SOURCE_ROOT; };
+		55444B2C19D2A5B100192456 /* RomibowebAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RomibowebAPIManager.h; path = Source/RomibowebAPIManager.h; sourceTree = SOURCE_ROOT; };
+		55444B2D19D2A5B100192456 /* RomibowebAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RomibowebAPIManager.m; path = Source/RomibowebAPIManager.m; sourceTree = SOURCE_ROOT; };
+		55444B2E19D2A5B100192456 /* UserPalettesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserPalettesManager.h; path = Source/UserPalettesManager.h; sourceTree = SOURCE_ROOT; };
+		55444B2F19D2A5B100192456 /* UserPalettesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserPalettesManager.m; path = Source/UserPalettesManager.m; sourceTree = SOURCE_ROOT; };
+		55444B3319D2A5DB00192456 /* AddNewPaletteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddNewPaletteViewController.h; path = Source/AddNewPaletteViewController.h; sourceTree = SOURCE_ROOT; };
+		55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddNewPaletteViewController.m; path = Source/AddNewPaletteViewController.m; sourceTree = SOURCE_ROOT; };
+		55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = palettes_table_cell_bg_image_selected.png; sourceTree = "<group>"; };
+		55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = palettes_table_cell_bg_image.png; sourceTree = "<group>"; };
 		B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left-b.png"; sourceTree = "<group>"; };
 		B1BE549219248B5E00BEAA76 /* icon-speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-speaker.png"; sourceTree = "<group>"; };
 		B1E644261920B7E600850F12 /* PaletteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteEntity.h; sourceTree = "<group>"; };
@@ -123,6 +145,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		55444B1B19D2A3DA00192456 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				55444B2219D2A53E00192456 /* Palette.h */,
+				55444B2319D2A53E00192456 /* Palette.m */,
+				55444B2419D2A53E00192456 /* PaletteButton.h */,
+				55444B2519D2A53E00192456 /* PaletteButton.m */,
+				55444B2619D2A53E00192456 /* User.h */,
+				55444B2719D2A53E00192456 /* User.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		55444B2B19D2A58D00192456 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				55444B2C19D2A5B100192456 /* RomibowebAPIManager.h */,
+				55444B2D19D2A5B100192456 /* RomibowebAPIManager.m */,
+				55444B2E19D2A5B100192456 /* UserPalettesManager.h */,
+				55444B2F19D2A5B100192456 /* UserPalettesManager.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		55444B3219D2A5B700192456 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				55444B3319D2A5DB00192456 /* AddNewPaletteViewController.h */,
+				55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */,
+				B1EDAF851910537600C17EBC /* rmbo_ViewController.h */,
+				B1EDAF861910537600C17EBC /* rmbo_ViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		55444B3619D2A81700192456 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */,
+				55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		B1BE5495192492A700BEAA76 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +206,7 @@
 		B1EDAF611910537600C17EBC = {
 			isa = PBXGroup;
 			children = (
+				55444B3619D2A81700192456 /* Images */,
 				B1EDAF731910537600C17EBC /* romiboController_7 */,
 				B1EDAF951910537600C17EBC /* romiboController_7Tests */,
 				B1EDAF6C1910537600C17EBC /* Frameworks */,
@@ -171,12 +238,13 @@
 		B1EDAF731910537600C17EBC /* romiboController_7 */ = {
 			isa = PBXGroup;
 			children = (
+				55444B3219D2A5B700192456 /* View Controllers */,
+				55444B2B19D2A58D00192456 /* Controllers */,
+				55444B1B19D2A3DA00192456 /* Models */,
 				B1BE5495192492A700BEAA76 /* Core Data */,
 				B1EDAF821910537600C17EBC /* Main_iPad.storyboard */,
 				B1EDAF7C1910537600C17EBC /* rmbo_AppDelegate.h */,
 				B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */,
-				B1EDAF851910537600C17EBC /* rmbo_ViewController.h */,
-				B1EDAF861910537600C17EBC /* rmbo_ViewController.m */,
 				B1EDAFB71911A69900C17EBC /* rmbo_paletteTableViewCell.h */,
 				B1EDAFB81911A69900C17EBC /* rmbo_paletteTableViewCell.m */,
 				B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */,
@@ -316,12 +384,14 @@
 			files = (
 				B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */,
 				B1EDAF841910537600C17EBC /* Main_iPad.storyboard in Resources */,
+				55444B3A19D2A82C00192456 /* palettes_table_cell_bg_image.png in Resources */,
 				B1EDAF891910537600C17EBC /* Images.xcassets in Resources */,
 				B1E64438192300F600850F12 /* buttonSizePickerViewController.xib in Resources */,
 				B1EDAFA81910A84600C17EBC /* whiteBorderButton@2x.png in Resources */,
 				B1EDAFA71910A84600C17EBC /* whiteBorderButton.png in Resources */,
 				B1E64433192300CA00850F12 /* colorPickerViewController.xib in Resources */,
 				B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */,
+				55444B3919D2A82C00192456 /* palettes_table_cell_bg_image_selected.png in Resources */,
 				B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */,
 				B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */,
 				B1EDAF781910537600C17EBC /* InfoPlist.strings in Resources */,
@@ -344,16 +414,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55444B2919D2A53E00192456 /* PaletteButton.m in Sources */,
+				55444B3519D2A5DB00192456 /* AddNewPaletteViewController.m in Sources */,
 				B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */,
 				B1E64432192300CA00850F12 /* colorPickerViewController.m in Sources */,
 				B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */,
+				55444B2819D2A53E00192456 /* Palette.m in Sources */,
 				B1E6442B1920B7E700850F12 /* ButtonEntity.m in Sources */,
 				B1EDAFAD1911969400C17EBC /* PaletteModel.xcdatamodeld in Sources */,
 				B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */,
+				55444B2A19D2A53E00192456 /* User.m in Sources */,
 				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
 				B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */,
 				B1EDAF871910537600C17EBC /* rmbo_ViewController.m in Sources */,
+				55444B3119D2A5B100192456 /* UserPalettesManager.m in Sources */,
 				B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */,
+				55444B3019D2A5B100192456 /* RomibowebAPIManager.m in Sources */,
 				B1EDAF7A1910537600C17EBC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

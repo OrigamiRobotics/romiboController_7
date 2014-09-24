@@ -18,12 +18,12 @@ typedef enum {
   
 } RequestType;
 
-@interface RomibowebAPIManager : NSObject<
-                                          NSURLConnectionDelegate,
-                                          NSURLSessionDelegate,
-                                          NSURLSessionTaskDelegate,
-                                          NSURLSessionDataDelegate,
-                                          NSURLSessionDownloadDelegate
+@interface RomibowebAPIManager : NSObject<NSURLConnectionDelegate
+//                                          NSURLConnectionDelegate,
+//                                          NSURLSessionDelegate,
+//                                          NSURLSessionTaskDelegate,
+//                                          NSURLSessionDataDelegate,
+//                                          NSURLSessionDownloadDelegate
                                           >
 @property (strong, nonatomic) NSURLSession * URLsession;
 @property (strong, nonatomic) NSString * authTokenStr;
