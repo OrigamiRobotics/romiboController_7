@@ -98,6 +98,8 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIView *connect_button;
 @property (strong, nonatomic) IBOutlet UIButton *logIn_button;
 
+@property (copy, nonatomic) NSArray* tmpPaletteTitles;
+
 - (IBAction)textAction:(id)sender;
 - (IBAction)emoteAction:(id)sender;
 
