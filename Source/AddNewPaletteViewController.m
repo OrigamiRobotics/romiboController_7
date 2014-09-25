@@ -44,7 +44,7 @@
 
 - (IBAction)createPaletteButtonPressed:(id)sender
 {
-  NSLog(@"create button pressed");
+  NSLog(@"create button pressed: %@", self.addPaletteTitle.text);
   [[UserPalettesManager sharedPalettesManagerInstance] createPalette:self.addPaletteTitle.text];
   
   //back to main view

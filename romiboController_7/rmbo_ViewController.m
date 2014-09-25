@@ -18,6 +18,8 @@
 
 @interface rmbo_ViewController ()
 
+@property (nonatomic, weak)UserPalettesManager* palettesManager;
+
 @end
 
 @implementation rmbo_ViewController
@@ -50,17 +52,18 @@
   
   [self setupMultipeerConnectivity];
   
-  self.tmpPaletteTitles = @[@"Play some tune", @"Simon says", @"Play ball"];
-  [[UserPalettesManager sharedPalettesManagerInstance] loadPalettes];
+  NSLog(@"viewDidLoad");
+  //init palettes stuff
+  [self initializePalettesManager];
   
   
   // UI specific
   
   self.edit_buttonColorView.backgroundColor = [UIColor rmbo_emeraldColor];
   
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self layoutActionViewWithPallete: 0];      // Select first palette in table.
-  });
+//  dispatch_async(dispatch_get_main_queue(), ^{
+//    [self layoutActionViewWithPallete: 0];      // Select first palette in table.
+//  });
 }
 
 
@@ -1000,5 +1003,54 @@ const CGFloat kButtonInset_y =   4.0;
   UIImage *pattern = [UIImage imageNamed:@"image.png"];
   //[cell setBackgroundColor:[UIColor colorWithPatternImage:pattern]];
 }
+
+#pragma mark - Palettes stuff
+-(void) initializePalettesManager
+{
+  if (self.palettesManager == NULL)
+    self.palettesManager = [UserPalettesManager sharedPalettesManagerInstance];
+  [self.palettesManager loadPalettes];
+  self.tmpPaletteTitles = [self.palettesManager paletteTitles];
+}
+
+- (void)registerAsPalettesManagerObserver
+{
+  
+  /*
+   
+   Register 'self' to receive change notifications for the "observeMe" property of
+   
+   the 'palettesManager' object and specify that new values of "observeMe"
+   
+   should be provided in the observe… method.
+   
+   */
+  
+  [self.palettesManager addObserver:self
+   
+                         forKeyPath:@"observeMe"
+   
+                            options:(NSKeyValueObservingOptionNew)
+   
+                            context:NULL];
+  
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+
+                      ofObject:(id)object
+
+                        change:(NSDictionary *)change
+
+                       context:(void *)context
+{
+  if ([keyPath isEqual:@"observeMe"]) {
+    self.tmpPaletteTitles = [self.palettesManager paletteTitles];
+    [self.paletteTableView reloadData];
+  }
+  
+}
+
+
 
 @end

@@ -15,6 +15,7 @@
 		55444B3519D2A5DB00192456 /* AddNewPaletteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */; };
 		55444B3919D2A82C00192456 /* palettes_table_cell_bg_image_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */; };
 		55444B3A19D2A82C00192456 /* palettes_table_cell_bg_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */; };
+		55B6646019D38821001537C7 /* circle-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6645F19D38821001537C7 /* circle-512.png */; };
 		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
 		B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549219248B5E00BEAA76 /* icon-speaker.png */; };
 		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
@@ -74,6 +75,7 @@
 		55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddNewPaletteViewController.m; path = Source/AddNewPaletteViewController.m; sourceTree = SOURCE_ROOT; };
 		55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = palettes_table_cell_bg_image_selected.png; sourceTree = "<group>"; };
 		55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = palettes_table_cell_bg_image.png; sourceTree = "<group>"; };
+		55B6645F19D38821001537C7 /* circle-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-512.png"; sourceTree = "<group>"; };
 		B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left-b.png"; sourceTree = "<group>"; };
 		B1BE549219248B5E00BEAA76 /* icon-speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-speaker.png"; sourceTree = "<group>"; };
 		B1E644261920B7E600850F12 /* PaletteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteEntity.h; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 		55444B3619D2A81700192456 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				55B6645F19D38821001537C7 /* circle-512.png */,
 				55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */,
 				55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */,
 			);
@@ -391,6 +394,7 @@
 				B1EDAFA71910A84600C17EBC /* whiteBorderButton.png in Resources */,
 				B1E64433192300CA00850F12 /* colorPickerViewController.xib in Resources */,
 				B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */,
+				55B6646019D38821001537C7 /* circle-512.png in Resources */,
 				55444B3919D2A82C00192456 /* palettes_table_cell_bg_image_selected.png in Resources */,
 				B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */,
 				B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */,

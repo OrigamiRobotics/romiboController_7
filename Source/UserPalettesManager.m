@@ -47,20 +47,22 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(void)createPalette:(NSString *)title
 {
+  NSLog(@"create palette called");
   Palette *palette = [[Palette alloc] init];
   palette.title = title;
   [self addPalette:palette];
-  NSLog(@"palette created");
 }
 
 -(void)addPalette:(Palette *)palette
 {
-  if (palette.index == -1)//uninitialized?
-    palette.index = self.highestPaletteId + 1;
-  
+  [self assignHighestId];
+  if (palette.index == -1) {
+    self.highestPaletteId += 1;
+    palette.index = self.highestPaletteId;
+  }
   [self.palettes setObject:palette forKey:[self paletteIdToString:palette.index]];
-  if (palette.index > self.highestPaletteId)
-    self.highestPaletteId = palette.index;
+  [self savePalettes];
+  [self updateObserveMe];
 }
 
 -(void)deletePalette:(int)palette_id
@@ -71,12 +73,17 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 -(void)loadPalettes
 {
   NSLog(@"palettes loaded");
-  if ([self.palettes count] != 0)
-    return;
+  if (self.palettes == NULL)
+    self.palettes = [[NSMutableDictionary alloc] init];
   NSData *palettesData = [[NSUserDefaults standardUserDefaults] objectForKey:PALETTES_STORAGE_KEY];
   
-  NSArray *palettesArray = [NSKeyedUnarchiver unarchiveObjectWithData:palettesData];
-  self.palettes = [palettesArray mutableCopy];
+  NSDictionary *palettesDict = [NSKeyedUnarchiver unarchiveObjectWithData:palettesData];
+  self.palettes = [palettesDict mutableCopy];
+
+  NSLog(@"load Palettes: %@", self.palettes);
+
+  [self assignHighestId];
+  [self updateObserveMe];
 }
 
 -(NSString*)paletteIdToString:(int)palette_id
@@ -84,13 +91,44 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   return [NSString stringWithFormat:@"%d", palette_id];
 }
 
--(void)savePalattes
+-(void)savePalettes
 {
   NSData *palettesData = [NSKeyedArchiver archivedDataWithRootObject:self.palettes];
+  NSLog(@"savePaletes: %@", self.palettes);
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   
   [defaults setObject:palettesData forKey:PALETTES_STORAGE_KEY];
   [defaults synchronize];
 }
 
+-(NSArray *)paletteTitles
+{
+  NSMutableArray * titles = [[NSMutableArray alloc] init];
+  self.highestPaletteId = 0;
+  for (NSString *key in self.palettes){
+    Palette *palette = [self.palettes objectForKey:key];
+    if (palette.index > self.highestPaletteId)
+      self.highestPaletteId = palette.index;
+    [titles addObject:palette.title];
+  }
+  return [NSArray arrayWithArray:titles];
+}
+
+-(void)updateObserveMe
+{
+  NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+  // NSTimeInterval is defined as double
+  self.observeMe = [NSNumber numberWithDouble: timeStamp];
+  NSLog(@"updated observe me");
+}
+
+-(void)assignHighestId
+{
+  self.highestPaletteId = 0;
+  for (id key in self.palettes){
+    Palette *palette = [self.palettes objectForKey:key];
+    if (palette.index > self.highestPaletteId)
+      self.highestPaletteId = palette.index;
+  }
+}
 @end
