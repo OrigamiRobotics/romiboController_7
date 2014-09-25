@@ -47,7 +47,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(void)createPalette:(NSString *)title
 {
-  NSLog(@"create palette called");
   Palette *palette = [[Palette alloc] init];
   palette.title = title;
   [self addPalette:palette];
@@ -72,15 +71,12 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(void)loadPalettes
 {
-  NSLog(@"palettes loaded");
   if (self.palettes == NULL)
     self.palettes = [[NSMutableDictionary alloc] init];
   NSData *palettesData = [[NSUserDefaults standardUserDefaults] objectForKey:PALETTES_STORAGE_KEY];
   
   NSDictionary *palettesDict = [NSKeyedUnarchiver unarchiveObjectWithData:palettesData];
   self.palettes = [palettesDict mutableCopy];
-
-  NSLog(@"load Palettes: %@", self.palettes);
 
   [self assignHighestId];
   [self updateObserveMe];
@@ -94,7 +90,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 -(void)savePalettes
 {
   NSData *palettesData = [NSKeyedArchiver archivedDataWithRootObject:self.palettes];
-  NSLog(@"savePaletes: %@", self.palettes);
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   
   [defaults setObject:palettesData forKey:PALETTES_STORAGE_KEY];
@@ -119,7 +114,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
   // NSTimeInterval is defined as double
   self.observeMe = [NSNumber numberWithDouble: timeStamp];
-  NSLog(@"updated observe me");
 }
 
 -(void)assignHighestId

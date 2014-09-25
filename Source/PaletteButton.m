@@ -46,20 +46,20 @@
   return self;
 }
 
-+(PaletteButton*)createFromDictionary:(NSDictionary *)buttonData
+-(id)initWithDictionary:(NSDictionary *)dict
 {
-  PaletteButton *button = [[PaletteButton alloc] init];
-  button.index = (int)[buttonData objectForKey:@"index"];
-  button.row   = (int)[buttonData objectForKey:@"row"];
-  button.col   = (int)[buttonData objectForKey:@"col"];
-  button.title =      [buttonData objectForKey:@"title"];
-  button.speech_phrase =
-                      [buttonData objectForKey:@"phrase"];
-  button.speech_speed_rate =
-                      [[buttonData objectForKey:@"rate"] floatValue];
-  button.size  =      [buttonData objectForKey:@"size"];
-  
-  return button;
+  if (self = [super init]){
+    self.index = (int)[dict objectForKey:@"index"];
+    self.row   = (int)[dict objectForKey:@"row"];
+    self.col   = (int)[dict objectForKey:@"col"];
+    self.title =      [dict objectForKey:@"title"];
+    self.speech_phrase =
+                        [dict objectForKey:@"phrase"];
+    self.speech_speed_rate =
+                        [[dict objectForKey:@"rate"] floatValue];
+    self.size  =      [dict objectForKey:@"size"];
+  }
+  return self;
 }
 
 @end

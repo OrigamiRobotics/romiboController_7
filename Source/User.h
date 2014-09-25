@@ -19,4 +19,5 @@
 + (id)sharedUserInstance;
 - (void)save;
 - (void)load;
+- (void)fromDictionary:(NSDictionary*) dict;
 @end

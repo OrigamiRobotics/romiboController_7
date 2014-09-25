@@ -85,19 +85,32 @@
   return self;
 }
 
-+(Palette *)createFromDictionary:(NSDictionary *)paletteData
+-(id)initWithDictionary:(NSDictionary *)dict
 {
-  Palette *palette = [[Palette alloc] init];
-  palette.index = [[paletteData objectForKey:@"index"] intValue];
-  palette.title = [paletteData objectForKey:@"title"];
-  palette.last_viewed_button_id = [[paletteData objectForKey:@"lastViewedButton"] intValue];
-  
-  NSArray * buttonsHash = [paletteData objectForKey:@"buttons"];
-  for (NSDictionary * buttonDict in buttonsHash){
-    PaletteButton *button = [PaletteButton createFromDictionary:buttonDict];
-    [palette addButton:button];
+  if (self = [super init]){
+    self.index = [[dict objectForKey:@"index"] intValue];
+    self.title = [dict objectForKey:@"title"];
+    self.last_viewed_button_id = [[dict objectForKey:@"lastViewedButton"] intValue];
+    
+    NSArray * buttonsHash = [dict objectForKey:@"buttons"];
+    for (NSDictionary * buttonDict in buttonsHash){
+      PaletteButton *button = [PaletteButton createFromDictionary:buttonDict];
+      [self addButton:button];
+    }
+
   }
-  return palette;
+  return self;
 }
-   
+//
+//+(Palette *)createFromDictionary:(NSDictionary *)paletteData
+//{
+//  Palette *palette = [[Palette alloc] initWithDictionary:paletteData];
+//  NSArray * buttonsHash = [paletteData objectForKey:@"buttons"];
+//  for (NSDictionary * buttonDict in buttonsHash){
+//    PaletteButton *button = [PaletteButton createFromDictionary:buttonDict];
+//    [palette addButton:button];
+//  }
+//  return palette;
+//}
+
 @end

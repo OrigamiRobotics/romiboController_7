@@ -18,6 +18,6 @@
 @property (nonatomic, assign) int row;
 @property (nonatomic, assign) int col;
 
-+(PaletteButton*)createFromDictionary:(NSDictionary*)buttonData;
+-(id)initWithDictionary:(NSDictionary*)dict;
 
 @end

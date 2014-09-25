@@ -74,4 +74,13 @@ static User *sharedUserInstance = nil;
   self.token      = loadedUser.token;
 }
 
+-(void)fromDictionary:(NSDictionary *)dict
+{
+  self.first_name = [dict objectForKey:@"first_name"];
+  self.last_name  = [dict objectForKey:@"last_name"];
+  self.email      = [dict objectForKey:@"email"];
+  self.token      = [dict objectForKey:@"auth_token"];
+  self.user_id    = [[dict objectForKey:@"id"] intValue];
+  [self save];
+}
 @end

@@ -15,6 +15,7 @@
 #import "buttonSizePickerViewController.h"
 #import "UIColor+RMBOColors.h"
 #import "UserPalettesManager.h"
+#import "RomibowebAPIManager.h"
 
 @interface rmbo_ViewController ()
 
@@ -807,6 +808,7 @@ const CGFloat kButtonInset_y =   4.0;
   //    if ([self.paletteTableView numberOfRowsInSection:0] == 0)
   //        return;
   NSLog(@"cell tapped");
+  [[RomibowebAPIManager sharedRomibowebManagerInstance] loginToRomiboWeb];
   
   //    rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
   //
@@ -978,7 +980,6 @@ const CGFloat kButtonInset_y =   4.0;
   //    NSLog(@"fetchedPalettes: %@", fetchedPalettes);
   
   //NSInteger count = fetchedPalettes.count;
-  NSLog(@"here again");
   return [self.tmpPaletteTitles count];
 }
 

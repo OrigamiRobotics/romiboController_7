@@ -14,24 +14,23 @@ typedef enum {
   CreatePaletteRequest,
   PalettesListRequest,
   DeletePaletteRequest,
-  UsersListRequest
+  UsersListRequest,
+  ColorsListRequest
   
 } RequestType;
 
-@interface RomibowebAPIManager : NSObject<NSURLConnectionDelegate
-//                                          NSURLConnectionDelegate,
-//                                          NSURLSessionDelegate,
-//                                          NSURLSessionTaskDelegate,
-//                                          NSURLSessionDataDelegate,
-//                                          NSURLSessionDownloadDelegate
-                                          >
+@interface RomibowebAPIManager : NSObject<NSURLSessionTaskDelegate>
+
 @property (strong, nonatomic) NSURLSession * URLsession;
 @property (strong, nonatomic) NSString * authTokenStr;
-
 
 + (id)sharedRomibowebManagerInstance;
 -(void)registerNewUserAtRomiboWeb;
 -(void)loginToRomiboWeb;
 -(void)getUserPalettesFromRomiboWeb;
+-(void)getUsersListFromRomiboWeb;
+-(void)getColorsListFromRomiboWeb;
+-(void)synchPalettesWithROmiboWeb;
+-(void)deletePaletteFromRomiboWeb;
 
 @end

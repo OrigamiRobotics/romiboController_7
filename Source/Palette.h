@@ -19,6 +19,7 @@
 -(void) addButton:(PaletteButton*)button;
 -(void) deleteButton:(int)buttonId;
 -(PaletteButton*)getButton:(int)buttonId;
-+(Palette *)createFromDictionary:(NSDictionary*)paletteData;
+-(id)initWithDictionary:(NSDictionary *)dict;
+//+(Palette *)createFromDictionary:(NSDictionary*)paletteData;
 
 @end

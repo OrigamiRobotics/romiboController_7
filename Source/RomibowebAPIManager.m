@@ -9,9 +9,9 @@
 #import "RomibowebAPIManager.h"
 //const NSString * kRomiboWebURI          = @"http://create.romibo.com";
 const NSString * kRomiboWebURI   = @"http://romiboweb-integration.herokuapp.com";
-const NSString * kHttpPostMethod = @"POST";
-const NSString * kHttpGetMethod  = @"GET";
-const NSString * kHttpPutMethod  = @"PUT";
+static NSString * HttpPostMethod = @"POST";
+static NSString * HttpGetMethod  = @"GET";
+static NSString * HttpPutMethod  = @"PUT";
 
 
 
@@ -39,6 +39,15 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
   return sharedRomibowebManagerInstance;
 }
 
+-(instancetype)init
+{
+  if (self = [super init]){
+    
+  }
+  
+  return self;
+}
+
 #pragma mark RomiboWeb API calls
 - (void)connectToRomiboWebApi:(NSString*)httpMethod forUrl:(NSString*)requestUrl withParams:(NSString *)params
 {
@@ -56,37 +65,33 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
   NSURLSessionDataTask *postDataTask = [self.URLsession dataTaskWithRequest:request
                                                           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
                                         {
-                                          NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                          //                                              NSLog(@"Login data as json: %@", json);
-                                          
-                                          NSString * tokenStr     = @"Token token=";
-                                          NSString * jsonTokenStr = [json objectForKey:@"auth_token"];
-                                          self.authTokenStr = [tokenStr stringByAppendingString:jsonTokenStr];
-                                          
-                                          NSLog(@"jsonTokenStr: %@", jsonTokenStr);
-                                          NSLog(@"authTokenStr: %@", self.authTokenStr);
+                                          [self processResponseData:data];
                                         }];
   [postDataTask resume];
 }
 
+-(void)processResponseData:(NSData *)responseData
+{
+  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+  NSLog(@"Login data as json: %@", json);
+}
+
 -(void)registerNewUserAtRomiboWeb
 {
-  NSString* loginUrl = @"/api/v1/login";
-  NSString* loginParams = @"{\"user\": {\"email\":\"tracy_lakin@earthlink.net\",\"password\":\"tracyromibo\"}}";
-  NSString* loginHtpMethod = @"POST";
+ 
 }
 
 -(void)loginToRomiboWeb
 {
   _currentRequestType = LoginRequest;
   NSString* loginUrl = @"/api/v1/login";
-  NSString* loginParams = @"{\"user\": {\"email\":\"tracy_lakin@earthlink.net\",\"password\":\"tracyromibo\"}}";
-  [self connectToRomiboWebApi:kHttpPostMethod forUrl:loginUrl withParams:loginParams];
+  NSString* loginParams = @"{\"user\": {\"email\":\"danny@origamirobotics.com\",\"password\":\"nartey\"}}";
+  [self connectToRomiboWebApi:HttpPostMethod forUrl:loginUrl withParams:loginParams];
 }
 
 -(void)getUserPalettesFromRomiboWeb
 {
-  _currentRequestType = UsersListRequest;
+  _currentRequestType = PalettesListRequest;
   // Create the request.
   NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://google.com"]];
   
@@ -94,39 +99,30 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
   NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-  // A response has been received, this is where we initialize the instance var you created
-  // so that we can append data to it in the didReceiveData method
-  // Furthermore, this method is called each time there is a redirect so reinitializing it
-  // also serves to clear it
-  _responseData = [[NSMutableData alloc] init];
-}
-
-#pragma mark NSURLConnection Delegate Methods
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+-(void)getUsersListFromRomiboWeb
 {
-  // Append the new data to the instance variable you declared
-  [_responseData appendData:data];
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse*)cachedResponse
-{
-  // Return nil to indicate not necessary to store a cached response for this connection
-  return nil;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-  // The request is complete and data has been received
-  // You can parse the stuff in your instance variable now
+  _currentRequestType = PalettesListRequest;
+  // Create the request.
+  NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://google.com"]];
   
+  // Create url connection and fire request
+  NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+#pragma mark - NSURLSessionDataDelegate
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
-  // The request has failed for some reason!
-  // Check the error var
+  NSLog(@"NSURLSessionDataDelegate didReceiveData");
 }
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+  NSLog(@"NSURLSessionDataDelegate didReceiveResponse");
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask willCacheResponse:(NSCachedURLResponse *)proposedResponse completionHandler:(void (^)(NSCachedURLResponse *cachedResponse))completionHandler
+{
+  NSLog(@"NSURLSessionDataDelegate willCacheResponse");
+}
+
 @end
