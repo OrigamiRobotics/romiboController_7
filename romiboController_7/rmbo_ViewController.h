@@ -121,6 +121,6 @@ typedef enum {
 - (void) setEditButtonColor:(UIColor *) color;
 - (void) setEditButtonSize:(NSString *) sizeStr;
 
-- (void) layoutActionViewWithPallete:(NSInteger)index;
+- (void) displayButtonsForSelectedPalette:(NSInteger)index;
 
 @end

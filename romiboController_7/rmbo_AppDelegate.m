@@ -253,7 +253,7 @@
         rmbo_ViewController * mainViewController = (rmbo_ViewController *)  self.window.rootViewController;
         
         [mainViewController.paletteTableView reloadData];
-        [mainViewController layoutActionViewWithPallete: [paletteEntity.index intValue]];
+        [mainViewController displayButtonsForSelectedPalette: [paletteEntity.index intValue]];
 
     }
 }

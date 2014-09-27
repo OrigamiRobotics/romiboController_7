@@ -443,7 +443,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
   
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.paletteTableView reloadData];
-    [self layoutActionViewWithPallete: paletteIndexPath.row];
+    [self displayButtonsForSelectedPalette: paletteIndexPath.row];
   });
   
 }
@@ -715,7 +715,7 @@ const NSString * kRomiboWebURL_palettes = @"/api/v1/palettes";
   
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.paletteTableView reloadData];
-    [self layoutActionViewWithPallete: 0];
+    [self displayButtonsForSelectedPalette: 0];
   });
   
   
@@ -810,7 +810,7 @@ const CGFloat kButtonInset_x =   4.0;
 const CGFloat kButtonInset_y =   4.0;
 
 
-- (void) layoutActionViewWithPallete:(NSInteger)row
+- (void) displayButtonsForSelectedPalette:(NSInteger)row
 {
   //    if ([self.paletteTableView numberOfRowsInSection:0] == 0)
   //        return;
@@ -979,7 +979,7 @@ const CGFloat kButtonInset_y =   4.0;
     [subView removeFromSuperview];
   }
   
-  [self layoutActionViewWithPallete:indexPath.row];
+  [self displayButtonsForSelectedPalette:indexPath.row];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1000,7 +1000,6 @@ const CGFloat kButtonInset_y =   4.0;
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-#warning Incomplete method implementation -- Return the number of items in the section
   return [self.buttonTitles count];
 }
 
@@ -1033,8 +1032,14 @@ const CGFloat kButtonInset_y =   4.0;
 -(void) buttonsForSelectedPalette
 {
   self.myPaletteButtonIds = [[NSMutableDictionary alloc] init];
+  int selectPaletteId = 0;
 
-  int selectPaletteId = [[self.myPaletteIds objectForKey:[NSNumber numberWithLong:self.selectedTableRow]] intValue];
+  if ([[self.myPaletteIds allKeys] count] == 0){//when first loaded
+    selectPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
+  } else{
+    selectPaletteId = [[self.myPaletteIds objectForKey:[NSNumber numberWithLong:self.selectedTableRow]] intValue];
+  }
+
   
   NSLog(@"new palette id = %d", selectPaletteId);
   Palette *palette = [self.palettesManager getSelectedPalette:selectPaletteId];
