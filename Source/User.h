@@ -15,9 +15,10 @@
 @property (nonatomic, copy)  NSString* first_name;
 @property (nonatomic, copy)  NSString* last_name;
 @property (nonatomic, copy)  NSString* token;
+@property (nonatomic, assign, setter=setLastViewedPaletteId:)int last_viewed_paletted_id;
 
 + (id)sharedUserInstance;
 - (void)save;
-- (void)load;
+- (void)loadData;
 - (void)fromDictionary:(NSDictionary*) dict;
 @end

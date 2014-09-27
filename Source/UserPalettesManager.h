@@ -27,4 +27,8 @@
 -(void)loadPalettes;
 -(void)savePalettes;
 -(NSArray *)paletteTitles;
+-(void)processPalettesFromRomibowebAPI:(NSDictionary*)json;
+-(Palette*)getSelectedPalette:(int)paletteId;
+-(int)lastViewedPalette;
+
 @end

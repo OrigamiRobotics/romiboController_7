@@ -15,11 +15,14 @@
 @property (nonatomic, copy)   NSString* title;
 @property (nonatomic, assign) int       last_viewed_button_id;
 @property (nonatomic, strong) NSMutableDictionary* buttons;
+@property (nonatomic, assign) int       owner_id;
 
 -(void) addButton:(PaletteButton*)button;
 -(void) deleteButton:(int)buttonId;
 -(PaletteButton*)getButton:(int)buttonId;
 -(id)initWithDictionary:(NSDictionary *)dict;
-//+(Palette *)createFromDictionary:(NSDictionary*)paletteData;
+-(NSArray*)buttonTitles;
+-(PaletteButton *)getSelectedButton:(int)buttonId;
+
 
 @end

@@ -69,9 +69,11 @@
 -(void) encodeWithCoder:(NSCoder *)encoder
 {
   [encoder encodeInteger:self.index     forKey:@"index"];
-  [encoder encodeObject:self.title      forKey:@"title"];
-  [encoder encodeInteger:self.last_viewed_button_id      forKey:@"last_viewed_button_id"];
-  [encoder encodeObject:self.buttons    forKey:@"buttons"];
+  [encoder encodeObject: self.title     forKey:@"title"];
+  [encoder encodeInteger:self.last_viewed_button_id
+                                        forKey:@"last_viewed_button_id"];
+  [encoder encodeInteger:self.owner_id  forKey:@"owner_id"];
+  [encoder encodeObject: self.buttons   forKey:@"buttons"];
 }
 
 -(id) initWithCoder:(NSCoder *)decoder
@@ -79,8 +81,10 @@
   if (self = [super init]){
     self.index    = [decoder decodeIntForKey:@"index"];
     self.title    = [decoder decodeObjectForKey:@"title"];
-    self.last_viewed_button_id = [decoder decodeIntForKey:@"last_viewed_button_id"];
-    self.buttons = [decoder decodeObjectForKey:@"buttons"];
+    self.last_viewed_button_id =
+                    [decoder decodeIntForKey:@"last_viewed_button_id"];
+    self.owner_id = [decoder decodeIntForKey:@"owner_id"];
+    self.buttons  = [decoder decodeObjectForKey:@"buttons"];
   }
   return self;
 }
@@ -88,29 +92,40 @@
 -(id)initWithDictionary:(NSDictionary *)dict
 {
   if (self = [super init]){
-    self.index = [[dict objectForKey:@"index"] intValue];
+    self.buttons = [[NSMutableDictionary alloc] init];
+
+    self.index = [[dict objectForKey:@"id"] intValue];
     self.title = [dict objectForKey:@"title"];
     self.last_viewed_button_id = [[dict objectForKey:@"lastViewedButton"] intValue];
-    
-    NSArray * buttonsHash = [dict objectForKey:@"buttons"];
-    for (NSDictionary * buttonDict in buttonsHash){
-      PaletteButton *button = [PaletteButton createFromDictionary:buttonDict];
+    self.owner_id = [[dict objectForKey:@"owner_id"] intValue];
+    NSArray * buttonsArray= [dict objectForKey:@"buttons"];
+    for (id buttonData in buttonsArray){
+      PaletteButton *button = [[PaletteButton alloc ]initWithDictionary:buttonData[@"button"]];
       [self addButton:button];
     }
 
   }
   return self;
 }
-//
-//+(Palette *)createFromDictionary:(NSDictionary *)paletteData
-//{
-//  Palette *palette = [[Palette alloc] initWithDictionary:paletteData];
-//  NSArray * buttonsHash = [paletteData objectForKey:@"buttons"];
-//  for (NSDictionary * buttonDict in buttonsHash){
-//    PaletteButton *button = [PaletteButton createFromDictionary:buttonDict];
-//    [palette addButton:button];
-//  }
-//  return palette;
-//}
+
+-(NSArray*)buttonTitles
+{
+  NSMutableArray *titles = [[NSMutableArray alloc] init];
+  for (id key in self.buttons){
+    PaletteButton* button = [self.buttons objectForKey:key];
+    [titles addObject:[button.title stringByAppendingFormat:@"---+++---%d", button.index]];
+  }
+  return [titles mutableCopy];
+}
+
+
+-(PaletteButton *)getSelectedButton:(int)buttonId
+{
+  PaletteButton *button = [self.buttons objectForKey:[self buttonIdToString:buttonId]];
+  if (button){
+    self.last_viewed_button_id = buttonId;
+  }
+  return button;
+}
 
 @end

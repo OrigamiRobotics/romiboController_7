@@ -10,6 +10,7 @@
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 #import <CoreData/CoreData.h>
 #import "AVFoundation/AVFoundation.h"
+#import "PaletteButtonsCollectionViewCell.h"
 
 
 //Commands
@@ -37,14 +38,16 @@ typedef enum {
 
 @interface rmbo_ViewController : UIViewController
 <
-    UITableViewDataSource,
-    UITableViewDelegate,
-    MCSessionDelegate,
-    MCBrowserViewControllerDelegate,
-    NSURLSessionTaskDelegate,
-    NSURLSessionDataDelegate,
-    NSURLSessionDelegate,
-    UIPopoverControllerDelegate
+  UITableViewDataSource,
+  UITableViewDelegate,
+  UICollectionViewDataSource,
+  UICollectionViewDelegate,
+  MCSessionDelegate,
+  MCBrowserViewControllerDelegate,
+  NSURLSessionTaskDelegate,
+  NSURLSessionDataDelegate,
+  NSURLSessionDelegate,
+  UIPopoverControllerDelegate
 >
 
 
@@ -55,6 +58,7 @@ typedef enum {
 
 @property (strong, nonatomic) NSURLSession * URLsession;
 @property (strong, nonatomic) NSString * authTokenStr;
+@property (strong, nonatomic) IBOutlet UICollectionView *paletteButtonsCollectionView;
 
 @property (strong, nonatomic) IBOutlet UIView * actionsView;
 @property (strong, nonatomic) IBOutlet UIView * paletteView;
@@ -98,7 +102,7 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIView *connect_button;
 @property (strong, nonatomic) IBOutlet UIButton *logIn_button;
 
-@property (copy, nonatomic) NSArray* tmpPaletteTitles;
+@property (copy, nonatomic) NSArray* paletteTitles;
 
 - (IBAction)textAction:(id)sender;
 - (IBAction)emoteAction:(id)sender;

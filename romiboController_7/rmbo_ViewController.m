@@ -16,10 +16,16 @@
 #import "UIColor+RMBOColors.h"
 #import "UserPalettesManager.h"
 #import "RomibowebAPIManager.h"
+#import "PaletteButtonsCollectionViewCell.h"
 
 @interface rmbo_ViewController ()
 
 @property (nonatomic, weak)UserPalettesManager* palettesManager;
+@property (nonatomic, strong)NSMutableDictionary* myPaletteIds;
+@property (nonatomic, strong)NSMutableDictionary* currentButtonIds;
+@property (nonatomic, strong)NSArray* buttonTitles;
+@property (nonatomic, strong)NSMutableDictionary* myPaletteButtonIds;
+@property (nonatomic, assign)NSInteger selectedTableRow;
 
 @end
 
@@ -56,7 +62,8 @@
   NSLog(@"viewDidLoad");
   //init palettes stuff
   [self initializePalettesManager];
-  
+  NSLog(@"viewDidLoad 2");
+
   
   // UI specific
   
@@ -808,7 +815,12 @@ const CGFloat kButtonInset_y =   4.0;
   //    if ([self.paletteTableView numberOfRowsInSection:0] == 0)
   //        return;
   NSLog(@"cell tapped");
-  [[RomibowebAPIManager sharedRomibowebManagerInstance] loginToRomiboWeb];
+  //[[RomibowebAPIManager sharedRomibowebManagerInstance] loginToRomiboWeb];
+
+  //[[RomibowebAPIManager sharedRomibowebManagerInstance] getUserPalettesFromRomiboWeb];
+  self.selectedTableRow = row;
+  [self handleSelectedPalette];
+
   
   //    rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
   //
@@ -943,44 +955,19 @@ const CGFloat kButtonInset_y =   4.0;
   [cell setBackgroundView:selectedBgView];
   cell.textLabel.textColor = [UIColor colorWithHexString:@"6794A2"];
   cell.textLabel.highlightedTextColor = [UIColor colorWithHexString:@"00517D"];
-  cell.textLabel.text = self.tmpPaletteTitles[indexPath.row];
-  //  rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
-  //
-  //  NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  //  NSFetchRequest *request = [[NSFetchRequest alloc] init];
-  //  [request setEntity:entity];
-  //
-  //  NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  //  [request setSortDescriptors:@[descriptor]];
-  //
-  //  NSError * error;
-  //  NSArray * fetchedPalettes = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  ////    NSLog(@"fetchedPalettes: %@", fetchedPalettes);
-  //  if (fetchedPalettes != nil) {
-  //      PaletteEntity * palette = fetchedPalettes[indexPath.row];
-  //      cell.textLabel.text = palette.title;
-  //  }
-  //  else {
-  //      cell.textLabel.text = @"";
-  //  }
+  NSArray *splitTitleAndId = [self.paletteTitles[indexPath.row] componentsSeparatedByString:@"---+++---"];
+
+  cell.textLabel.text = [splitTitleAndId objectAtIndex:0];
+
+  [self.myPaletteIds setObject:[splitTitleAndId objectAtIndex:1] forKey:[NSNumber numberWithLong:indexPath.row]];
+
   
   return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  //    rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
-  //
-  //    NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  //    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-  //    [request setEntity:entity];
-  //
-  //    NSError * error;
-  //    NSArray * fetchedPalettes = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  //    NSLog(@"fetchedPalettes: %@", fetchedPalettes);
-  
-  //NSInteger count = fetchedPalettes.count;
-  return [self.tmpPaletteTitles count];
+  return [self.paletteTitles count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1005,13 +992,59 @@ const CGFloat kButtonInset_y =   4.0;
   //[cell setBackgroundColor:[UIColor colorWithPatternImage:pattern]];
 }
 
+#pragma mark <UICollectionViewDataSource>
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+  return 1;
+}
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+#warning Incomplete method implementation -- Return the number of items in the section
+  return [self.buttonTitles count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  static NSString *reuseIdentifier = @"CellID";
+  PaletteButtonsCollectionViewCell *cell = (PaletteButtonsCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+  
+  // Configure the cell
+  NSArray *splitTitleAndId = [[self.buttonTitles objectAtIndex:indexPath.row] componentsSeparatedByString:@"---+++---"];
+  
+  [self.myPaletteButtonIds setObject:[splitTitleAndId objectAtIndex:1] forKey:[NSNumber numberWithLong:indexPath.row]];
+  NSString* title = [splitTitleAndId objectAtIndex:0];
+  [cell.paletteButton setTitle:title forState:UIControlStateNormal] ;
+  return cell;
+}
+
 #pragma mark - Palettes stuff
 -(void) initializePalettesManager
 {
+  self.myPaletteIds = [[NSMutableDictionary alloc] init];
+
   if (self.palettesManager == NULL)
     self.palettesManager = [UserPalettesManager sharedPalettesManagerInstance];
   [self.palettesManager loadPalettes];
-  self.tmpPaletteTitles = [self.palettesManager paletteTitles];
+  self.paletteTitles = [self.palettesManager paletteTitles];
+  [self buttonsForSelectedPalette];
+}
+
+-(void) buttonsForSelectedPalette
+{
+  self.myPaletteButtonIds = [[NSMutableDictionary alloc] init];
+
+  int selectPaletteId = [[self.myPaletteIds objectForKey:[NSNumber numberWithLong:self.selectedTableRow]] intValue];
+  
+  NSLog(@"new palette id = %d", selectPaletteId);
+  Palette *palette = [self.palettesManager getSelectedPalette:selectPaletteId];
+  self.buttonTitles = [[NSArray alloc] initWithArray:[palette buttonTitles]];
+}
+
+-(void)handleSelectedPalette
+{
+  [self buttonsForSelectedPalette];
+  [self.paletteButtonsCollectionView reloadData];
 }
 
 - (void)registerAsPalettesManagerObserver
@@ -1046,7 +1079,7 @@ const CGFloat kButtonInset_y =   4.0;
                        context:(void *)context
 {
   if ([keyPath isEqual:@"observeMe"]) {
-    self.tmpPaletteTitles = [self.palettesManager paletteTitles];
+    self.paletteTitles = [self.palettesManager paletteTitles];
     [self.paletteTableView reloadData];
   }
   

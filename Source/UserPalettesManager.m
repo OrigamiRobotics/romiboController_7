@@ -8,6 +8,8 @@
 
 #import "UserPalettesManager.h"
 #import "Palette.h"
+#import "User.h"
+
 #define PALETTES_STORAGE_KEY @"userPalettes"
 
 
@@ -41,6 +43,7 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   if (self = [super init]){
     self.highestPaletteId = 0;
     self.palettes = [[NSMutableDictionary alloc] init];
+    [[User sharedUserInstance] loadData];
   }
   return self;
 }
@@ -104,7 +107,8 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
     Palette *palette = [self.palettes objectForKey:key];
     if (palette.index > self.highestPaletteId)
       self.highestPaletteId = palette.index;
-    [titles addObject:palette.title];
+    NSString* augmentedTitle = [palette.title stringByAppendingFormat:@"---+++---%d", palette.index];
+    [titles addObject:augmentedTitle];
   }
   return [NSArray arrayWithArray:titles];
 }
@@ -125,4 +129,49 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
       self.highestPaletteId = palette.index;
   }
 }
+
+-(void)deleteAllPalettes
+{
+  self.palettes = [[NSMutableDictionary alloc] init];
+}
+
+-(void)processPalettesFromRomibowebAPI:(NSDictionary *)json
+{
+  NSArray *palettesArray = [[NSArray alloc] initWithArray:json[@"palettes"]];
+  if ([palettesArray count] != 0) {
+    [self.palettes removeAllObjects];
+
+    for (id pal in palettesArray){
+      NSDictionary* paletteDict = pal[@"palette"];
+      Palette *palette = [[Palette alloc] initWithDictionary:paletteDict];
+      [self addPalette:palette];
+    }
+  }
+}
+
+-(Palette *)getSelectedPalette:(int)paletteId
+{
+  Palette* palette = [self.palettes objectForKey:[self paletteIdToString:paletteId]];
+  if (palette){
+    [[User sharedUserInstance] setLastViewedPaletteId:paletteId];
+  }
+  return palette;
+}
+
+-(int)lastViewedPalette
+{
+  int lastViewedPalette = [[User sharedUserInstance] last_viewed_paletted_id];
+  if (lastViewedPalette < 1){
+    NSArray *palettesArray = [self.palettes allValues];
+    if ([palettesArray count] != 0){
+      lastViewedPalette = [[palettesArray objectAtIndex:0] index];
+    } else {
+      lastViewedPalette = 0;
+    }
+  }
+  
+  return lastViewedPalette;
+}
+
+
 @end

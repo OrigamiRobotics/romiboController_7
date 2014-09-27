@@ -22,7 +22,7 @@ typedef enum {
 @interface RomibowebAPIManager : NSObject<NSURLSessionTaskDelegate>
 
 @property (strong, nonatomic) NSURLSession * URLsession;
-@property (strong, nonatomic) NSString * authTokenStr;
+@property (copy, nonatomic) NSString * authTokenStr;
 
 + (id)sharedRomibowebManagerInstance;
 -(void)registerNewUserAtRomiboWeb;

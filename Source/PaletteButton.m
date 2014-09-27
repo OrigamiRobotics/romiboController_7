@@ -29,6 +29,7 @@
   [encoder encodeObject: self.title forKey:@"title"];
   [encoder encodeObject: self.speech_phrase forKey:@"phrase"];
   [encoder encodeFloat:  self.speech_speed_rate forKey:@"rate"];
+  [encoder encodeObject: self.color     forKey:@"color"];
   [encoder encodeObject: self.size forKey:@"size"];
 }
 
@@ -41,6 +42,7 @@
     self.title  = [decoder decodeObjectForKey:@"title"];
     self.speech_phrase = [decoder decodeObjectForKey:@"phrase"];
     self.speech_speed_rate = [decoder decodeFloatForKey:@"rate"];
+    self.color  = [decoder decodeObjectForKey:@"color"];
     self.size   = [decoder decodeObjectForKey:@"size"];
   }
   return self;
@@ -49,15 +51,16 @@
 -(id)initWithDictionary:(NSDictionary *)dict
 {
   if (self = [super init]){
-    self.index = (int)[dict objectForKey:@"index"];
-    self.row   = (int)[dict objectForKey:@"row"];
-    self.col   = (int)[dict objectForKey:@"col"];
-    self.title =      [dict objectForKey:@"title"];
+    self.index = [[dict objectForKey:@"id"]   intValue];
+    self.row   = [[dict objectForKey:@"row"]  intValue];
+    self.col   = [[dict objectForKey:@"col"]  intValue];
+    self.title =  [dict objectForKey:@"title"];
     self.speech_phrase =
-                        [dict objectForKey:@"phrase"];
+                  [dict objectForKey:@"speech_phrase"];
     self.speech_speed_rate =
-                        [[dict objectForKey:@"rate"] floatValue];
-    self.size  =      [dict objectForKey:@"size"];
+                 [[dict objectForKey:@"speech_speed_rate"] floatValue];
+    self.size  =  [dict objectForKey:@"size"];
+    self.color =  [dict objectForKey:@"color"];
   }
   return self;
 }

@@ -7,7 +7,7 @@
 //
 
 #import "User.h"
-#define USER_STORAGE_KEY @"romibo_user"
+#define USER_STORAGE_KEY @"romiboUser"
 
 @implementation User
 
@@ -32,6 +32,7 @@ static User *sharedUserInstance = nil;
     self.user_id    = 0;
     self.first_name = @"";
     self.last_name  = @"";
+    self.last_viewed_paletted_id = 0;
   }
   return self;
 }
@@ -42,6 +43,7 @@ static User *sharedUserInstance = nil;
   [encoder encodeObject:self.first_name forKey:@"firstName"];
   [encoder encodeObject:self.last_name  forKey:@"lastName"];
   [encoder encodeObject:self.token      forKey:@"token"];
+  [encoder encodeInteger:self.last_viewed_paletted_id forKey:@"lastViewedPaletteId"];
 }
 
 -(id)initWithCoder:(NSCoder *)decoder
@@ -51,6 +53,8 @@ static User *sharedUserInstance = nil;
     self.first_name = [decoder decodeObjectForKey:@"firstName"];
     self.last_name  = [decoder decodeObjectForKey:@"lastName"];
     self.token      = [decoder decodeObjectForKey:@"token"];
+    self.last_viewed_paletted_id
+                    = [decoder decodeIntForKey:@"lastViewedPaletteId"];
   }
   return self;
 }
@@ -64,23 +68,30 @@ static User *sharedUserInstance = nil;
   [defaults synchronize];
 }
 
--(void)load
+-(void)loadData
 {
-  NSData *encodedUser = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORAGE_KEY];
-  User *loadedUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
-  self.user_id    = loadedUser.user_id;
-  self.first_name = loadedUser.first_name;
-  self.last_name  = loadedUser.last_name;
-  self.token      = loadedUser.token;
+  if (self){
+    NSData *encodedUser = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORAGE_KEY];
+    User *loadedUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
+    self.user_id    = loadedUser.user_id;
+    self.first_name = loadedUser.first_name;
+    self.last_name  = loadedUser.last_name;
+    self.token      = loadedUser.token;
+    self.last_viewed_paletted_id
+                    = loadedUser.last_viewed_paletted_id;
+  }
 }
 
 -(void)fromDictionary:(NSDictionary *)dict
 {
+  NSString * tokenStr     = @"Token token=";
   self.first_name = [dict objectForKey:@"first_name"];
   self.last_name  = [dict objectForKey:@"last_name"];
   self.email      = [dict objectForKey:@"email"];
-  self.token      = [dict objectForKey:@"auth_token"];
+  self.token      = [tokenStr stringByAppendingString: [dict objectForKey:@"auth_token"]];
   self.user_id    = [[dict objectForKey:@"id"] intValue];
+  self.last_viewed_paletted_id
+                  = [[dict objectForKey:@"last_viewed_palette_id"] intValue];
   [self save];
 }
 @end
