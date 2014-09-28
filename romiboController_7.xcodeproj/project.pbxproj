@@ -16,7 +16,6 @@
 		55444B3919D2A82C00192456 /* palettes_table_cell_bg_image_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */; };
 		55444B3A19D2A82C00192456 /* palettes_table_cell_bg_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */; };
 		55B4955E19D68FC900044189 /* PaletteButtonsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */; };
-		55B4956119D6B1FD00044189 /* PaletteButtonsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B4956019D6B1FD00044189 /* PaletteButtonsCollectionViewController.m */; };
 		55B6646019D38821001537C7 /* circle-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6645F19D38821001537C7 /* circle-512.png */; };
 		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
 		B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549219248B5E00BEAA76 /* icon-speaker.png */; };
@@ -79,8 +78,6 @@
 		55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = palettes_table_cell_bg_image.png; sourceTree = "<group>"; };
 		55B4955C19D68FC900044189 /* PaletteButtonsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaletteButtonsCollectionViewCell.h; path = Source/PaletteButtonsCollectionViewCell.h; sourceTree = SOURCE_ROOT; };
 		55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaletteButtonsCollectionViewCell.m; path = Source/PaletteButtonsCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
-		55B4955F19D6B1FD00044189 /* PaletteButtonsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaletteButtonsCollectionViewController.h; path = Source/PaletteButtonsCollectionViewController.h; sourceTree = SOURCE_ROOT; };
-		55B4956019D6B1FD00044189 /* PaletteButtonsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaletteButtonsCollectionViewController.m; path = Source/PaletteButtonsCollectionViewController.m; sourceTree = SOURCE_ROOT; };
 		55B6645F19D38821001537C7 /* circle-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-512.png"; sourceTree = "<group>"; };
 		B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left-b.png"; sourceTree = "<group>"; };
 		B1BE549219248B5E00BEAA76 /* icon-speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-speaker.png"; sourceTree = "<group>"; };
@@ -186,8 +183,6 @@
 				B1EDAF861910537600C17EBC /* rmbo_ViewController.m */,
 				55B4955C19D68FC900044189 /* PaletteButtonsCollectionViewCell.h */,
 				55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */,
-				55B4955F19D6B1FD00044189 /* PaletteButtonsCollectionViewController.h */,
-				55B4956019D6B1FD00044189 /* PaletteButtonsCollectionViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -446,7 +441,6 @@
 				B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */,
 				55444B3019D2A5B100192456 /* RomibowebAPIManager.m in Sources */,
 				B1EDAF7A1910537600C17EBC /* main.m in Sources */,
-				55B4956119D6B1FD00044189 /* PaletteButtonsCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -68,10 +68,7 @@
   // UI specific
   
   self.edit_buttonColorView.backgroundColor = [UIColor rmbo_emeraldColor];
-  [self highlightLastViewedPaletteCellInTable];
-//  dispatch_async(dispatch_get_main_queue(), ^{
-//    [self layoutActionViewWithPallete: 0];      // Select first palette in table.
-//  });
+
 }
 
 
@@ -1036,9 +1033,21 @@ const CGFloat kButtonInset_y =   4.0;
   // Configure the cell
   NSArray *splitTitleAndId = [[self.buttonTitles objectAtIndex:indexPath.row] componentsSeparatedByString:@"---+++---"];
   
-  [self.myPaletteButtonIds setObject:[splitTitleAndId objectAtIndex:1] forKey:[NSNumber numberWithLong:indexPath.row]];
+  //set buton title
+  NSString* buttonIdStr = [splitTitleAndId objectAtIndex:1];
+  [self.myPaletteButtonIds setObject:buttonIdStr forKey:[NSNumber numberWithLong:indexPath.row]];
   NSString* title = [splitTitleAndId objectAtIndex:0];
-  [cell.paletteButton setTitle:title forState:UIControlStateNormal] ;
+  [cell.paletteButton setTitle:title forState:UIControlStateNormal];
+  
+  //get current pallete and use it to get current button
+  int lastViewdPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
+  Palette *palette = [self.palettesManager getSelectedPalette:lastViewdPaletteId];
+  PaletteButton *paletteButton = [palette getButton:[buttonIdStr intValue]];
+  
+  //set button color for display
+  NSString *colorString = [paletteButton.color stringByReplacingOccurrencesOfString:@"#" withString:@""];
+  cell.backgroundLabel.backgroundColor = [UIColor colorWithHexString:colorString];
+  
   return cell;
 }
 
@@ -1064,9 +1073,7 @@ const CGFloat kButtonInset_y =   4.0;
   } else{
     selectPaletteId = [[self.myPaletteIds objectForKey:[NSNumber numberWithLong:self.selectedTableRow]] intValue];
   }
-
   
-  NSLog(@"new palette id = %d", selectPaletteId);
   Palette *palette = [self.palettesManager getSelectedPalette:selectPaletteId];
   self.buttonTitles = [[NSArray alloc] initWithArray:[palette buttonTitles]];
 }
