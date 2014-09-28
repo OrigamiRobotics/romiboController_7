@@ -173,5 +173,10 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   return lastViewedPalette;
 }
 
+-(NSUInteger)numberOfPalettes
+{
+  return [[self.palettes allKeys] count];
+}
+
 
 @end

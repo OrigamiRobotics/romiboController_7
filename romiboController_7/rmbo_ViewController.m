@@ -68,7 +68,7 @@
   // UI specific
   
   self.edit_buttonColorView.backgroundColor = [UIColor rmbo_emeraldColor];
-  
+  [self highlightLastViewedPaletteCellInTable];
 //  dispatch_async(dispatch_get_main_queue(), ^{
 //    [self layoutActionViewWithPallete: 0];      // Select first palette in table.
 //  });
@@ -961,7 +961,10 @@ const CGFloat kButtonInset_y =   4.0;
 
   [self.myPaletteIds setObject:[splitTitleAndId objectAtIndex:1] forKey:[NSNumber numberWithLong:indexPath.row]];
 
-  
+  NSUInteger numberOfPalettes = [[UserPalettesManager sharedPalettesManagerInstance] numberOfPalettes];
+  if ([[self.myPaletteIds allKeys] count] == numberOfPalettes ){
+    [self highlightLastViewedPaletteCellInTable];
+  }
   return cell;
 }
 
@@ -979,12 +982,34 @@ const CGFloat kButtonInset_y =   4.0;
     [subView removeFromSuperview];
   }
   
-  [self displayButtonsForSelectedPalette:indexPath.row];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self displayButtonsForSelectedPalette:indexPath.row];
+  });
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   return 40.0;
+}
+
+- (void)highlightLastViewedPaletteCellInTable
+{
+  int lastViewedPalette = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
+  
+  NSUInteger row = 0;
+  for (id key in self.myPaletteIds){
+    NSNumber *paletteId = [self.myPaletteIds objectForKey:key];
+    if ([paletteId intValue] == lastViewedPalette){
+      row = [key longValue];
+      break;
+    }
+  }
+  NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+  [self.paletteTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:
+   UITableViewScrollPositionNone];
+  
+  
+  [self.paletteTableView.delegate tableView:self.paletteTableView didSelectRowAtIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

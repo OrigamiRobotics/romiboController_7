@@ -30,5 +30,6 @@
 -(void)processPalettesFromRomibowebAPI:(NSDictionary*)json;
 -(Palette*)getSelectedPalette:(int)paletteId;
 -(int)lastViewedPalette;
+-(NSUInteger)numberOfPalettes;
 
 @end
