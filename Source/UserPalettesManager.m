@@ -178,5 +178,11 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   return [[self.palettes allKeys] count];
 }
 
+-(PaletteButton*)currentPalette:(NSString*)buttonIdStr
+{
+  int lastViewdPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
+  Palette *palette = [self getSelectedPalette:lastViewdPaletteId];
+  return [palette getButton:[buttonIdStr intValue]];
+}
 
 @end

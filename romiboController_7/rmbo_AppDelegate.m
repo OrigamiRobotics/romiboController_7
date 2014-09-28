@@ -7,7 +7,7 @@
 //
 
 #import "rmbo_AppDelegate.h"
-#import "rmbo_ViewController.h"
+#import "MainViewController.h"
 #import "PaletteEntity.h"
 #import "ButtonEntity.h"
 #import "ActionEntity.h"
@@ -250,7 +250,7 @@
         [self.managedObjectContext save:nil];
         
 
-        rmbo_ViewController * mainViewController = (rmbo_ViewController *)  self.window.rootViewController;
+        MainViewController * mainViewController = (MainViewController *)  self.window.rootViewController;
         
         [mainViewController.paletteTableView reloadData];
         [mainViewController displayButtonsForSelectedPalette: [paletteEntity.index intValue]];

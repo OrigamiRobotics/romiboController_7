@@ -31,5 +31,6 @@
 -(Palette*)getSelectedPalette:(int)paletteId;
 -(int)lastViewedPalette;
 -(NSUInteger)numberOfPalettes;
+-(PaletteButton*)currentPalette:(NSString*)buttonIdStr;
 
 @end

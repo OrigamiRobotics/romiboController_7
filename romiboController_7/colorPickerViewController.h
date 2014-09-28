@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import "rmbo_ViewController.h"
+#import "MainViewController.h"
 
 @interface colorPickerViewController : UIViewController
 
-@property (strong, nonatomic) rmbo_ViewController * mainViewController;
+@property (strong, nonatomic) MainViewController * mainViewController;
 
 @end

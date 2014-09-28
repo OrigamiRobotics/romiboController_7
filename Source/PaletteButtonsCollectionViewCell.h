@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PaletteButtonsCollectionViewCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UILabel *backgroundLabel;
-@property (weak, nonatomic) IBOutlet UIButton *paletteButton;
+@property (strong, nonatomic) IBOutlet UILabel *backgroundLabel;
+@property (strong, nonatomic) IBOutlet UILabel *foregroundLabel;
 
 @end

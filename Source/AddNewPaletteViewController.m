@@ -8,7 +8,7 @@
 
 #import "AddNewPaletteViewController.h"
 #import "UserPalettesManager.h"
-#import "rmbo_ViewController.h"
+#import "MainViewController.h"
 
 @interface AddNewPaletteViewController ()
 

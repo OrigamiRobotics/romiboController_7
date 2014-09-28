@@ -36,7 +36,7 @@ typedef enum {
 
 
 
-@interface rmbo_ViewController : UIViewController
+@interface MainViewController : UIViewController
 <
   UITableViewDataSource,
   UITableViewDelegate,

@@ -34,7 +34,7 @@
 		B1EDAF7A1910537600C17EBC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAF791910537600C17EBC /* main.m */; };
 		B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */; };
 		B1EDAF841910537600C17EBC /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAF821910537600C17EBC /* Main_iPad.storyboard */; };
-		B1EDAF871910537600C17EBC /* rmbo_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAF861910537600C17EBC /* rmbo_ViewController.m */; };
+		B1EDAF871910537600C17EBC /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1EDAF861910537600C17EBC /* MainViewController.m */; };
 		B1EDAF891910537600C17EBC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAF881910537600C17EBC /* Images.xcassets */; };
 		B1EDAF901910537600C17EBC /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF8F1910537600C17EBC /* XCTest.framework */; };
 		B1EDAF911910537600C17EBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EDAF6D1910537600C17EBC /* Foundation.framework */; };
@@ -106,8 +106,8 @@
 		B1EDAF7C1910537600C17EBC /* rmbo_AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rmbo_AppDelegate.h; sourceTree = "<group>"; };
 		B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rmbo_AppDelegate.m; sourceTree = "<group>"; };
 		B1EDAF831910537600C17EBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		B1EDAF851910537600C17EBC /* rmbo_ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rmbo_ViewController.h; sourceTree = "<group>"; };
-		B1EDAF861910537600C17EBC /* rmbo_ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rmbo_ViewController.m; sourceTree = "<group>"; };
+		B1EDAF851910537600C17EBC /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		B1EDAF861910537600C17EBC /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		B1EDAF881910537600C17EBC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B1EDAF8E1910537600C17EBC /* romiboController_7Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = romiboController_7Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1EDAF8F1910537600C17EBC /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -179,8 +179,8 @@
 			children = (
 				55444B3319D2A5DB00192456 /* AddNewPaletteViewController.h */,
 				55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */,
-				B1EDAF851910537600C17EBC /* rmbo_ViewController.h */,
-				B1EDAF861910537600C17EBC /* rmbo_ViewController.m */,
+				B1EDAF851910537600C17EBC /* MainViewController.h */,
+				B1EDAF861910537600C17EBC /* MainViewController.m */,
 				55B4955C19D68FC900044189 /* PaletteButtonsCollectionViewCell.h */,
 				55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */,
 			);
@@ -436,7 +436,7 @@
 				55444B2A19D2A53E00192456 /* User.m in Sources */,
 				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
 				B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */,
-				B1EDAF871910537600C17EBC /* rmbo_ViewController.m in Sources */,
+				B1EDAF871910537600C17EBC /* MainViewController.m in Sources */,
 				55444B3119D2A5B100192456 /* UserPalettesManager.m in Sources */,
 				B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */,
 				55444B3019D2A5B100192456 /* RomibowebAPIManager.m in Sources */,

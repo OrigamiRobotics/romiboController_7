@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "rmbo_ViewController.h"
+#import "MainViewController.h"
 #import "rmbo_AppDelegate.h"
 #import "PaletteEntity.h"
 #import "ButtonEntity.h"
@@ -18,7 +18,7 @@
 #import "RomibowebAPIManager.h"
 #import "PaletteButtonsCollectionViewCell.h"
 
-@interface rmbo_ViewController ()
+@interface MainViewController ()
 
 @property (nonatomic, weak)UserPalettesManager* palettesManager;
 @property (nonatomic, strong)NSMutableDictionary* myPaletteIds;
@@ -26,10 +26,12 @@
 @property (nonatomic, strong)NSArray* buttonTitles;
 @property (nonatomic, strong)NSMutableDictionary* myPaletteButtonIds;
 @property (nonatomic, assign)NSInteger selectedTableRow;
+@property (nonatomic, assign)NSInteger selectedButtonCellRow;
+
 
 @end
 
-@implementation rmbo_ViewController
+@implementation MainViewController
 
 - (void)viewDidLoad
 {
@@ -1033,22 +1035,27 @@ const CGFloat kButtonInset_y =   4.0;
   // Configure the cell
   NSArray *splitTitleAndId = [[self.buttonTitles objectAtIndex:indexPath.row] componentsSeparatedByString:@"---+++---"];
   
-  //set buton title
+  //set button title
   NSString* buttonIdStr = [splitTitleAndId objectAtIndex:1];
   [self.myPaletteButtonIds setObject:buttonIdStr forKey:[NSNumber numberWithLong:indexPath.row]];
   NSString* title = [splitTitleAndId objectAtIndex:0];
-  [cell.paletteButton setTitle:title forState:UIControlStateNormal];
+  cell.foregroundLabel.text = [NSString stringWithFormat:@" %@", title];
   
-  //get current pallete and use it to get current button
-  int lastViewdPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
-  Palette *palette = [self.palettesManager getSelectedPalette:lastViewdPaletteId];
-  PaletteButton *paletteButton = [palette getButton:[buttonIdStr intValue]];
+  //get current palette and use it to get current button
+  PaletteButton *buttonForPalette = [self.palettesManager currentPalette:buttonIdStr];
   
   //set button color for display
-  NSString *colorString = [paletteButton.color stringByReplacingOccurrencesOfString:@"#" withString:@""];
+  NSString *colorString = [buttonForPalette.color stringByReplacingOccurrencesOfString:@"#" withString:@""];
   cell.backgroundLabel.backgroundColor = [UIColor colorWithHexString:colorString];
   
   return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+  NSLog(@"selected cel row = %ld", (long)indexPath.row);
+  self.selectedButtonCellRow = indexPath.row;
+  [self handleSelectedButton];
 }
 
 #pragma mark - Palettes stuff
@@ -1082,6 +1089,13 @@ const CGFloat kButtonInset_y =   4.0;
 {
   [self buttonsForSelectedPalette];
   [self.paletteButtonsCollectionView reloadData];
+}
+
+-(void)handleSelectedButton
+{
+  NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:[NSNumber numberWithLong:self.selectedButtonCellRow]];
+  //get current palette and use it to get current button
+  PaletteButton *buttonForPalette = [self.palettesManager currentPalette:buttonIdStr];
 }
 
 - (void)registerAsPalettesManagerObserver
