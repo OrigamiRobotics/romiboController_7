@@ -118,7 +118,6 @@
   return [titles mutableCopy];
 }
 
-
 -(PaletteButton *)getSelectedButton:(int)buttonId
 {
   PaletteButton *button = [self.buttons objectForKey:[self buttonIdToString:buttonId]];
@@ -126,6 +125,20 @@
     self.last_viewed_button_id = buttonId;
   }
   return button;
+}
+
+-(PaletteButton *)getSelectedButton
+{
+  return[self getSelectedButton:[self lastViewedButton]];
+}
+
+-(int)lastViewedButton
+{
+  if (self.last_viewed_button_id == 0){
+    return  [[[self.buttons allKeys] firstObject] intValue];
+  } else {
+    return self.last_viewed_button_id;
+  }
 }
 
 @end

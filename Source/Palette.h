@@ -22,7 +22,8 @@
 -(PaletteButton*)getButton:(int)buttonId;
 -(id)initWithDictionary:(NSDictionary *)dict;
 -(NSArray*)buttonTitles;
+-(PaletteButton *)getSelectedButton;
 -(PaletteButton *)getSelectedButton:(int)buttonId;
-
+-(int)lastViewedButton;
 
 @end

@@ -95,17 +95,17 @@ static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
 {
   NSString *name = @"";
   for(id key in self.buttonColors){
-    NSString* value = [self.buttonColors objectForKey:key];
-    if ([value isEqualToString:hexValue]){
-      name = value;
+    ButtonColor* buttonColor = [self.buttonColors objectForKey:key];
+    if ([buttonColor.hexValue isEqualToString:hexValue]){
+      name = key;
     }
   }
-  
   return name;
 }
 
 -(NSString*)hexValueForName:(NSString *)name
 {
+  NSLog(@"hexValue = %@ %@", name, [[self.buttonColors objectForKey:name] hexValue]);
   return [[self.buttonColors objectForKey:name] hexValue];
 }
 
@@ -118,5 +118,7 @@ static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
   }
   return [NSArray arrayWithArray:names];
 }
+
+
 
 @end

@@ -17,7 +17,6 @@
 #import "UserPalettesManager.h"
 #import "RomibowebAPIManager.h"
 #import "PaletteButtonsCollectionViewCell.h"
-#import "ButtonColorsPopoverViewController.h"
 #import "AvailableButtonColors.h"
 
 @interface MainViewController ()
@@ -38,15 +37,11 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *currentButtonSpeedSpeedRateLabel;
 
-@property (strong, nonatomic) IBOutlet UILabel *currentButtonColor;
-@property (strong, nonatomic) IBOutlet UIPickerView *currentButtonColorPicker;
+
+@property (strong, nonatomic) IBOutlet UILabel *currentButtonColorLabel;
+@property (strong, nonatomic) IBOutlet UIButton *currentButtonColorSelector;
 
 - (IBAction)sliderMoved:(UISlider *)sender;
-
-@property (strong, nonatomic)ButtonColorsPopoverViewController *colorSelectorPopoverController;
-@property (strong, nonatomic) IBOutlet UIButton *popupButton;
-
-- (IBAction)showColorSeclectionPopup:(UIButton *)sender;
 
 @end
 
@@ -58,24 +53,6 @@
   
   self.connectedToiPod = NO;
   
-  colorPickerViewController * colorPickerVC = [[colorPickerViewController alloc] init];
-  colorPickerVC.mainViewController = self;
-  
-  CGRect colorFrame = colorPickerVC.view.frame;
-  self.colorPickerViewPopoverController = [[UIPopoverController alloc] initWithContentViewController:colorPickerVC];
-	self.colorPickerViewPopoverController.popoverContentSize = CGSizeMake(colorFrame.size.width, colorFrame.size.height);
-  self.colorPickerViewPopoverController.backgroundColor = [UIColor lightGrayColor];
-	self.colorPickerViewPopoverController.delegate = self;
-  
-  buttonSizePickerViewController * sizePickerVC = [[buttonSizePickerViewController alloc] init];
-  sizePickerVC.mainViewController = self;
-  
-  CGRect sizeFrame = sizePickerVC.view.frame;
-  self.sizePickerViewPopoverController = [[UIPopoverController alloc] initWithContentViewController:sizePickerVC];
-	self.sizePickerViewPopoverController.popoverContentSize = CGSizeMake(sizeFrame.size.width, sizeFrame.size.height);
-  self.sizePickerViewPopoverController.backgroundColor = [UIColor lightGrayColor];
-	self.sizePickerViewPopoverController.delegate = self;
-  
   self.speechSynth = [[AVSpeechSynthesizer alloc] init];
   
   [self setupMultipeerConnectivity];
@@ -83,10 +60,9 @@
   //init palettes stuff
   [self initializePalettesManager];
 
+  [self setupAvailableColors];
   
   // UI specific
-  
-  self.edit_buttonColorView.backgroundColor = [UIColor rmbo_emeraldColor];
   
   //set Palettes listing tableview background color
   self.palettesListingTableView.backgroundView = nil;
@@ -96,7 +72,6 @@
 
   self.palettesListingTableView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
   
-  self.colorSelectorPopoverController = [[ButtonColorsPopoverViewController alloc] init];
   [self registerAsColorSelectorPopoverObserver];
 }
 
@@ -1084,6 +1059,14 @@ const CGFloat kButtonInset_y =   4.0;
   [self handleSelectedButton];
 }
 
+#pragma mark - Button Colors stuff
+-(void)setupAvailableColors
+{
+  //TODO: Thisis temporary until we can get a list of colors from RomiboWeb
+  [[AvailableButtonColors sharedColorsManagerInstance] usePredefinedAvailableColors];
+}
+
+
 #pragma mark - Palettes stuff
 -(void) initializePalettesManager
 {
@@ -1109,6 +1092,8 @@ const CGFloat kButtonInset_y =   4.0;
   
   Palette *palette = [self.palettesManager getSelectedPalette:selectPaletteId];
   self.buttonTitles = [[NSArray alloc] initWithArray:[palette buttonTitles]];
+  //show last view button details
+  [self displaySelectedButtonDetails:[palette getSelectedButton]];
 }
 
 -(void)handleSelectedPalette
@@ -1188,6 +1173,11 @@ const CGFloat kButtonInset_y =   4.0;
   self.currentButtonSpeechPhrase.text        = button.speech_phrase;
   self.currentButtonSpeechSpeedRate.value    = button.speech_speed_rate;
   self.currentButtonSpeedSpeedRateLabel.text = [NSString stringWithFormat:@"%.1f", button.speech_speed_rate];
+  UIColor *uiColor = [self colorFromHexString:button.color];
+
+  self.currentButtonColorLabel.backgroundColor = uiColor;
+  self.currentButtonColorLabel.text = @"";
+  [self.currentButtonColorSelector setTitle:[[AvailableButtonColors sharedColorsManagerInstance] nameForHexValue:button.color] forState:UIControlStateNormal];
 }
 
 - (IBAction)sliderMoved:(UISlider *)sender
@@ -1195,14 +1185,16 @@ const CGFloat kButtonInset_y =   4.0;
   self.currentButtonSpeedSpeedRateLabel.text = [NSString stringWithFormat:@"%.1f", self.currentButtonSpeechSpeedRate.value];
 }
 
-
-#pragma mark - Buttons Color Picker Datasource and Delegate methods
-
-
-- (IBAction)showColorSeclectionPopup:(UIButton *)sender
+- (UIColor *) colorFromHexString:(NSString *)hexString
 {
-  UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:self.colorSelectorPopoverController];
-  //[pop setDelegate:self];
-  [pop presentPopoverFromRect:self.popupButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+  NSLog(@"hex string = %@", hexString);
+  NSString *stringColor = [NSString stringWithFormat:@"%@", hexString];
+  NSUInteger red, green, blue;
+  sscanf([stringColor UTF8String], "#%2lX%2lX%2lX", &red, &green, &blue);
+  
+  return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
+  
 }
+
+
 @end

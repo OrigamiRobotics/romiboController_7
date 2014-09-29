@@ -25,8 +25,9 @@
 -(instancetype)initWithName:(NSString*)name andHexValue:(NSString*)hexValue
 {
   if (self = [super init]){
-    self.name = name;
-    self.hexValue = [hexValue stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    self.name     = name;
+    self.hexValue = hexValue;
+//    self.hexValue = [hexValue stringByReplacingOccurrencesOfString:@"#" withString:@""];
   }
   
   return self;
