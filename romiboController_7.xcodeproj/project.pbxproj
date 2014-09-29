@@ -21,6 +21,7 @@
 		55444B3A19D2A82C00192456 /* palettes_table_cell_bg_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */; };
 		555AA50D19D91C9500372F1C /* ButtonColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA50C19D91C9500372F1C /* ButtonColor.m */; };
 		555AA51019D91F2800372F1C /* AvailableButtonColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA50F19D91F2800372F1C /* AvailableButtonColors.m */; };
+		555AA51319D9381F00372F1C /* ButtonColorsPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA51219D9381F00372F1C /* ButtonColorsPopoverViewController.m */; };
 		55B4955E19D68FC900044189 /* PaletteButtonsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */; };
 		55B6646019D38821001537C7 /* circle-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6645F19D38821001537C7 /* circle-512.png */; };
 		55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */; };
@@ -91,6 +92,8 @@
 		555AA50C19D91C9500372F1C /* ButtonColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonColor.m; path = Source/ButtonColor.m; sourceTree = SOURCE_ROOT; };
 		555AA50E19D91F2800372F1C /* AvailableButtonColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AvailableButtonColors.h; path = Source/AvailableButtonColors.h; sourceTree = SOURCE_ROOT; };
 		555AA50F19D91F2800372F1C /* AvailableButtonColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AvailableButtonColors.m; path = Source/AvailableButtonColors.m; sourceTree = SOURCE_ROOT; };
+		555AA51119D9381F00372F1C /* ButtonColorsPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonColorsPopoverViewController.h; path = Source/ButtonColorsPopoverViewController.h; sourceTree = SOURCE_ROOT; };
+		555AA51219D9381F00372F1C /* ButtonColorsPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonColorsPopoverViewController.m; path = Source/ButtonColorsPopoverViewController.m; sourceTree = SOURCE_ROOT; };
 		55B4955C19D68FC900044189 /* PaletteButtonsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaletteButtonsCollectionViewCell.h; path = Source/PaletteButtonsCollectionViewCell.h; sourceTree = SOURCE_ROOT; };
 		55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaletteButtonsCollectionViewCell.m; path = Source/PaletteButtonsCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
 		55B6645F19D38821001537C7 /* circle-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-512.png"; sourceTree = "<group>"; };
@@ -206,6 +209,8 @@
 				55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */,
 				55B6D0B919D8AE5C00A0526A /* SelectedButtonDetailsViewController.h */,
 				55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */,
+				555AA51119D9381F00372F1C /* ButtonColorsPopoverViewController.h */,
+				555AA51219D9381F00372F1C /* ButtonColorsPopoverViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -472,6 +477,7 @@
 				55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */,
 				55444B3119D2A5B100192456 /* UserPalettesManager.m in Sources */,
 				B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */,
+				555AA51319D9381F00372F1C /* ButtonColorsPopoverViewController.m in Sources */,
 				555AA51019D91F2800372F1C /* AvailableButtonColors.m in Sources */,
 				55444B3019D2A5B100192456 /* RomibowebAPIManager.m in Sources */,
 				B1EDAF7A1910537600C17EBC /* main.m in Sources */,

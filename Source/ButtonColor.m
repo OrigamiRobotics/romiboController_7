@@ -54,7 +54,6 @@
 {
   self.name = [dict objectForKey:@"name"];
   self.hexValue  = [dict objectForKey:@"value"];
-  [self save];
 }
 
 @end

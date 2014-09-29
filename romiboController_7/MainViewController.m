@@ -81,7 +81,7 @@
   
   self.edit_buttonColorView.backgroundColor = [UIColor rmbo_emeraldColor];
   
-  //set Palettes lsiting tableview background color
+  //set Palettes listing tableview background color
   self.palettesListingTableView.backgroundView = nil;
   CGFloat red   = 232.0f/255.0f;
   CGFloat green = 247.0f/255.0f;
@@ -1171,16 +1171,5 @@ const CGFloat kButtonInset_y =   4.0;
 
 #pragma mark - Buttons Color Picker Datasource and Delegate methods
 
-// returns the number of 'columns' to display.
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-  return 2;
-}
-
-// returns the # of rows in each component..
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-  return 6;
-}
 
 @end

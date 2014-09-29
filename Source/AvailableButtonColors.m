@@ -32,7 +32,10 @@ static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
 -(void)usePredefinedAvailableColors
 {
   self.buttonColors = [[NSMutableDictionary alloc] init];
-  self.buttonColors = [[self predefinedButtonColors] mutableCopy];
+  NSDictionary * colors = [[self predefinedButtonColors] mutableCopy];
+  for (id key in colors){
+    [self addAvailableButtonColor:key andHexValue:[colors objectForKey:key]];
+  }
 }
 
 -(void)addAvailableButtonColor:(NSString *)name andHexValue:(NSString *)hexValue
@@ -95,7 +98,17 @@ static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
 
 -(NSString*)hexValueForName:(NSString *)name
 {
-  return [self.buttonColors objectForKey:name];
+  return [[self.buttonColors objectForKey:name] hexValue];
+}
+
+-(NSArray*)buttonColorNames
+{
+  NSMutableArray * names = [[NSMutableArray alloc] init];
+  for (NSString *key in self.buttonColors){
+    ButtonColor *buttonColor = [self.buttonColors objectForKey:key];
+    [names addObject:buttonColor.name];
+  }
+  return [NSArray arrayWithArray:names];
 }
 
 @end

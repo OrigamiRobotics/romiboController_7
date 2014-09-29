@@ -20,5 +20,6 @@
 -(void)saveColors;
 -(void)loadColors;
 -(void)usePredefinedAvailableColors;
+-(NSArray*)buttonColorNames;
 
 @end
