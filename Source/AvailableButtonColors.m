@@ -105,7 +105,6 @@ static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
 
 -(NSString*)hexValueForName:(NSString *)name
 {
-  NSLog(@"hexValue = %@ %@", name, [[self.buttonColors objectForKey:name] hexValue]);
   return [[self.buttonColors objectForKey:name] hexValue];
 }
 

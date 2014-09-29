@@ -22,6 +22,10 @@
 		555AA50D19D91C9500372F1C /* ButtonColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA50C19D91C9500372F1C /* ButtonColor.m */; };
 		555AA51019D91F2800372F1C /* AvailableButtonColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA50F19D91F2800372F1C /* AvailableButtonColors.m */; };
 		555AA51319D9381F00372F1C /* ButtonColorsPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA51219D9381F00372F1C /* ButtonColorsPopoverViewController.m */; };
+		555AA51519D9E18500372F1C /* palette_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 555AA51419D9E18500372F1C /* palette_icon.png */; };
+		555AA51719D9E75B00372F1C /* fetch_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 555AA51619D9E75B00372F1C /* fetch_icon.png */; };
+		555AA51919D9E89600372F1C /* new_palette_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 555AA51819D9E89600372F1C /* new_palette_icon.png */; };
+		555AA51C19D9E9B500372F1C /* RomiboWebLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA51B19D9E9B500372F1C /* RomiboWebLoginViewController.m */; };
 		55B4955E19D68FC900044189 /* PaletteButtonsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */; };
 		55B6646019D38821001537C7 /* circle-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6645F19D38821001537C7 /* circle-512.png */; };
 		55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */; };
@@ -94,6 +98,11 @@
 		555AA50F19D91F2800372F1C /* AvailableButtonColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AvailableButtonColors.m; path = Source/AvailableButtonColors.m; sourceTree = SOURCE_ROOT; };
 		555AA51119D9381F00372F1C /* ButtonColorsPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonColorsPopoverViewController.h; path = Source/ButtonColorsPopoverViewController.h; sourceTree = SOURCE_ROOT; };
 		555AA51219D9381F00372F1C /* ButtonColorsPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonColorsPopoverViewController.m; path = Source/ButtonColorsPopoverViewController.m; sourceTree = SOURCE_ROOT; };
+		555AA51419D9E18500372F1C /* palette_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = palette_icon.png; path = images/palette_icon.png; sourceTree = "<group>"; };
+		555AA51619D9E75B00372F1C /* fetch_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fetch_icon.png; path = images/fetch_icon.png; sourceTree = "<group>"; };
+		555AA51819D9E89600372F1C /* new_palette_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = new_palette_icon.png; path = images/new_palette_icon.png; sourceTree = "<group>"; };
+		555AA51A19D9E9B500372F1C /* RomiboWebLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RomiboWebLoginViewController.h; path = Source/RomiboWebLoginViewController.h; sourceTree = SOURCE_ROOT; };
+		555AA51B19D9E9B500372F1C /* RomiboWebLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RomiboWebLoginViewController.m; path = Source/RomiboWebLoginViewController.m; sourceTree = SOURCE_ROOT; };
 		55B4955C19D68FC900044189 /* PaletteButtonsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaletteButtonsCollectionViewCell.h; path = Source/PaletteButtonsCollectionViewCell.h; sourceTree = SOURCE_ROOT; };
 		55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaletteButtonsCollectionViewCell.m; path = Source/PaletteButtonsCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
 		55B6645F19D38821001537C7 /* circle-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-512.png"; sourceTree = "<group>"; };
@@ -211,6 +220,8 @@
 				55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */,
 				555AA51119D9381F00372F1C /* ButtonColorsPopoverViewController.h */,
 				555AA51219D9381F00372F1C /* ButtonColorsPopoverViewController.m */,
+				555AA51A19D9E9B500372F1C /* RomiboWebLoginViewController.h */,
+				555AA51B19D9E9B500372F1C /* RomiboWebLoginViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -218,6 +229,9 @@
 		55444B3619D2A81700192456 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				555AA51819D9E89600372F1C /* new_palette_icon.png */,
+				555AA51619D9E75B00372F1C /* fetch_icon.png */,
+				555AA51419D9E18500372F1C /* palette_icon.png */,
 				551C99D319D8CFEB00869BAB /* lessons_button_bg_not_selected.png */,
 				551C99D419D8CFEB00869BAB /* logout_button_bg_not_selected.png */,
 				551C99D519D8CFEB00869BAB /* palettes_button_bg_selected.png */,
@@ -434,13 +448,16 @@
 				B1EDAFA71910A84600C17EBC /* whiteBorderButton.png in Resources */,
 				B1E64433192300CA00850F12 /* colorPickerViewController.xib in Resources */,
 				B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */,
+				555AA51719D9E75B00372F1C /* fetch_icon.png in Resources */,
 				55B6646019D38821001537C7 /* circle-512.png in Resources */,
 				55444B3919D2A82C00192456 /* palettes_table_cell_bg_image_selected.png in Resources */,
 				B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */,
 				B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */,
 				B1EDAF781910537600C17EBC /* InfoPlist.strings in Resources */,
 				B1EDAFBE19122F1C00C17EBC /* smActionButton.png in Resources */,
+				555AA51519D9E18500372F1C /* palette_icon.png in Resources */,
 				551C99D819D8CFEB00869BAB /* logout_button_bg_not_selected.png in Resources */,
+				555AA51919D9E89600372F1C /* new_palette_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +478,7 @@
 			files = (
 				55444B2919D2A53E00192456 /* PaletteButton.m in Sources */,
 				55444B3519D2A5DB00192456 /* AddNewPaletteViewController.m in Sources */,
+				555AA51C19D9E9B500372F1C /* RomiboWebLoginViewController.m in Sources */,
 				B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */,
 				B1E64432192300CA00850F12 /* colorPickerViewController.m in Sources */,
 				B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */,
