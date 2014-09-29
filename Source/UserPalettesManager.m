@@ -178,11 +178,27 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   return [[self.palettes allKeys] count];
 }
 
--(PaletteButton*)currentPalette:(NSString*)buttonIdStr
+-(PaletteButton*)currentButton:(NSString*)buttonIdStr
 {
   int lastViewdPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
   Palette *palette = [self getSelectedPalette:lastViewdPaletteId];
   return [palette getButton:[buttonIdStr intValue]];
+}
+
+
+-(void)updateLastViewedPalette:(int)lastViewdPaletteId
+{
+  [[User sharedUserInstance] setLastViewedPaletteId:lastViewdPaletteId];
+  [[User sharedUserInstance] save];
+}
+
+-(void)updateLastViewedButton:(int)lastViewedButtonId forPalette:(int)paletteId
+{
+  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
+  if (palette){
+    palette.last_viewed_button_id = lastViewedButtonId;
+    [self savePalettes];
+  }
 }
 
 @end

@@ -1044,7 +1044,7 @@ const CGFloat kButtonInset_y =   4.0;
   cell.foregroundLabel.text = [NSString stringWithFormat:@" %@", title];
   
   //get current palette and use it to get current button
-  PaletteButton *buttonForPalette = [self.palettesManager currentPalette:buttonIdStr];
+  PaletteButton *buttonForPalette = [self.palettesManager currentButton:buttonIdStr];
   
   //set button color for display
   NSString *colorString = [buttonForPalette.color stringByReplacingOccurrencesOfString:@"#" withString:@""];
@@ -1082,6 +1082,16 @@ const CGFloat kButtonInset_y =   4.0;
 -(void) buttonsForSelectedPalette
 {
   self.myPaletteButtonIds = [[NSMutableDictionary alloc] init];
+
+  int selectedPaletteId = [self extractSelectPaletteId];
+  Palette *palette = [self.palettesManager getSelectedPalette:selectedPaletteId];
+  self.buttonTitles = [[NSArray alloc] initWithArray:[palette buttonTitles]];
+  //show last view button details
+  [self displaySelectedButtonDetails:[palette getSelectedButton]];
+}
+
+-(int)extractSelectPaletteId
+{
   int selectPaletteId = 0;
 
   if ([[self.myPaletteIds allKeys] count] == 0){//when first loaded
@@ -1090,24 +1100,24 @@ const CGFloat kButtonInset_y =   4.0;
     selectPaletteId = [[self.myPaletteIds objectForKey:[NSNumber numberWithLong:self.selectedTableRow]] intValue];
   }
   
-  Palette *palette = [self.palettesManager getSelectedPalette:selectPaletteId];
-  self.buttonTitles = [[NSArray alloc] initWithArray:[palette buttonTitles]];
-  //show last view button details
-  [self displaySelectedButtonDetails:[palette getSelectedButton]];
+  return selectPaletteId;
 }
 
 -(void)handleSelectedPalette
 {
   [self buttonsForSelectedPalette];
   [self.paletteButtonsCollectionView reloadData];
+  
+  [self.palettesManager updateLastViewedPalette:[self extractSelectPaletteId]];
 }
 
 -(void)handleSelectedButton
 {
   NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:[NSNumber numberWithLong:self.selectedButtonCellRow]];
   //get current palette and use it to get current button
-  PaletteButton *buttonForPalette = [self.palettesManager currentPalette:buttonIdStr];
+  PaletteButton *buttonForPalette = [self.palettesManager currentButton:buttonIdStr];
   
+  [self.palettesManager updateLastViewedButton:buttonForPalette.index forPalette:[self extractSelectPaletteId]];
   [self displaySelectedButtonDetails:buttonForPalette];
 }
 
