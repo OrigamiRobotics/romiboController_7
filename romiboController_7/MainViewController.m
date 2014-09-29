@@ -17,6 +17,8 @@
 #import "UserPalettesManager.h"
 #import "RomibowebAPIManager.h"
 #import "PaletteButtonsCollectionViewCell.h"
+#import "ButtonColorsPopoverViewController.h"
+#import "AvailableButtonColors.h"
 
 @interface MainViewController ()
 
@@ -40,6 +42,11 @@
 @property (strong, nonatomic) IBOutlet UIPickerView *currentButtonColorPicker;
 
 - (IBAction)sliderMoved:(UISlider *)sender;
+
+@property (strong, nonatomic)ButtonColorsPopoverViewController *colorSelectorPopoverController;
+@property (strong, nonatomic) IBOutlet UIButton *popupButton;
+
+- (IBAction)showColorSeclectionPopup:(UIButton *)sender;
 
 @end
 
@@ -88,6 +95,9 @@
   CGFloat blue  = 252.0f/255.0f;
 
   self.palettesListingTableView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+  
+  self.colorSelectorPopoverController = [[ButtonColorsPopoverViewController alloc] init];
+  [self registerAsColorSelectorPopoverObserver];
 }
 
 
@@ -1130,6 +1140,7 @@ const CGFloat kButtonInset_y =   4.0;
    
    */
   
+  NSLog(@"when called");
   [self.palettesManager addObserver:self
    
                          forKeyPath:@"observeMe"
@@ -1148,10 +1159,25 @@ const CGFloat kButtonInset_y =   4.0;
 
                        context:(void *)context
 {
-  if ([keyPath isEqual:@"observeMe"]) {
+  NSLog(@"you are observed");
+  if ([keyPath isEqual:@"observeMeNot"]) {
     self.paletteTitles = [self.palettesManager paletteTitles];
     [self.palettesListingTableView reloadData];
+  } else if ([keyPath isEqual:@"selectedColorSelectorPopoverRowNumber"]) {
+    NSLog(@"selected");
   }
+}
+
+- (void)registerAsColorSelectorPopoverObserver
+{
+  NSLog(@"register");
+  [[AvailableButtonColors sharedColorsManagerInstance] addObserver:self
+   
+                         forKeyPath:@"selectedColorSelectorPopoverRowNumber"
+   
+                            options:(NSKeyValueObservingOptionNew)
+   
+                            context:NULL];
   
 }
 
@@ -1169,7 +1195,14 @@ const CGFloat kButtonInset_y =   4.0;
   self.currentButtonSpeedSpeedRateLabel.text = [NSString stringWithFormat:@"%.1f", self.currentButtonSpeechSpeedRate.value];
 }
 
+
 #pragma mark - Buttons Color Picker Datasource and Delegate methods
 
 
+- (IBAction)showColorSeclectionPopup:(UIButton *)sender
+{
+  UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:self.colorSelectorPopoverController];
+  //[pop setDelegate:self];
+  [pop presentPopoverFromRect:self.popupButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+}
 @end

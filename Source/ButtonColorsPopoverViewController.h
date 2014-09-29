@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *buttonColorsListing;
 
+@property (nonatomic, assign)NSInteger selectedButtonColorFromPopoverRow;
+
 @end

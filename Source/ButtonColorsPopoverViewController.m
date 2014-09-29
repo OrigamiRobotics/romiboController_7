@@ -15,7 +15,6 @@
 @property (nonatomic, strong)NSMutableArray* buttonColorNames;
 @property (nonatomic, strong)NSMutableDictionary* buttonColorRowsAndNames;
 
-
 @end
 
 @implementation ButtonColorsPopoverViewController
@@ -23,6 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
   [self setupAvailableColors];
+  self.selectedButtonColorFromPopoverRow = -1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,7 +86,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   dispatch_async(dispatch_get_main_queue(), ^{
-    //[self displayButtonsForSelectedPalette:indexPath.row];
+    self.availableButtonColors.selectedColorSelectorPopoverRowNumber = [NSNumber numberWithLong:indexPath.row];
+    NSLog(@"check");
   });
 }
 

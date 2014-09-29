@@ -28,6 +28,14 @@ static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
   
   return sharedButtonColorsManagerInstance;
 }
+-(instancetype)init
+{
+  if (self = [super init]){
+    self.selectedColorSelectorPopoverRowNumber = [NSNumber numberWithInt:-1];
+  }
+  
+  return self;
+}
 
 -(void)usePredefinedAvailableColors
 {

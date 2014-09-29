@@ -11,6 +11,7 @@
 @interface AvailableButtonColors : NSObject
 
 @property (nonatomic, strong)NSMutableDictionary* buttonColors;
+@property (nonatomic, assign)NSNumber* selectedColorSelectorPopoverRowNumber;
 
 + (id)sharedColorsManagerInstance;
 

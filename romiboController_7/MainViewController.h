@@ -47,7 +47,9 @@ typedef enum {
   NSURLSessionTaskDelegate,
   NSURLSessionDataDelegate,
   NSURLSessionDelegate,
-  UIPopoverControllerDelegate
+  UIPopoverControllerDelegate,
+  UIPickerViewDataSource,
+  UIPickerViewDelegate
 >
 
 
