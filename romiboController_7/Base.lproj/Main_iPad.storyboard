@@ -591,6 +591,7 @@
                         <outlet property="palettesListingTableView" destination="yj5-wO-anv" id="3zM-7S-ER9"/>
                         <outlet property="password_TextFIeld" destination="re5-4R-rLa" id="HM8-Bt-TEs"/>
                         <outlet property="rightSideView_SegmentedControl" destination="y46-ZR-9F1" id="ebM-JL-NQ4"/>
+                        <outlet property="selectedPaletteTitleLabel" destination="Ebv-tP-B1u" id="LLk-ny-J5w"/>
                         <outlet property="speakText_TextField" destination="bek-rC-npd" id="v1D-Ta-Sq5"/>
                         <outlet property="speak_button" destination="BQe-gF-AZB" id="jjT-ym-Wsr"/>
                         <outlet property="text1_button" destination="N9E-OE-65I" id="nMR-BB-V0v"/>

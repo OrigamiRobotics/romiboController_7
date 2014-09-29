@@ -41,6 +41,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *currentButtonColorLabel;
 @property (strong, nonatomic) IBOutlet UIButton *currentButtonColorSelector;
 
+@property (strong, nonatomic) IBOutlet UILabel *selectedPaletteTitleLabel;
+
+
 - (IBAction)sliderMoved:(UISlider *)sender;
 
 @end
@@ -821,119 +824,6 @@ const CGFloat kButtonInset_y =   4.0;
   //[[RomibowebAPIManager sharedRomibowebManagerInstance] getUserPalettesFromRomiboWeb];
   self.selectedTableRow = row;
   [self handleSelectedPalette];
-
-  
-  //    rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
-  //
-  //    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-  //    [self.paletteTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-  //
-  //    NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  //    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-  //    [request setEntity:entity];
-  //
-  //    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  //    [request setSortDescriptors:@[descriptor]];
-  //
-  //    NSError * error;
-  //    NSArray * fetchedPalettes = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  //    NSLog(@"fetchedPalettes: %@", fetchedPalettes);
-  //
-  //    if (row >= fetchedPalettes.count)
-  //        return;
-  //
-  //    PaletteEntity * palette = fetchedPalettes[row];
-  //    NSSet * buttons = palette.buttons;
-  //
-  //    NSSortDescriptor *actionSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  //    NSArray * sortDescArray = [NSArray arrayWithObject:actionSortDescriptor];
-  //    NSArray * sortedButtons = [buttons sortedArrayUsingDescriptors:sortDescArray];
-  //
-  //    ButtonEntity * firstButton = sortedButtons[0];
-  //    BOOL hasRowCol = [firstButton.width integerValue] != 0;
-  //
-  //    NSInteger max_columns = 6;      // Allow 6 max in 630 pixel wide view.
-  //    NSInteger current_row = 0;
-  //    NSInteger current_column = 0;
-  //    for (ButtonEntity * buttonEntity in sortedButtons) {
-  //
-  //        NSLog(@"buttonEntity: %@", buttonEntity);
-  //
-  //        NSLog(@"buttonEntity   title     : %@", buttonEntity.title);
-  //        NSLog(@"buttonEntity   index     : %@", buttonEntity.index);
-  //
-  //        if (current_column == max_columns)
-  //        {
-  //            current_column = 0;
-  //            current_row++;
-  //        }
-  //
-  //        CGFloat xPosition = 0;
-  //        CGFloat yPosition = 0;
-  //        if (hasRowCol == YES) {
-  //            NSInteger zeroBasedRow    = [buttonEntity.row integerValue] - 1;
-  //            NSInteger zeroBasedColumn = [buttonEntity.column integerValue] - 1;
-  //            xPosition = kButtonInset_x + (zeroBasedColumn * (kButtonSizeUnit + kButtonSeparatorWidth));
-  //            yPosition = kButtonInset_y + (zeroBasedRow    * (kButtonSizeUnit + kButtonSeparatorWidth));
-  //            NSLog(@"xPosition: %f   yPosition: %f", xPosition, yPosition);
-  //        }
-  //        else {
-  //            xPosition = kButtonInset_x + (current_column * (kMediumButtonWidth + kButtonSeparatorWidth));
-  //            yPosition = kButtonInset_y + (current_row    * (kButtonHeight + kButtonSeparatorWidth));
-  //            NSLog(@"xPosition: %f   yPosition: %f", xPosition, yPosition);
-  //        }
-  //
-  //        UIButton * actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  //
-  //        UIFont * titleFont = [UIFont fontWithName:@"Helvetica" size:14.0];
-  //        NSDictionary * titleStringAttrDict = [NSDictionary dictionaryWithObjectsAndKeys:titleFont, NSFontAttributeName, nil];
-  //
-  //        NSAttributedString * attrString = [[NSAttributedString alloc] initWithString:buttonEntity.title attributes:titleStringAttrDict];
-  //        [actionButton setAttributedTitle:attrString forState:UIControlStateNormal];
-  //
-  //        [actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-  //
-  //
-  //        if (hasRowCol == YES)
-  //        {
-  //            UIColor * buttonColor = [UIColor colorWithHexString:buttonEntity.color];
-  //            [actionButton setBackgroundColor:buttonColor];
-  //        }
-  //
-  ////        [actionButton setBackgroundImage: [UIImage imageNamed:@"smActionButton"]
-  ////                                forState: UIControlStateNormal];
-  //
-  //        CGRect actionFrame      = actionButton.frame;
-  //        actionFrame.origin.x    = xPosition;
-  //        actionFrame.origin.y    = yPosition;
-  //
-  //        if (hasRowCol == YES)
-  //        {
-  //            actionFrame.size.height = kButtonHeight;
-  //
-  //            NSInteger widthUnits = [buttonEntity.width integerValue];
-  //            NSInteger internalSpacing = (widthUnits - 1) * kButtonSeparatorWidth;
-  //            actionFrame.size.width    = (widthUnits * kButtonSizeUnit) + internalSpacing;
-  //        }
-  //        else
-  //        {
-  //            actionFrame.size.height = kButtonHeight;
-  //            actionFrame.size.width  = kMediumButtonWidth;
-  //        }
-  //
-  //        NSLog(@"actionFrame: %@", NSStringFromCGRect(actionFrame));
-  //
-  //        actionButton.frame = actionFrame;
-  //        actionButton.titleLabel.frame = actionFrame;
-  //
-  //        [actionButton addTarget:self action:@selector(doActionFromButton:) forControlEvents:UIControlEventTouchUpInside];
-  //
-  //        actionButton.tag = [buttonEntity.index integerValue]; // To fetch button and action from button press
-  //
-  //        [self.actionsView addSubview:actionButton];
-  //
-  //        current_column++;
-  //    }
 }
 
 
@@ -1109,6 +999,9 @@ const CGFloat kButtonInset_y =   4.0;
   [self.paletteButtonsCollectionView reloadData];
   
   [self.palettesManager updateLastViewedPalette:[self extractSelectPaletteId]];
+  int selectedPaletteId = [self extractSelectPaletteId];
+  Palette *palette = [self.palettesManager getSelectedPalette:selectedPaletteId];
+  self.selectedPaletteTitleLabel.text = palette.title;
 }
 
 -(void)handleSelectedButton
