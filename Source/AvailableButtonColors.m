@@ -17,7 +17,7 @@
 
 static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
 
-+(id)sharedPalettesManagerInstance
++(id)sharedColorsManagerInstance
 {
   if (sharedButtonColorsManagerInstance == nil){
     static dispatch_once_t predicate; //lock
