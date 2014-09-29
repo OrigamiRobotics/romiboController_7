@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		551C99D719D8CFEB00869BAB /* lessons_button_bg_not_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 551C99D319D8CFEB00869BAB /* lessons_button_bg_not_selected.png */; };
+		551C99D819D8CFEB00869BAB /* logout_button_bg_not_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 551C99D419D8CFEB00869BAB /* logout_button_bg_not_selected.png */; };
+		551C99D919D8CFEB00869BAB /* palettes_button_bg_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 551C99D519D8CFEB00869BAB /* palettes_button_bg_selected.png */; };
+		551C99DA19D8CFEB00869BAB /* settings_button_bg_not_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 551C99D619D8CFEB00869BAB /* settings_button_bg_not_selected.png */; };
 		55444B2819D2A53E00192456 /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2319D2A53E00192456 /* Palette.m */; };
 		55444B2919D2A53E00192456 /* PaletteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2519D2A53E00192456 /* PaletteButton.m */; };
 		55444B2A19D2A53E00192456 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B2719D2A53E00192456 /* User.m */; };
@@ -15,8 +19,11 @@
 		55444B3519D2A5DB00192456 /* AddNewPaletteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */; };
 		55444B3919D2A82C00192456 /* palettes_table_cell_bg_image_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */; };
 		55444B3A19D2A82C00192456 /* palettes_table_cell_bg_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */; };
+		555AA50D19D91C9500372F1C /* ButtonColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA50C19D91C9500372F1C /* ButtonColor.m */; };
+		555AA51019D91F2800372F1C /* AvailableButtonColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 555AA50F19D91F2800372F1C /* AvailableButtonColors.m */; };
 		55B4955E19D68FC900044189 /* PaletteButtonsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */; };
 		55B6646019D38821001537C7 /* circle-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6645F19D38821001537C7 /* circle-512.png */; };
+		55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */; };
 		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
 		B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549219248B5E00BEAA76 /* icon-speaker.png */; };
 		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
@@ -62,6 +69,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		551C99D319D8CFEB00869BAB /* lessons_button_bg_not_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lessons_button_bg_not_selected.png; path = images/lessons_button_bg_not_selected.png; sourceTree = "<group>"; };
+		551C99D419D8CFEB00869BAB /* logout_button_bg_not_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logout_button_bg_not_selected.png; path = images/logout_button_bg_not_selected.png; sourceTree = "<group>"; };
+		551C99D519D8CFEB00869BAB /* palettes_button_bg_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = palettes_button_bg_selected.png; path = images/palettes_button_bg_selected.png; sourceTree = "<group>"; };
+		551C99D619D8CFEB00869BAB /* settings_button_bg_not_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings_button_bg_not_selected.png; path = images/settings_button_bg_not_selected.png; sourceTree = "<group>"; };
 		55444B2219D2A53E00192456 /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Palette.h; path = Source/Palette.h; sourceTree = SOURCE_ROOT; };
 		55444B2319D2A53E00192456 /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Palette.m; path = Source/Palette.m; sourceTree = SOURCE_ROOT; };
 		55444B2419D2A53E00192456 /* PaletteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaletteButton.h; path = Source/PaletteButton.h; sourceTree = SOURCE_ROOT; };
@@ -76,9 +87,15 @@
 		55444B3419D2A5DB00192456 /* AddNewPaletteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddNewPaletteViewController.m; path = Source/AddNewPaletteViewController.m; sourceTree = SOURCE_ROOT; };
 		55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = palettes_table_cell_bg_image_selected.png; sourceTree = "<group>"; };
 		55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = palettes_table_cell_bg_image.png; sourceTree = "<group>"; };
+		555AA50B19D91C9500372F1C /* ButtonColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonColor.h; path = Source/ButtonColor.h; sourceTree = SOURCE_ROOT; };
+		555AA50C19D91C9500372F1C /* ButtonColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonColor.m; path = Source/ButtonColor.m; sourceTree = SOURCE_ROOT; };
+		555AA50E19D91F2800372F1C /* AvailableButtonColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AvailableButtonColors.h; path = Source/AvailableButtonColors.h; sourceTree = SOURCE_ROOT; };
+		555AA50F19D91F2800372F1C /* AvailableButtonColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AvailableButtonColors.m; path = Source/AvailableButtonColors.m; sourceTree = SOURCE_ROOT; };
 		55B4955C19D68FC900044189 /* PaletteButtonsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaletteButtonsCollectionViewCell.h; path = Source/PaletteButtonsCollectionViewCell.h; sourceTree = SOURCE_ROOT; };
 		55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaletteButtonsCollectionViewCell.m; path = Source/PaletteButtonsCollectionViewCell.m; sourceTree = SOURCE_ROOT; };
 		55B6645F19D38821001537C7 /* circle-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-512.png"; sourceTree = "<group>"; };
+		55B6D0B919D8AE5C00A0526A /* SelectedButtonDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedButtonDetailsViewController.h; path = Source/SelectedButtonDetailsViewController.h; sourceTree = SOURCE_ROOT; };
+		55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedButtonDetailsViewController.m; path = Source/SelectedButtonDetailsViewController.m; sourceTree = SOURCE_ROOT; };
 		B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left-b.png"; sourceTree = "<group>"; };
 		B1BE549219248B5E00BEAA76 /* icon-speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-speaker.png"; sourceTree = "<group>"; };
 		B1E644261920B7E600850F12 /* PaletteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteEntity.h; sourceTree = "<group>"; };
@@ -159,6 +176,8 @@
 				55444B2519D2A53E00192456 /* PaletteButton.m */,
 				55444B2619D2A53E00192456 /* User.h */,
 				55444B2719D2A53E00192456 /* User.m */,
+				555AA50B19D91C9500372F1C /* ButtonColor.h */,
+				555AA50C19D91C9500372F1C /* ButtonColor.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -170,6 +189,8 @@
 				55444B2D19D2A5B100192456 /* RomibowebAPIManager.m */,
 				55444B2E19D2A5B100192456 /* UserPalettesManager.h */,
 				55444B2F19D2A5B100192456 /* UserPalettesManager.m */,
+				555AA50E19D91F2800372F1C /* AvailableButtonColors.h */,
+				555AA50F19D91F2800372F1C /* AvailableButtonColors.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -183,6 +204,8 @@
 				B1EDAF861910537600C17EBC /* MainViewController.m */,
 				55B4955C19D68FC900044189 /* PaletteButtonsCollectionViewCell.h */,
 				55B4955D19D68FC900044189 /* PaletteButtonsCollectionViewCell.m */,
+				55B6D0B919D8AE5C00A0526A /* SelectedButtonDetailsViewController.h */,
+				55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -190,6 +213,10 @@
 		55444B3619D2A81700192456 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				551C99D319D8CFEB00869BAB /* lessons_button_bg_not_selected.png */,
+				551C99D419D8CFEB00869BAB /* logout_button_bg_not_selected.png */,
+				551C99D519D8CFEB00869BAB /* palettes_button_bg_selected.png */,
+				551C99D619D8CFEB00869BAB /* settings_button_bg_not_selected.png */,
 				55B6645F19D38821001537C7 /* circle-512.png */,
 				55444B3719D2A82C00192456 /* palettes_table_cell_bg_image_selected.png */,
 				55444B3819D2A82C00192456 /* palettes_table_cell_bg_image.png */,
@@ -390,9 +417,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				551C99DA19D8CFEB00869BAB /* settings_button_bg_not_selected.png in Resources */,
 				B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */,
+				551C99D919D8CFEB00869BAB /* palettes_button_bg_selected.png in Resources */,
 				B1EDAF841910537600C17EBC /* Main_iPad.storyboard in Resources */,
 				55444B3A19D2A82C00192456 /* palettes_table_cell_bg_image.png in Resources */,
+				551C99D719D8CFEB00869BAB /* lessons_button_bg_not_selected.png in Resources */,
 				B1EDAF891910537600C17EBC /* Images.xcassets in Resources */,
 				B1E64438192300F600850F12 /* buttonSizePickerViewController.xib in Resources */,
 				B1EDAFA81910A84600C17EBC /* whiteBorderButton@2x.png in Resources */,
@@ -405,6 +435,7 @@
 				B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */,
 				B1EDAF781910537600C17EBC /* InfoPlist.strings in Resources */,
 				B1EDAFBE19122F1C00C17EBC /* smActionButton.png in Resources */,
+				551C99D819D8CFEB00869BAB /* logout_button_bg_not_selected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +461,7 @@
 				B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */,
 				55444B2819D2A53E00192456 /* Palette.m in Sources */,
 				B1E6442B1920B7E700850F12 /* ButtonEntity.m in Sources */,
+				555AA50D19D91C9500372F1C /* ButtonColor.m in Sources */,
 				B1EDAFAD1911969400C17EBC /* PaletteModel.xcdatamodeld in Sources */,
 				B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */,
 				55B4955E19D68FC900044189 /* PaletteButtonsCollectionViewCell.m in Sources */,
@@ -437,8 +469,10 @@
 				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
 				B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */,
 				B1EDAF871910537600C17EBC /* MainViewController.m in Sources */,
+				55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */,
 				55444B3119D2A5B100192456 /* UserPalettesManager.m in Sources */,
 				B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */,
+				555AA51019D91F2800372F1C /* AvailableButtonColors.m in Sources */,
 				55444B3019D2A5B100192456 /* RomibowebAPIManager.m in Sources */,
 				B1EDAF7A1910537600C17EBC /* main.m in Sources */,
 			);

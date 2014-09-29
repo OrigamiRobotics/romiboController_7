@@ -28,6 +28,18 @@
 @property (nonatomic, assign)NSInteger selectedTableRow;
 @property (nonatomic, assign)NSInteger selectedButtonCellRow;
 
+#pragma mark - Button details
+@property (strong, nonatomic) IBOutlet UITextField *currentButtonTitle;
+@property (strong, nonatomic) IBOutlet UITextView *currentButtonSpeechPhrase;
+
+@property (strong, nonatomic) IBOutlet UISlider *currentButtonSpeechSpeedRate;
+
+@property (strong, nonatomic) IBOutlet UILabel *currentButtonSpeedSpeedRateLabel;
+
+@property (strong, nonatomic) IBOutlet UILabel *currentButtonColor;
+@property (strong, nonatomic) IBOutlet UIPickerView *currentButtonColorPicker;
+
+- (IBAction)sliderMoved:(UISlider *)sender;
 
 @end
 
@@ -61,16 +73,21 @@
   
   [self setupMultipeerConnectivity];
   
-  NSLog(@"viewDidLoad");
   //init palettes stuff
   [self initializePalettesManager];
-  NSLog(@"viewDidLoad 2");
 
   
   // UI specific
   
   self.edit_buttonColorView.backgroundColor = [UIColor rmbo_emeraldColor];
+  
+  //set Palettes lsiting tableview background color
+  self.palettesListingTableView.backgroundView = nil;
+  CGFloat red   = 232.0f/255.0f;
+  CGFloat green = 247.0f/255.0f;
+  CGFloat blue  = 252.0f/255.0f;
 
+  self.palettesListingTableView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 }
 
 
@@ -320,7 +337,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
   NSFetchRequest *request = [[NSFetchRequest alloc] init];
   [request setEntity:entity];
   
-  NSIndexPath * paletteIndexPath = self.paletteTableView.indexPathForSelectedRow;
+  NSIndexPath * paletteIndexPath = self.palettesListingTableView.indexPathForSelectedRow;
   NSInteger paletteCoreDataIndex = paletteIndexPath.row + 1; // indexing in coreData starts at 1, not 0
   NSString *attributeName = @"index";
   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %d",
@@ -441,7 +458,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
   [appDelegate.managedObjectContext save:nil];
   
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.paletteTableView reloadData];
+    [self.palettesListingTableView reloadData];
     [self displayButtonsForSelectedPalette: paletteIndexPath.row];
   });
   
@@ -713,7 +730,7 @@ const NSString * kRomiboWebURL_palettes = @"/api/v1/palettes";
   [appDelegate.managedObjectContext save:nil];
   
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.paletteTableView reloadData];
+    [self.palettesListingTableView reloadData];
     [self displayButtonsForSelectedPalette: 0];
   });
   
@@ -1004,11 +1021,11 @@ const CGFloat kButtonInset_y =   4.0;
     }
   }
   NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-  [self.paletteTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:
+  [self.palettesListingTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:
    UITableViewScrollPositionNone];
   
   
-  [self.paletteTableView.delegate tableView:self.paletteTableView didSelectRowAtIndexPath:indexPath];
+  [self.palettesListingTableView.delegate tableView:self.palettesListingTableView didSelectRowAtIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1053,7 +1070,6 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  NSLog(@"selected cel row = %ld", (long)indexPath.row);
   self.selectedButtonCellRow = indexPath.row;
   [self handleSelectedButton];
 }
@@ -1096,7 +1112,10 @@ const CGFloat kButtonInset_y =   4.0;
   NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:[NSNumber numberWithLong:self.selectedButtonCellRow]];
   //get current palette and use it to get current button
   PaletteButton *buttonForPalette = [self.palettesManager currentPalette:buttonIdStr];
+  
+  [self displaySelectedButtonDetails:buttonForPalette];
 }
+
 
 - (void)registerAsPalettesManagerObserver
 {
@@ -1131,11 +1150,37 @@ const CGFloat kButtonInset_y =   4.0;
 {
   if ([keyPath isEqual:@"observeMe"]) {
     self.paletteTitles = [self.palettesManager paletteTitles];
-    [self.paletteTableView reloadData];
+    [self.palettesListingTableView reloadData];
   }
   
 }
 
+#pragma mark - Button Details Methods
+-(void)displaySelectedButtonDetails:(PaletteButton *)button
+{
+  self.currentButtonTitle.text               = button.title;
+  self.currentButtonSpeechPhrase.text        = button.speech_phrase;
+  self.currentButtonSpeechSpeedRate.value    = button.speech_speed_rate;
+  self.currentButtonSpeedSpeedRateLabel.text = [NSString stringWithFormat:@"%.1f", button.speech_speed_rate];
+}
 
+- (IBAction)sliderMoved:(UISlider *)sender
+{
+  self.currentButtonSpeedSpeedRateLabel.text = [NSString stringWithFormat:@"%.1f", self.currentButtonSpeechSpeedRate.value];
+}
+
+#pragma mark - Buttons Color Picker Datasource and Delegate methods
+
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+  return 2;
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+  return 6;
+}
 
 @end

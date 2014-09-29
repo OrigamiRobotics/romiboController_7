@@ -47,7 +47,9 @@ typedef enum {
   NSURLSessionTaskDelegate,
   NSURLSessionDataDelegate,
   NSURLSessionDelegate,
-  UIPopoverControllerDelegate
+  UIPopoverControllerDelegate,
+  UIPickerViewDataSource,
+  UIPickerViewDelegate
 >
 
 
@@ -62,7 +64,7 @@ typedef enum {
 
 @property (strong, nonatomic) IBOutlet UIView * actionsView;
 @property (strong, nonatomic) IBOutlet UIView * paletteView;
-@property (strong, nonatomic) IBOutlet UITableView * paletteTableView;
+@property (strong, nonatomic) IBOutlet UITableView * palettesListingTableView;
 @property (strong, nonatomic) IBOutlet UIView * editView;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *rightSideView_SegmentedControl;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *leftSideView_SegmentedControl;

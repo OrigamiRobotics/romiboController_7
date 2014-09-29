@@ -252,7 +252,7 @@
 
         MainViewController * mainViewController = (MainViewController *)  self.window.rootViewController;
         
-        [mainViewController.paletteTableView reloadData];
+        [mainViewController.palettesListingTableView reloadData];
         [mainViewController displayButtonsForSelectedPalette: [paletteEntity.index intValue]];
 
     }
