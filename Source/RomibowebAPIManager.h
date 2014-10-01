@@ -22,15 +22,21 @@ typedef enum {
 @interface RomibowebAPIManager : NSObject<NSURLSessionTaskDelegate>
 
 @property (strong, nonatomic) NSURLSession * URLsession;
-@property (copy, nonatomic) NSString * authTokenStr;
+@property (copy, nonatomic)   NSString     * authTokenStr;
+@property (nonatomic, assign) NSInteger      responseCode;
+@property (nonatomic, copy)   NSString     * responseStatus;
+
+//properties for task observes
+@property (nonatomic, copy)   NSString     * loginObservable;
+
 
 + (id)sharedRomibowebManagerInstance;
 -(void)registerNewUserAtRomiboWeb;
--(void)loginToRomiboWeb;
+-(void)loginToRomiboWeb:(NSString*)email andPassword:(NSString*)password;
 -(void)getUserPalettesFromRomiboWeb;
 -(void)getUsersListFromRomiboWeb;
 -(void)getColorsListFromRomiboWeb;
--(void)synchPalettesWithROmiboWeb;
+-(void)syncPalettesWithRomiboWeb;
 -(void)deletePaletteFromRomiboWeb;
 
 @end

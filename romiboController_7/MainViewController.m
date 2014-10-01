@@ -822,6 +822,7 @@ const CGFloat kButtonInset_y =   4.0;
   //[[RomibowebAPIManager sharedRomibowebManagerInstance] loginToRomiboWeb];
 
   //[[RomibowebAPIManager sharedRomibowebManagerInstance] getUserPalettesFromRomiboWeb];
+  [[RomibowebAPIManager sharedRomibowebManagerInstance] getColorsListFromRomiboWeb];
   self.selectedTableRow = row;
   [self handleSelectedPalette];
 }

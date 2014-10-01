@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RomiboWebLoginViewController : UIViewController
+@interface RomiboWebLoginViewController : UIViewController<UITextFieldDelegate>
 
 @end

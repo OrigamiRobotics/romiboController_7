@@ -9,8 +9,13 @@
 #import "RomibowebAPIManager.h"
 #import "User.h"
 #import "UserPalettesManager.h"
-//const NSString * kRomiboWebURI          = @"http://create.romibo.com";
+//TESTTING
 const NSString * kRomiboWebURI   = @"http://romiboweb-integration.herokuapp.com";
+//END OF TESTING VARIABLES
+
+
+//PRODUCTION
+//const NSString * kRomiboWebURI          = @"http://create.romibo.com";
 static NSString * HttpPostMethod = @"POST";
 static NSString * HttpGetMethod  = @"GET";
 static NSString * HttpPutMethod  = @"PUT";
@@ -44,7 +49,7 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
 -(instancetype)init
 {
   if (self = [super init]){
-    
+    self.loginObservable = nil;
   }
   
   return self;
@@ -69,21 +74,36 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
 
   request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
   request.HTTPMethod = httpMethod;
+  
+  
   NSURLSessionDataTask *executeDataTask = [self.URLsession dataTaskWithRequest:request
                                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
                                         {
-                                          [self processResponseData:data];
+                                        [self processResponse:response withData:data];
                                         }];
   [executeDataTask resume];
 }
 
--(void)processResponseData:(NSData *)responseData
+-(void)processResponse:(NSURLResponse*)response withData:(NSData *)responseData
 {
-  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-  if (_currentRequestType == LoginRequest){
-    [[User sharedUserInstance] fromDictionary:json];
-  } else if (_currentRequestType == PalettesListRequest){
-    [[UserPalettesManager sharedPalettesManagerInstance] processPalettesFromRomibowebAPI:json];
+  NSDictionary* headers = [(NSHTTPURLResponse *)response allHeaderFields];
+  NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
+  
+  self.responseCode   = [HTTPResponse statusCode];
+  self.responseStatus = [headers objectForKey:@"Status"];
+  if (self.responseCode == 201){//success
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+    NSLog(@"colors list = %@", json);
+
+    if (_currentRequestType == LoginRequest){
+      [[User sharedUserInstance] fromDictionary:json];
+    } else if (_currentRequestType == PalettesListRequest){
+      [[UserPalettesManager sharedPalettesManagerInstance] processPalettesFromRomibowebAPI:json];
+    }
+  }
+  
+  if (_currentRequestType ==  LoginRequest){
+    self.loginObservable = @"complete";
   }
 }
 
@@ -92,20 +112,25 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
  
 }
 
--(void)loginToRomiboWeb
+-(void)loginToRomiboWeb:(NSString*)email andPassword:(NSString *)password
 {
   _currentRequestType = LoginRequest;
   NSString* loginUrl = @"/api/v1/login";
-  NSString* loginParams = @"{\"user\": {\"email\":\"danny@origamirobotics.com\",\"password\":\"nartey\"}}";
+  NSString* loginParams = @"{\"user\": {\"email\":\"";
+  loginParams = [loginParams stringByAppendingString:email];
+  loginParams = [loginParams stringByAppendingString:@"\",\"password\":\""];
+  loginParams = [loginParams stringByAppendingString:password];
+  loginParams = [loginParams stringByAppendingString:@"\"}}"];
+
   [self connectToRomiboWebApi:HttpPostMethod forUrl:loginUrl withParams:loginParams];
 }
 
 -(void)getUserPalettesFromRomiboWeb
 {
   _currentRequestType = PalettesListRequest;
-  NSString* loginUrl = @"/api/v1/palettes";
+  NSString* requestUrl = @"/api/v1/palettes";
   NSString* requestParams = @"";
-  [self connectToRomiboWebApi:HttpGetMethod forUrl:loginUrl withParams:requestParams];
+  [self connectToRomiboWebApi:HttpGetMethod forUrl:requestUrl withParams:requestParams];
 }
 
 -(void)getUsersListFromRomiboWeb
@@ -113,5 +138,22 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
 
 }
 
+-(void)syncPalettesWithRomiboWeb
+{
+  
+}
+
+-(void)deletePaletteFromRomiboWeb
+{
+  
+}
+
+-(void)getColorsListFromRomiboWeb
+{
+  _currentRequestType = ColorsListRequest;
+  NSString* requestUrl = @"/api/v1/button_colors";
+  NSString* requestParams = @"";
+  [self connectToRomiboWebApi:HttpGetMethod forUrl:requestUrl withParams:requestParams];
+}
 
 @end

@@ -160,7 +160,7 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(int)lastViewedPalette
 {
-  int lastViewedPalette = [[User sharedUserInstance] last_viewed_paletted_id];
+  int lastViewedPalette = [[User sharedUserInstance] last_viewed_palette_id];
   if (lastViewedPalette < 1){
     NSArray *palettesArray = [self.palettes allValues];
     if ([palettesArray count] != 0){
