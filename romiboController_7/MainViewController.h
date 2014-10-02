@@ -104,7 +104,7 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIView *connect_button;
 @property (strong, nonatomic) IBOutlet UIButton *logIn_button;
 
-@property (copy, nonatomic) NSArray* paletteTitles;
+@property (strong, nonatomic) NSArray* paletteTitles;
 
 - (IBAction)textAction:(id)sender;
 - (IBAction)emoteAction:(id)sender;
@@ -113,7 +113,6 @@ typedef enum {
 - (IBAction)rightSideViewAction:(id)sender;
 
 - (IBAction) connectAction:(id)sender;
-- (IBAction) logInAction:(id)sender;
 
 - (IBAction) newButtonAction:(id)sender;
 - (IBAction) showColorPopoverAction:(id)sender;

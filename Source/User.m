@@ -106,8 +106,8 @@ static User *sharedUserInstance = nil;
 
 -(NSString*)description
 {
-  return [NSString stringWithFormat:@"First Name = %@\nLast Name = %@\nEmail = %@\nId = %d\nLast Viewed Palette = %d\n",
-  self.first_name, self.last_name, self.email, self.user_id, self.last_viewed_palette_id];
+  return [NSString stringWithFormat:@"First Name = %@\nLast Name = %@\nEmail = %@\nLast Viewed Palette = %d\n",
+  self.first_name, self.last_name, self.email, self.last_viewed_palette_id];
 }
 
 @end

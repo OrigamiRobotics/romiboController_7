@@ -135,8 +135,10 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   self.palettes = [[NSMutableDictionary alloc] init];
 }
 
--(void)processPalettesFromRomibowebAPI:(NSDictionary *)json
+-(NSDictionary *)processPalettesFromRomibowebAPI:(NSDictionary *)json
 {
+  //NSLog(@"json = %@", json);
+  NSMutableDictionary *processedPalettes = [[NSMutableDictionary alloc] init];
   NSArray *palettesArray = [[NSArray alloc] initWithArray:json[@"palettes"]];
   if ([palettesArray count] != 0) {
     [self.palettes removeAllObjects];
@@ -144,9 +146,11 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
     for (id pal in palettesArray){
       NSDictionary* paletteDict = pal[@"palette"];
       Palette *palette = [[Palette alloc] initWithDictionary:paletteDict];
-      [self addPalette:palette];
+      [processedPalettes setObject:palette forKey:[self paletteIdToString:palette.index]];
     }
   }
+  
+  return [processedPalettes copy];
 }
 
 -(Palette *)getSelectedPalette:(int)paletteId

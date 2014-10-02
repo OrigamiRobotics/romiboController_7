@@ -1,17 +1,17 @@
 //
-//  RomiboWebLoginViewController.m
+//  LoginToRomiboWebViewController.m
 //  romiboController_7
 //
 //  Created by Daniel Brown on 9/29/14.
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "RomiboWebLoginViewController.h"
+#import "LoginToRomiboWebViewController.h"
 #import "RomibowebAPIManager.h"
 #import "User.h"
 
 
-@interface RomiboWebLoginViewController ()
+@interface LoginToRomiboWebViewController ()
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
 @property (strong, nonatomic) IBOutlet UITextField *emailAddressTextField;
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (strong, nonatomic) IBOutlet UIButton *cancelButton;
-@property (strong, nonatomic) IBOutlet UILabel *notifyConnectionActivityLabel;
+@property (strong, nonatomic) IBOutlet UILabel *connectionStatusLabel;
 @property (strong, nonatomic) IBOutlet UIButton *okButton;
 @property (strong, nonatomic) IBOutlet UILabel *guideMessageLabel;
 
@@ -27,7 +27,7 @@
 
 @end
 
-@implementation RomiboWebLoginViewController
+@implementation LoginToRomiboWebViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,7 +63,7 @@
 {
   //hide some widgets
   [self.spinner startAnimating];
-  self.notifyConnectionActivityLabel.hidden = NO;
+  self.connectionStatusLabel.hidden = NO;
   [self.emailAddressTextField setHidden:YES];
   [self.passwordTextField setHidden:YES];
   [(UIButton *)sender setHidden:YES];
@@ -114,10 +114,10 @@
   
   if (apiManager.responseCode == 201){//success: loging succeeded
     dispatch_async(dispatch_get_main_queue(), ^{
-      self.notifyConnectionActivityLabel.textColor = [UIColor colorWithRed:0.2/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0];
+      self.connectionStatusLabel.textColor = [UIColor colorWithRed:0.2/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0];
       NSString *name = [[User sharedUserInstance] name];
       NSString *successMessage = [NSString stringWithFormat: @"Successfully logged in to RomiboWeb as %@.", name];
-      self.notifyConnectionActivityLabel.text = successMessage;
+      self.connectionStatusLabel.text = successMessage;
       if ([self.spinner isAnimating]) {
         [self.spinner stopAnimating];
       }
@@ -126,7 +126,7 @@
     });
   } else {//failure: login failed
     dispatch_async(dispatch_get_main_queue(), ^{
-      self.notifyConnectionActivityLabel.textColor = [UIColor redColor];
+      self.connectionStatusLabel.textColor = [UIColor redColor];
       NSString *failureMessage = @"";
       NSLog(@"status = %@", apiManager.responseStatus);
       if ([apiManager.responseStatus isEqualToString:@"401 Unauthorized"]){
@@ -134,7 +134,7 @@
       } else {
         failureMessage = @"Failed to log in to RomiboWeb. Please try again.";
       }
-      self.notifyConnectionActivityLabel.text = failureMessage;
+      self.connectionStatusLabel.text = failureMessage;
       if ([self.spinner isAnimating]) {
         [self.spinner stopAnimating];
       }

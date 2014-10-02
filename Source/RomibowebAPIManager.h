@@ -26,9 +26,10 @@ typedef enum {
 @property (nonatomic, assign) NSInteger      responseCode;
 @property (nonatomic, copy)   NSString     * responseStatus;
 
-//properties for task observes
+//properties for task observers
 @property (nonatomic, copy)   NSString     * loginObservable;
-
+@property (nonatomic, copy)   NSString     * fetchPalettesObservable;
+@property (nonatomic, strong) NSDictionary * fetchedPalettes;
 
 + (id)sharedRomibowebManagerInstance;
 -(void)registerNewUserAtRomiboWeb;

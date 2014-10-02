@@ -452,8 +452,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
   
 }
 
-
-
 - (IBAction)showColorPopoverAction:(id)sender
 {
 	UIButton *tappedButton = (UIButton *)sender;
@@ -510,220 +508,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
   NSLog(@"popoverControllerDidDismissPopover");
 }
 
-
-#pragma mark - Server, Login
-
-const NSString * kRomiboWebURL          = @"http://create.romibo.com";
-const NSString * kRomiboWebURL_login    = @"/api/v1/login";
-const NSString * kRomiboWebURL_palettes = @"/api/v1/palettes";
-
-- (IBAction) logInAction:(id)sender
-{
-  NSString * logInName = self.loginName_TextField.text;
-  NSString * password  = self.password_TextFIeld.text;
-  
-  BOOL doBuitInLogin = NO;
-  if (   [logInName isEqualToString:@""]
-      || [password  isEqualToString:@""] )
-  {
-    doBuitInLogin = YES;
-  }
-  
-  NSString * loginStrURL = [kRomiboWebURL stringByAppendingString:(NSString*)kRomiboWebURL_login];
-  
-  NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-  sessionConfiguration.HTTPAdditionalHeaders = @{@"Content-Type" : @"application/json"};
-  
-  self.URLsession = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
-  
-  NSString * loginStrParams = @"";
-  
-  if (doBuitInLogin == YES)
-  {
-    loginStrParams = @"{\"user\": {\"email\":\"tracy_lakin@earthlink.net\",\"password\":\"tracyromibo\"}}";
-  }
-  else
-  {
-    NSString * kLoginStrParams = @"{\"user\": {\"email\":\"%@\",\"password\":\"%@\"}}";
-    loginStrParams = [NSString stringWithFormat:kLoginStrParams, logInName, password];
-  }
-  
-  NSURL *url = [NSURL URLWithString:loginStrURL];
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-  request.HTTPBody = [loginStrParams dataUsingEncoding:NSUTF8StringEncoding];
-  request.HTTPMethod = @"POST";
-  NSURLSessionDataTask *postDataTask = [self.URLsession dataTaskWithRequest:request
-                                                          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                        {
-                                    
-                                          NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                          //                                              NSLog(@"Login data as json: %@", json);
-                                          
-                                          NSString * tokenStr     = @"Token token=";
-                                          NSString * jsonTokenStr = [json objectForKey:@"auth_token"];
-                                          self.authTokenStr = [tokenStr stringByAppendingString:jsonTokenStr];
-                                          
-                                          NSLog(@"loginStrURL: %@",  loginStrURL);
-                                          NSLog(@"jsonTokenStr: %@", jsonTokenStr);
-                                          NSLog(@"authTokenStr: %@", self.authTokenStr);
-                                        }];
-  [postDataTask resume];
-  
-}
-
-
-
-- (IBAction) fetchPalettes:(id)sender
-{
-  NSString * loginStrURL  = [kRomiboWebURL stringByAppendingString:(NSString*)kRomiboWebURL_palettes];
-  
-  NSURL * url = [NSURL URLWithString:loginStrURL];
-  NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
-  [request setValue:self.authTokenStr forHTTPHeaderField:@"Authorization"];
-  
-  request.HTTPMethod = @"GET";
-  NSURLSessionDataTask *postDataTask = [self.URLsession dataTaskWithRequest:request
-                                                          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                        {
-                                          //                                              NSLog(@"fetchPalettesFromWeb postDataTask completion error: %@   response: %@   data: %@", error, response, data);
-                                          NSDictionary *paletteDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                          [self parsePalettes:paletteDict];
-                                        }];
-  [postDataTask resume];
-}
-
-
-- (void) parsePalettes:(NSDictionary *)paletteDict
-{
-  NSLog(@"paletteDict: %@", paletteDict);
-  
-  
-  rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
-  
-  
-  NSError * error;
-  
-  NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  NSFetchRequest *request = [[NSFetchRequest alloc] init];
-  [request setEntity:entity];
-  
-  NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  [request setSortDescriptors:@[descriptor]];
-  
-  NSArray *fetchedPalettes = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  
-  entity = [NSEntityDescription entityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  request = [[NSFetchRequest alloc] init];
-  [request setEntity:entity];
-  
-  descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  [request setSortDescriptors:@[descriptor]];
-  
-  NSArray *fetchedButtons = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  
-  entity = [NSEntityDescription entityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  request = [[NSFetchRequest alloc] init];
-  [request setEntity:entity];
-  
-  descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  [request setSortDescriptors:@[descriptor]];
-  
-  NSArray *fetchedActions = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  
-  
-  NSUInteger numPalettes = fetchedPalettes.count;
-  NSUInteger numButtons  = fetchedButtons.count;
-  NSUInteger numActions  = fetchedActions.count;
-  
-  
-  
-  
-  NSDictionary * palettes = paletteDict[@"palettes"];
-  for (NSDictionary *palette in palettes) {
-    NSLog(@"palette: %@", palette);
-    PaletteEntity * newPaletteEntity = [NSEntityDescription insertNewObjectForEntityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-    
-    NSDictionary * thePaletteDict = palette[@"palette"];
-    NSLog(@"thePaletteDict: %@", thePaletteDict);
-    
-    numPalettes++;
-    [newPaletteEntity setIndex:[NSNumber numberWithInteger:numPalettes]];
-    [newPaletteEntity setTitle:thePaletteDict[@"title"]];
-    //        [newPalette setColor:thePaletteDict[@"color"]];   // Deal with nil  TODO:
-    
-    
-    NSDictionary * buttons = thePaletteDict[@"buttons"];
-    
-    for (NSDictionary *buttonsDict in buttons) {
-      NSDictionary * theButtonDict = buttonsDict[@"button"];
-      
-      NSLog(@"buttonTitle    : %@", theButtonDict[@"title"] );
-      NSLog(@"speechPhrase   : %@", theButtonDict[@"speech_phrase"] );
-      NSLog(@"speechSpeedRate: %@", theButtonDict[@"speech_speed_rate"] );
-      NSLog(@"size           : %@", theButtonDict[@"size"] );
-      
-      ButtonEntity * buttonEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-      
-      [buttonEntity setTitle :theButtonDict[@"title"]];
-      [buttonEntity setColor :theButtonDict[@"color"]];
-      [buttonEntity setRow   :theButtonDict[@"row"]];
-      [buttonEntity setColumn:theButtonDict[@"col"]];
-      NSString * size = theButtonDict[@"size"];
-      if ([size isEqualToString:@"Small"])
-      {
-        [buttonEntity setWidth:  [NSNumber numberWithInt:1]];
-        [buttonEntity setHeight: [NSNumber numberWithInt:1]];
-      }
-      else if ([size isEqualToString:@"Medium"])
-      {
-        [buttonEntity setWidth:  [NSNumber numberWithInt:2]];
-        [buttonEntity setHeight: [NSNumber numberWithInt:1]];
-      }
-      else if ([size isEqualToString:@"Large"])
-      {
-        [buttonEntity setWidth:  [NSNumber numberWithInt:4]];
-        [buttonEntity setHeight: [NSNumber numberWithInt:1]];
-      }
-      
-      [buttonEntity setPalette:newPaletteEntity];
-      numButtons++;
-      [buttonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
-      
-      ActionEntity * actionEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-      [actionEntity setSpeechText:theButtonDict[@"speech_phrase"]];
-      [actionEntity setSpeechSpeed:theButtonDict[@"speech_speed_rate"]];
-      [actionEntity setActionType:[NSNumber numberWithInt:eActionType_talk]];
-      numActions++;
-      [actionEntity setIndex: [NSNumber numberWithInt:(uint32_t)numActions]];
-      
-      [actionEntity setActions:nil];
-      [actionEntity setButton:buttonEntity];
-      
-      NSSet * actionsSet = [NSSet setWithObject:actionEntity];
-      [buttonEntity setActions:actionsSet];
-      
-      NSSet * buttonSet = [NSSet setWithObject:buttonEntity];
-      if (newPaletteEntity.buttons == nil) {
-        [newPaletteEntity addButtons:buttonSet];
-      }
-      else {
-        NSMutableSet *newSet = [[NSMutableSet alloc] init];
-        [newSet setSet:newPaletteEntity.buttons];
-        [newSet unionSet:buttonSet];
-        [newPaletteEntity addButtons:newSet];
-      }
-    }
-  }
-  
-  [appDelegate.managedObjectContext save:nil];
-  
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self.palettesListingTableView reloadData];
-    [self displayButtonsForSelectedPalette: 0];
-  });
-  
-  
-}
 
 
 - (IBAction)doActionFromButton:(id)sender
@@ -819,10 +603,7 @@ const CGFloat kButtonInset_y =   4.0;
   //    if ([self.paletteTableView numberOfRowsInSection:0] == 0)
   //        return;
   NSLog(@"cell tapped");
-  //[[RomibowebAPIManager sharedRomibowebManagerInstance] loginToRomiboWeb];
 
-  //[[RomibowebAPIManager sharedRomibowebManagerInstance] getUserPalettesFromRomiboWeb];
-  [[RomibowebAPIManager sharedRomibowebManagerInstance] getColorsListFromRomiboWeb];
   self.selectedTableRow = row;
   [self handleSelectedPalette];
 }
@@ -868,15 +649,21 @@ const CGFloat kButtonInset_y =   4.0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   
-  NSArray * subViews = [self.actionsView subviews];
-  for (UIView * subView in subViews)
-  {
-    [subView removeFromSuperview];
-  }
-  
+//  NSArray * subViews = [self.actionsView subviews];
+//  for (UIView * subView in subViews)
+//  {
+//    [subView removeFromSuperview];
+//  }
+  [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
   dispatch_async(dispatch_get_main_queue(), ^{
     [self displayButtonsForSelectedPalette:indexPath.row];
   });
+}
+
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -902,10 +689,12 @@ const CGFloat kButtonInset_y =   4.0;
   
   
   [self.palettesListingTableView.delegate tableView:self.palettesListingTableView didSelectRowAtIndexPath:indexPath];
+  
+  [self.palettesListingTableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  UIImage *pattern = [UIImage imageNamed:@"image.png"];
+
   //[cell setBackgroundColor:[UIColor colorWithPatternImage:pattern]];
 }
 
@@ -947,6 +736,7 @@ const CGFloat kButtonInset_y =   4.0;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
   self.selectedButtonCellRow = indexPath.row;
+  //[collectionView cellForItemAtIndexPath:indexPath] = UITableViewCellAccessoryCheckmark;
   [self handleSelectedButton];
 }
 
@@ -1059,7 +849,6 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (void)registerAsColorSelectorPopoverObserver
 {
-  NSLog(@"register");
   [[AvailableButtonColors sharedColorsManagerInstance] addObserver:self
    
                          forKeyPath:@"selectedColorSelectorPopoverRowNumber"
@@ -1091,7 +880,6 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (UIColor *) colorFromHexString:(NSString *)hexString
 {
-  NSLog(@"hex string = %@", hexString);
   NSString *stringColor = [NSString stringWithFormat:@"%@", hexString];
   NSUInteger red, green, blue;
   sscanf([stringColor UTF8String], "#%2lX%2lX%2lX", &red, &green, &blue);

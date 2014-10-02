@@ -1,5 +1,5 @@
 //
-//  RomiboWebLoginViewController.h
+//  LoginToRomiboWebViewController.h
 //  romiboController_7
 //
 //  Created by Daniel Brown on 9/29/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RomiboWebLoginViewController : UIViewController<UITextFieldDelegate>
+@interface LoginToRomiboWebViewController : UIViewController<UITextFieldDelegate>
 
 @end
