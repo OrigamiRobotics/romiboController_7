@@ -30,6 +30,7 @@
 		55B6BBE719DCBDDC000C0C1D /* palettes_table_cell_bg_image_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6BBE519DCBDDC000C0C1D /* palettes_table_cell_bg_image_selected.png */; };
 		55B6BBE819DCBDDC000C0C1D /* palettes_table_cell_bg_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6BBE619DCBDDC000C0C1D /* palettes_table_cell_bg_image.png */; };
 		55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */; };
+		55DD3A3719DE573B00457484 /* Icon-Check-White.png in Resources */ = {isa = PBXBuildFile; fileRef = 55DD3A3619DE573B00457484 /* Icon-Check-White.png */; };
 		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
 		B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549219248B5E00BEAA76 /* icon-speaker.png */; };
 		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
@@ -111,6 +112,7 @@
 		55B6BBE619DCBDDC000C0C1D /* palettes_table_cell_bg_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = palettes_table_cell_bg_image.png; path = images/palettes_table_cell_bg_image.png; sourceTree = "<group>"; };
 		55B6D0B919D8AE5C00A0526A /* SelectedButtonDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedButtonDetailsViewController.h; path = Source/SelectedButtonDetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedButtonDetailsViewController.m; path = Source/SelectedButtonDetailsViewController.m; sourceTree = SOURCE_ROOT; };
+		55DD3A3619DE573B00457484 /* Icon-Check-White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Check-White.png"; path = "images/Icon-Check-White.png"; sourceTree = "<group>"; };
 		B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left-b.png"; sourceTree = "<group>"; };
 		B1BE549219248B5E00BEAA76 /* icon-speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-speaker.png"; sourceTree = "<group>"; };
 		B1E644261920B7E600850F12 /* PaletteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteEntity.h; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 		55444B3619D2A81700192456 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				55DD3A3619DE573B00457484 /* Icon-Check-White.png */,
 				55B6BBE519DCBDDC000C0C1D /* palettes_table_cell_bg_image_selected.png */,
 				55B6BBE619DCBDDC000C0C1D /* palettes_table_cell_bg_image.png */,
 				555AA51819D9E89600372F1C /* new_palette_icon.png */,
@@ -444,6 +447,7 @@
 				55B6BBE819DCBDDC000C0C1D /* palettes_table_cell_bg_image.png in Resources */,
 				551C99DA19D8CFEB00869BAB /* settings_button_bg_not_selected.png in Resources */,
 				B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */,
+				55DD3A3719DE573B00457484 /* Icon-Check-White.png in Resources */,
 				55B6BBE719DCBDDC000C0C1D /* palettes_table_cell_bg_image_selected.png in Resources */,
 				551C99D919D8CFEB00869BAB /* palettes_button_bg_selected.png in Resources */,
 				B1EDAF841910537600C17EBC /* Main_iPad.storyboard in Resources */,

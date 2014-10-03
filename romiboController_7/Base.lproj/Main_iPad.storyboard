@@ -89,15 +89,23 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aji-cr-vN4">
                                                     <rect key="frame" x="10" y="0.0" width="130" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <gestureRecognizers/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
+                                                    <connections>
+                                                        <outletCollection property="gestureRecognizers" destination="dRN-cW-kJT" appends="YES" id="90x-ri-YlE"/>
+                                                    </connections>
                                                 </label>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Icon-Check-White.png" translatesAutoresizingMaskIntoConstraints="NO" id="eoK-Kb-c9W">
+                                                    <rect key="frame" x="121" y="1" width="16" height="16"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
                                             <outlet property="backgroundLabel" destination="fdQ-KN-jeR" id="cUz-Ve-Ads"/>
+                                            <outlet property="checkmarkImage" destination="eoK-Kb-c9W" id="KfS-5S-Pf6"/>
                                             <outlet property="foregroundLabel" destination="Aji-cr-vN4" id="afa-Vi-czj"/>
                                         </connections>
                                     </collectionViewCell>
@@ -615,6 +623,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="dRN-cW-kJT"/>
             </objects>
             <point key="canvasLocation" x="100" y="-158"/>
         </scene>
@@ -1033,6 +1042,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Icon-Check-White.png" width="500" height="500"/>
         <image name="fetch_icon.png" width="68" height="56"/>
         <image name="icon-arrow-left-b.png" width="128" height="128"/>
         <image name="icon-speaker.png" width="128" height="128"/>

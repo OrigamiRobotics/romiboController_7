@@ -632,11 +632,16 @@ const CGFloat kButtonInset_y =   4.0;
 
   cell.textLabel.text = [splitTitleAndId objectAtIndex:0];
 
-  [self.myPaletteIds setObject:[splitTitleAndId objectAtIndex:1] forKey:[NSNumber numberWithLong:indexPath.row]];
-
+  NSString *strPaletteId = [splitTitleAndId objectAtIndex:1];
+  [self.myPaletteIds setObject:strPaletteId forKey:[NSNumber numberWithLong:indexPath.row]];
   NSUInteger numberOfPalettes = [[UserPalettesManager sharedPalettesManagerInstance] numberOfPalettes];
   if ([[self.myPaletteIds allKeys] count] == numberOfPalettes ){
     [self highlightLastViewedPaletteCellInTable];
+  }
+  
+  int lastViewedPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
+  if ([strPaletteId intValue] == lastViewedPaletteId){
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
   }
   return cell;
 }
@@ -648,14 +653,14 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  
+  NSLog(@"selected *****");
 //  NSArray * subViews = [self.actionsView subviews];
 //  for (UIView * subView in subViews)
 //  {
 //    [subView removeFromSuperview];
 //  }
-  [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
   dispatch_async(dispatch_get_main_queue(), ^{
+    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
     [self displayButtonsForSelectedPalette:indexPath.row];
   });
 }
@@ -684,13 +689,9 @@ const CGFloat kButtonInset_y =   4.0;
     }
   }
   NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+//  [self.palettesListingTableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
   [self.palettesListingTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:
    UITableViewScrollPositionNone];
-  
-  
-  [self.palettesListingTableView.delegate tableView:self.palettesListingTableView didSelectRowAtIndexPath:indexPath];
-  
-  [self.palettesListingTableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -736,7 +737,19 @@ const CGFloat kButtonInset_y =   4.0;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
   self.selectedButtonCellRow = indexPath.row;
-  //[collectionView cellForItemAtIndexPath:indexPath] = UITableViewCellAccessoryCheckmark;
+  int numberOfCells = (int)[self.buttonTitles count];
+  for (int i = 0; i < numberOfCells; i++){
+    NSIndexPath *indPath = [NSIndexPath indexPathForRow:i inSection:0];
+    PaletteButtonsCollectionViewCell * cell = (PaletteButtonsCollectionViewCell *)[collectionView cellForItemAtIndexPath:indPath];
+    if (i == self.selectedButtonCellRow){
+      [cell.checkmarkImage setHidden:NO];
+    } else {
+      [cell.checkmarkImage setHidden:YES];
+    }
+  }
+
+  
+
   [self handleSelectedButton];
 }
 

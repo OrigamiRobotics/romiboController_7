@@ -11,5 +11,6 @@
 @interface PaletteButtonsCollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UILabel *backgroundLabel;
 @property (strong, nonatomic) IBOutlet UILabel *foregroundLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *checkmarkImage;
 
 @end
