@@ -34,5 +34,6 @@
 -(PaletteButton*)currentButton:(NSString*)buttonIdStr;
 -(void)updateLastViewedPalette:(int)lastViewdPaletteId;
 -(void)updateLastViewedButton:(int)lastViewedButtonId forPalette:(int)paletteId;
+-(void)updateEditedPalette:(NSString*)title withId:(int)palette_id;
 
 @end

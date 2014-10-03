@@ -66,7 +66,7 @@
   [self setupAvailableColors];
   
   // UI specific
-  
+  NSLog(@"view did load");
   //set Palettes listing tableview background color
   self.palettesListingTableView.backgroundView = nil;
   CGFloat red   = 232.0f/255.0f;
@@ -747,8 +747,6 @@ const CGFloat kButtonInset_y =   4.0;
     }
   }
 
-  
-
   [self handleSelectedButton];
 }
 
@@ -770,6 +768,7 @@ const CGFloat kButtonInset_y =   4.0;
   [self.palettesManager loadPalettes];
   self.paletteTitles = [self.palettesManager paletteTitles];
   [self buttonsForSelectedPalette];
+  [self handleSelectedPalette];
 }
 
 -(void) buttonsForSelectedPalette

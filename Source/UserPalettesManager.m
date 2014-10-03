@@ -203,4 +203,12 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   }
 }
 
+-(void)updateEditedPalette:(NSString *)title withId:(int)palette_id
+{
+  [[self.palettes objectForKey:[self paletteIdToString:palette_id]] setTitle:title];
+  [self savePalettes];
+  NSLog(@"palettes title = %@", [self paletteTitles]);
+  [self updateObserveMe];
+}
+
 @end

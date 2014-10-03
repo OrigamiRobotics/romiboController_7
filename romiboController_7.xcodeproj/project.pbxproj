@@ -31,6 +31,8 @@
 		55B6BBE819DCBDDC000C0C1D /* palettes_table_cell_bg_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B6BBE619DCBDDC000C0C1D /* palettes_table_cell_bg_image.png */; };
 		55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */; };
 		55DD3A3719DE573B00457484 /* Icon-Check-White.png in Resources */ = {isa = PBXBuildFile; fileRef = 55DD3A3619DE573B00457484 /* Icon-Check-White.png */; };
+		55DD3A3919DE6A1200457484 /* edit_palette_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 55DD3A3819DE6A1200457484 /* edit_palette_icon.png */; };
+		55DD3A3C19DE72BA00457484 /* EditPaletteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DD3A3B19DE72BA00457484 /* EditPaletteViewController.m */; };
 		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
 		B1BE549419248B5E00BEAA76 /* icon-speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549219248B5E00BEAA76 /* icon-speaker.png */; };
 		B1E644281920B7E600850F12 /* PaletteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E644271920B7E600850F12 /* PaletteEntity.m */; };
@@ -113,6 +115,9 @@
 		55B6D0B919D8AE5C00A0526A /* SelectedButtonDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedButtonDetailsViewController.h; path = Source/SelectedButtonDetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		55B6D0BA19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedButtonDetailsViewController.m; path = Source/SelectedButtonDetailsViewController.m; sourceTree = SOURCE_ROOT; };
 		55DD3A3619DE573B00457484 /* Icon-Check-White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Check-White.png"; path = "images/Icon-Check-White.png"; sourceTree = "<group>"; };
+		55DD3A3819DE6A1200457484 /* edit_palette_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = edit_palette_icon.png; path = images/edit_palette_icon.png; sourceTree = "<group>"; };
+		55DD3A3A19DE72BA00457484 /* EditPaletteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditPaletteViewController.h; path = Source/EditPaletteViewController.h; sourceTree = SOURCE_ROOT; };
+		55DD3A3B19DE72BA00457484 /* EditPaletteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditPaletteViewController.m; path = Source/EditPaletteViewController.m; sourceTree = SOURCE_ROOT; };
 		B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left-b.png"; sourceTree = "<group>"; };
 		B1BE549219248B5E00BEAA76 /* icon-speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-speaker.png"; sourceTree = "<group>"; };
 		B1E644261920B7E600850F12 /* PaletteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteEntity.h; sourceTree = "<group>"; };
@@ -229,6 +234,8 @@
 				555AA51B19D9E9B500372F1C /* LoginToRomiboWebViewController.m */,
 				55B6BBE219DBE297000C0C1D /* FetchPalettesFromRomiboWebViewController.h */,
 				55B6BBE319DBE297000C0C1D /* FetchPalettesFromRomiboWebViewController.m */,
+				55DD3A3A19DE72BA00457484 /* EditPaletteViewController.h */,
+				55DD3A3B19DE72BA00457484 /* EditPaletteViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -236,6 +243,7 @@
 		55444B3619D2A81700192456 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				55DD3A3819DE6A1200457484 /* edit_palette_icon.png */,
 				55DD3A3619DE573B00457484 /* Icon-Check-White.png */,
 				55B6BBE519DCBDDC000C0C1D /* palettes_table_cell_bg_image_selected.png */,
 				55B6BBE619DCBDDC000C0C1D /* palettes_table_cell_bg_image.png */,
@@ -456,6 +464,7 @@
 				B1E64438192300F600850F12 /* buttonSizePickerViewController.xib in Resources */,
 				B1EDAFA81910A84600C17EBC /* whiteBorderButton@2x.png in Resources */,
 				B1EDAFA71910A84600C17EBC /* whiteBorderButton.png in Resources */,
+				55DD3A3919DE6A1200457484 /* edit_palette_icon.png in Resources */,
 				B1E64433192300CA00850F12 /* colorPickerViewController.xib in Resources */,
 				B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */,
 				555AA51719D9E75B00372F1C /* fetch_icon.png in Resources */,
@@ -497,6 +506,7 @@
 				B1EDAFAD1911969400C17EBC /* PaletteModel.xcdatamodeld in Sources */,
 				B1E6442E1920B7E700850F12 /* ActionEntity.m in Sources */,
 				55B4955E19D68FC900044189 /* PaletteButtonsCollectionViewCell.m in Sources */,
+				55DD3A3C19DE72BA00457484 /* EditPaletteViewController.m in Sources */,
 				55444B2A19D2A53E00192456 /* User.m in Sources */,
 				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
 				55B6BBE419DBE297000C0C1D /* FetchPalettesFromRomiboWebViewController.m in Sources */,
