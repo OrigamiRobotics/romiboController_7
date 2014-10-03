@@ -17,6 +17,7 @@
     self.index = -1;
     self.row = 1;
     self.col = 1;
+    self.palette_id = -1;
   }
   return self;
 }
@@ -31,6 +32,7 @@
   [encoder encodeFloat:  self.speech_speed_rate forKey:@"rate"];
   [encoder encodeObject: self.color     forKey:@"color"];
   [encoder encodeObject: self.size forKey:@"size"];
+  [encoder encodeInteger:self.palette_id forKey:@"palette_id"];
 }
 
 -(id)initWithCoder:(NSCoder *)decoder
@@ -44,6 +46,7 @@
     self.speech_speed_rate = [decoder decodeFloatForKey:@"rate"];
     self.color  = [decoder decodeObjectForKey:@"color"];
     self.size   = [decoder decodeObjectForKey:@"size"];
+    self.palette_id = [decoder decodeIntForKey:@"row"];
   }
   return self;
 }
@@ -61,6 +64,7 @@
                  [[dict objectForKey:@"speech_speed_rate"] floatValue];
     self.size  =  [dict objectForKey:@"size"];
     self.color =  [dict objectForKey:@"color"];
+    self.palette_id = [[dict objectForKey:@"palette_id"] intValue];
   }
   return self;
 }

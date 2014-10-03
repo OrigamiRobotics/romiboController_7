@@ -653,12 +653,6 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  NSLog(@"selected *****");
-//  NSArray * subViews = [self.actionsView subviews];
-//  for (UIView * subView in subViews)
-//  {
-//    [subView removeFromSuperview];
-//  }
   dispatch_async(dispatch_get_main_queue(), ^{
     [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
     [self displayButtonsForSelectedPalette:indexPath.row];
@@ -689,7 +683,6 @@ const CGFloat kButtonInset_y =   4.0;
     }
   }
   NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-//  [self.palettesListingTableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
   [self.palettesListingTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:
    UITableViewScrollPositionNone];
 }
@@ -730,6 +723,12 @@ const CGFloat kButtonInset_y =   4.0;
   //set button color for display
   NSString *colorString = [buttonForPalette.color stringByReplacingOccurrencesOfString:@"#" withString:@""];
   cell.backgroundLabel.backgroundColor = [UIColor colorWithHexString:colorString];
+  
+  int lastViewedPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
+  Palette* palette = [[UserPalettesManager sharedPalettesManagerInstance] getSelectedPalette:lastViewedPaletteId];
+  if (buttonForPalette.index == palette.last_viewed_button_id){
+    [cell.checkmarkImage setHidden:NO];
+  }
   
   return cell;
 }

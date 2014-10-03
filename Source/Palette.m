@@ -21,6 +21,9 @@
 
 -(void)addButton:(PaletteButton *)button
 {
+  if (button.palette_id == -1) {
+    button.palette_id = self.index;
+  }
   [self.buttons setObject:button forKey:[self buttonIdToString:button.index]];
 }
 

@@ -18,6 +18,7 @@
 @property (nonatomic, assign) int       row;
 @property (nonatomic, assign) int       col;
 @property (nonatomic, copy)   NSString* color;
+@property (nonatomic, assign) int       palette_id;
 
 -(id)initWithDictionary:(NSDictionary*)dict;
 
