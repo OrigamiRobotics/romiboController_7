@@ -207,7 +207,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 {
   [[self.palettes objectForKey:[self paletteIdToString:palette_id]] setTitle:title];
   [self savePalettes];
-  NSLog(@"palettes title = %@", [self paletteTitles]);
   [self updateObserveMe];
 }
 

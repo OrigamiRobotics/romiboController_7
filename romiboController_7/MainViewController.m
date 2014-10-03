@@ -728,6 +728,8 @@ const CGFloat kButtonInset_y =   4.0;
   Palette* palette = [[UserPalettesManager sharedPalettesManagerInstance] getSelectedPalette:lastViewedPaletteId];
   if (buttonForPalette.index == palette.last_viewed_button_id){
     [cell.checkmarkImage setHidden:NO];
+  } else {
+    [cell.checkmarkImage setHidden:YES];
   }
   
   return cell;
