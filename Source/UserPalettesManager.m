@@ -141,8 +141,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   NSMutableDictionary *processedPalettes = [[NSMutableDictionary alloc] init];
   NSArray *palettesArray = [[NSArray alloc] initWithArray:json[@"palettes"]];
   if ([palettesArray count] != 0) {
-    [self.palettes removeAllObjects];
-
     for (id pal in palettesArray){
       NSDictionary* paletteDict = pal[@"palette"];
       Palette *palette = [[Palette alloc] initWithDictionary:paletteDict];
