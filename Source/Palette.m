@@ -118,7 +118,7 @@
     PaletteButton* button = [self.buttons objectForKey:key];
     [titles addObject:[button.title stringByAppendingFormat:@"---+++---%d", button.index]];
   }
-  return [titles mutableCopy];
+  return [titles copy];
 }
 
 -(PaletteButton *)getSelectedButton:(int)buttonId
@@ -142,6 +142,35 @@
   } else {
     return self.last_viewed_button_id;
   }
+}
+
+-(NSString *)getButtonTitle:(int)buttonId
+{
+  PaletteButton *button = [self.buttons objectForKey:[self buttonIdToString:buttonId]];
+  return button.title;
+}
+
+-(NSString*)getButtonColor:(int)buttonId
+{
+  PaletteButton *button = [self.buttons objectForKey:[self buttonIdToString:buttonId]];
+  return button.color;
+}
+
+-(NSString *)getButtonSpeechPhrase:(int)buttonId
+{
+  PaletteButton *button = [self.buttons objectForKey:[self buttonIdToString:buttonId]];
+  return button.speech_phrase;
+}
+
+-(float)getButtonSpeechSpeedRate:(int)buttonId
+{
+  PaletteButton *button = [self.buttons objectForKey:[self buttonIdToString:buttonId]];
+  return button.speech_speed_rate;
+}
+
+-(void)updateButton:(int)buttonId withData:(NSDictionary *)buttonData
+{
+  [[self.buttons objectForKey:[self buttonIdToString:buttonId]] updateWithData:buttonData];
 }
 
 @end

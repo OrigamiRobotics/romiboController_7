@@ -13,7 +13,7 @@
 
 @property (nonatomic, assign) int       index; //matches id from RomiboWeb
 @property (nonatomic, copy)   NSString* title;
-@property (nonatomic, assign) int       last_viewed_button_id;
+@property (nonatomic, assign, setter=setLastViewedButtonId:) int last_viewed_button_id;
 @property (nonatomic, strong) NSMutableDictionary* buttons;
 @property (nonatomic, assign) int       owner_id;
 
@@ -25,5 +25,10 @@
 -(PaletteButton *)getSelectedButton;
 -(PaletteButton *)getSelectedButton:(int)buttonId;
 -(int)lastViewedButton;
+-(NSString *)getButtonTitle:(int)buttonId;
+-(float)getButtonSpeechSpeedRate:(int)buttonId;
+-(NSString *)getButtonSpeechPhrase:(int)buttonId;
+-(NSString *)getButtonColor:(int)buttonId;
+-(void)updateButton:(int)buttonId withData:(NSDictionary*)buttonData;
 
 @end

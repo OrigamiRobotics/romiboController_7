@@ -1,28 +1,28 @@
 //
-//  AvailableButtonColors.m
+//  PaletteButtonColors.m
 //  romiboController_7
 //
 //  Created by Daniel Brown on 9/28/14.
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "AvailableButtonColors.h"
+#import "PaletteButtonColors.h"
 #import "ButtonColor.h"
 
 #define COLORS_STORAGE_KEY @"buttonColors"
 
 
-@implementation AvailableButtonColors
+@implementation PaletteButtonColors
 
 
-static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
+static PaletteButtonColors *sharedButtonColorsManagerInstance = nil;
 
 +(id)sharedColorsManagerInstance
 {
   if (sharedButtonColorsManagerInstance == nil){
     static dispatch_once_t predicate; //lock
     dispatch_once(&predicate, ^{
-      sharedButtonColorsManagerInstance = [[AvailableButtonColors alloc] init];
+      sharedButtonColorsManagerInstance = [[PaletteButtonColors alloc] init];
     });
   }
   
@@ -31,7 +31,7 @@ static AvailableButtonColors *sharedButtonColorsManagerInstance = nil;
 -(instancetype)init
 {
   if (self = [super init]){
-    self.selectedColorSelectorPopoverRowNumber = [NSNumber numberWithInt:-1];
+    self.selectedColorSelectorPopoverCellValue = [NSNumber numberWithInt:-1];
   }
   
   return self;

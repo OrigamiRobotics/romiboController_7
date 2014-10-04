@@ -162,7 +162,7 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(int)lastViewedPalette
 {
-  int lastViewedPalette = [[User sharedUserInstance] last_viewed_palette_id];
+  int lastViewedPalette = [[User sharedUserInstance] lastViewedPaletteId];
   if (lastViewedPalette < 1){
     NSArray *palettesArray = [self.palettes allValues];
     if ([palettesArray count] != 0){
@@ -196,11 +196,12 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(void)updateLastViewedButton:(int)lastViewedButtonId forPalette:(int)paletteId
 {
-  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
-  if (palette){
-    palette.last_viewed_button_id = lastViewedButtonId;
-    [self savePalettes];
-  }
+  [[self.palettes objectForKey:[self paletteIdToString:paletteId]] setLastViewedButtonId:lastViewedButtonId];
+  [self savePalettes];
+  [self updateObserveMe];
+  NSLog(@"last viewed palette id = %d", [self lastViewedPalette]);
+  NSLog(@"updated last viewed button, palette id recived = %d", paletteId);
+  NSLog(@"last viewed button = %d, %d", [self getLastViewedButtonIdFor:[self lastViewedPalette]], lastViewedButtonId);
 }
 
 -(void)updateEditedPalette:(NSString *)title withId:(int)palette_id
@@ -208,6 +209,48 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   [[self.palettes objectForKey:[self paletteIdToString:palette_id]] setTitle:title];
   [self savePalettes];
   [self updateObserveMe];
+}
+
+-(NSString *)getPaletteTitle:(int)paletteId
+{
+  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
+  return palette.title;
+}
+
+-(NSString *)getButtonTitle:(int)buttonId forPalette:(int)paletteId
+{
+  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
+  return [palette getButtonTitle:buttonId];
+}
+
+-(NSString *)getButtonSpeechPhrase:(int)buttonId forPalette:(int)paletteId
+{
+  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
+  return [palette getButtonSpeechPhrase:buttonId];
+}
+
+-(NSString *)getButtonColor:(int)buttonId forPalette:(int)paletteId
+{
+  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
+  return [palette getButtonColor:buttonId];
+}
+
+-(float)getButtonSpeechSpeedRate:(int)buttonId forPalette:(int)paletteId
+{
+  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
+  return [palette getButtonSpeechSpeedRate:buttonId];
+}
+
+-(int)getLastViewedButtonIdFor:(int)paletteId
+{
+  Palette *palette = [[self palettes] objectForKey:[self paletteIdToString:paletteId]];
+  return [palette lastViewedButton];
+}
+
+-(void)updateButton:(int)buttonId withData:(NSDictionary *)buttonData forPalette:(int)paletteId
+{
+  [[[self palettes] objectForKey:[self paletteIdToString:paletteId]] updateButton:buttonId withData:buttonData];
+  [self savePalettes];
 }
 
 @end

@@ -34,6 +34,13 @@
 -(PaletteButton*)currentButton:(NSString*)buttonIdStr;
 -(void)updateLastViewedPalette:(int)lastViewdPaletteId;
 -(void)updateLastViewedButton:(int)lastViewedButtonId forPalette:(int)paletteId;
--(void)updateEditedPalette:(NSString*)title withId:(int)palette_id;
+-(void)updateEditedPalette:(NSString*)title withId:(int)paletteId;
+-(NSString *)getPaletteTitle:(int)paletteId;
+-(NSString *)getButtonTitle:(int)buttonId forPalette:(int)paletteId;
+-(float)getButtonSpeechSpeedRate:(int)buttonId forPalette:(int)paletteId;
+-(NSString *)getButtonSpeechPhrase:(int)buttonId forPalette:(int)paletteId;
+-(NSString *)getButtonColor:(int)buttonId forPalette:(int)paletteId;
+-(int)getLastViewedButtonIdFor:(int)paletteId;
+-(void)updateButton:(int)buttonId withData:(NSDictionary*)buttonData forPalette:(int)paletteId;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  EditButtonViewController.h
+//  CreateOrEditButtonViewController.h
 //  romiboController_7
 //
 //  Created by Daniel Brown on 10/3/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EditButtonViewController : UIViewController
+@interface CreateOrEditButtonViewController : UIViewController<UITextViewDelegate>
 
 @end

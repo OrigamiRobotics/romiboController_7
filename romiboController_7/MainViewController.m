@@ -17,7 +17,7 @@
 #import "UserPalettesManager.h"
 #import "RomibowebAPIManager.h"
 #import "PaletteButtonsCollectionViewCell.h"
-#import "AvailableButtonColors.h"
+#import "PaletteButtonColors.h"
 
 @interface MainViewController ()
 
@@ -75,7 +75,6 @@
 
   self.palettesListingTableView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
   
-  [self registerAsColorSelectorPopoverObserver];
 }
 
 
@@ -642,6 +641,7 @@ const CGFloat kButtonInset_y =   4.0;
   int lastViewedPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
   if ([strPaletteId intValue] == lastViewedPaletteId){
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    self.selectedTableRow = indexPath.row;
   }
   return cell;
 }
@@ -756,7 +756,7 @@ const CGFloat kButtonInset_y =   4.0;
 -(void)setupAvailableColors
 {
   //TODO: Thisis temporary until we can get a list of colors from RomiboWeb
-  [[AvailableButtonColors sharedColorsManagerInstance] usePredefinedAvailableColors];
+  [[PaletteButtonColors sharedColorsManagerInstance] usePredefinedAvailableColors];
 }
 
 
@@ -777,14 +777,14 @@ const CGFloat kButtonInset_y =   4.0;
 {
   self.myPaletteButtonIds = [[NSMutableDictionary alloc] init];
 
-  int selectedPaletteId = [self extractSelectPaletteId];
+  int selectedPaletteId = [self extractSelectedPaletteId];
   Palette *palette = [self.palettesManager getSelectedPalette:selectedPaletteId];
   self.buttonTitles = [[NSArray alloc] initWithArray:[palette buttonTitles]];
   //show last view button details
   [self displaySelectedButtonDetails:[palette getSelectedButton]];
 }
 
--(int)extractSelectPaletteId
+-(int)extractSelectedPaletteId
 {
   int selectPaletteId = 0;
 
@@ -792,6 +792,7 @@ const CGFloat kButtonInset_y =   4.0;
     selectPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
   } else{
     selectPaletteId = [[self.myPaletteIds objectForKey:[NSNumber numberWithLong:self.selectedTableRow]] intValue];
+    [[UserPalettesManager sharedPalettesManagerInstance] updateLastViewedPalette:selectPaletteId];
   }
   
   return selectPaletteId;
@@ -802,8 +803,8 @@ const CGFloat kButtonInset_y =   4.0;
   [self buttonsForSelectedPalette];
   [self.paletteButtonsCollectionView reloadData];
   
-  [self.palettesManager updateLastViewedPalette:[self extractSelectPaletteId]];
-  int selectedPaletteId = [self extractSelectPaletteId];
+  [self.palettesManager updateLastViewedPalette:[self extractSelectedPaletteId]];
+  int selectedPaletteId = [self extractSelectedPaletteId];
   Palette *palette = [self.palettesManager getSelectedPalette:selectedPaletteId];
   self.selectedPaletteTitleLabel.text = palette.title;
 }
@@ -813,8 +814,7 @@ const CGFloat kButtonInset_y =   4.0;
   NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:[NSNumber numberWithLong:self.selectedButtonCellRow]];
   //get current palette and use it to get current button
   PaletteButton *buttonForPalette = [self.palettesManager currentButton:buttonIdStr];
-  
-  [self.palettesManager updateLastViewedButton:buttonForPalette.index forPalette:[self extractSelectPaletteId]];
+  [self.palettesManager updateLastViewedButton:buttonForPalette.index forPalette:[self extractSelectedPaletteId]];
   [self displaySelectedButtonDetails:buttonForPalette];
 }
 
@@ -851,26 +851,12 @@ const CGFloat kButtonInset_y =   4.0;
 
                        context:(void *)context
 {
-  NSLog(@"you are observed");
-  if ([keyPath isEqual:@"observeMeNot"]) {
+  if ([keyPath isEqual:@"observeMe"]) {
     self.paletteTitles = [self.palettesManager paletteTitles];
     [self.palettesListingTableView reloadData];
-  } else if ([keyPath isEqual:@"selectedColorSelectorPopoverRowNumber"]) {
-    NSLog(@"selected");
   }
 }
 
-- (void)registerAsColorSelectorPopoverObserver
-{
-  [[AvailableButtonColors sharedColorsManagerInstance] addObserver:self
-   
-                         forKeyPath:@"selectedColorSelectorPopoverRowNumber"
-   
-                            options:(NSKeyValueObservingOptionNew)
-   
-                            context:NULL];
-  
-}
 
 #pragma mark - Button Details Methods
 -(void)displaySelectedButtonDetails:(PaletteButton *)button
@@ -883,12 +869,7 @@ const CGFloat kButtonInset_y =   4.0;
 
   self.currentButtonColorLabel.backgroundColor = uiColor;
   self.currentButtonColorLabel.text = @"";
-  [self.currentButtonColorSelector setTitle:[[AvailableButtonColors sharedColorsManagerInstance] nameForHexValue:button.color] forState:UIControlStateNormal];
-}
-
-- (IBAction)sliderMoved:(UISlider *)sender
-{
-  self.currentButtonSpeedSpeedRateLabel.text = [NSString stringWithFormat:@"%.1f", self.currentButtonSpeechSpeedRate.value];
+  [self.currentButtonColorSelector setTitle:[[PaletteButtonColors sharedColorsManagerInstance] nameForHexValue:button.color] forState:UIControlStateNormal];
 }
 
 - (UIColor *) colorFromHexString:(NSString *)hexString

@@ -21,5 +21,6 @@
 @property (nonatomic, assign) int       palette_id;
 
 -(id)initWithDictionary:(NSDictionary*)dict;
+-(void)updateWithData:(NSDictionary*)data;
 
 @end

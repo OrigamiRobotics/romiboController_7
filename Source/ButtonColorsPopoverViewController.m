@@ -7,20 +7,27 @@
 //
 
 #import "ButtonColorsPopoverViewController.h"
-#import "AvailableButtonColors.h"
+#import "PaletteButtonColors.h"
+#import "UserPalettesManager.h"
 
 @interface ButtonColorsPopoverViewController ()
 
-@property (nonatomic, weak)AvailableButtonColors* availableButtonColors;
+@property (nonatomic, weak)PaletteButtonColors* availableButtonColors;
 @property (nonatomic, strong)NSMutableArray* buttonColorNames;
 @property (nonatomic, strong)NSMutableDictionary* buttonColorRowsAndNames;
+@property (weak, nonatomic) UserPalettesManager *palettesManager;
+@property (assign, nonatomic)int selectButtonId;
+@property (assign, nonatomic) int selectedPaletteId;
 
 @end
 
 @implementation ButtonColorsPopoverViewController
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
     // Do any additional setup after loading the view.
+  self.palettesManager = [UserPalettesManager sharedPalettesManagerInstance];
+  self.selectedPaletteId = [self.palettesManager lastViewedPalette];
+  self.selectButtonId = [self.palettesManager getLastViewedButtonIdFor:self.selectedPaletteId];
   [self setupAvailableColors];
   self.selectedButtonColorFromPopoverRow = -1;
 }
@@ -32,7 +39,7 @@
 
 -(void)setupAvailableColors
 {
-  self.availableButtonColors = [AvailableButtonColors sharedColorsManagerInstance];
+  self.availableButtonColors = [PaletteButtonColors sharedColorsManagerInstance];
   //TODO: Thisis temporary until we can get a list of colors from RomiboWeb
   [self.availableButtonColors usePredefinedAvailableColors];
   self.buttonColorNames = [[NSMutableArray alloc] initWithArray:[self.availableButtonColors buttonColorNames]];
@@ -64,7 +71,12 @@
   [self.buttonColorRowsAndNames setObject:[self.buttonColorNames objectAtIndex:indexPath.row] forKey:keyStr];
   NSString *name = [self.buttonColorRowsAndNames objectForKey:keyStr];
   cell.textLabel.text = name;
+  
+  NSString * buttonColor = [self.palettesManager getButtonColor:self.selectButtonId forPalette:self.selectedPaletteId];
+
+  NSString * buttonColorName = [self.availableButtonColors nameForHexValue:buttonColor];
   UIColor *uiColor = [self colorFromHexString:[self.availableButtonColors hexValueForName:name]];
+  
   cell.backgroundColor = [UIColor whiteColor];
   cell.textLabel.backgroundColor = [UIColor clearColor];
   cell.textLabel.textColor = uiColor;
@@ -74,6 +86,13 @@
   [cell setSelectedBackgroundView:bgColorView];
   cell.textLabel.highlightedTextColor = [UIColor whiteColor];
 
+  if ([name isEqualToString:buttonColorName]){
+    [tableView
+     selectRowAtIndexPath:indexPath
+     animated:TRUE
+     scrollPosition:UITableViewScrollPositionNone
+     ];
+  }
   
   return cell;
 }
@@ -86,8 +105,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   dispatch_async(dispatch_get_main_queue(), ^{
-    self.availableButtonColors.selectedColorSelectorPopoverRowNumber = [NSNumber numberWithLong:indexPath.row];
-    NSLog(@"check");
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    self.availableButtonColors.selectedColorSelectorPopoverCellValue = cell.textLabel.text;
   });
 }
 
@@ -117,7 +136,6 @@
 //}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  UIImage *pattern = [UIImage imageNamed:@"image.png"];
   //[cell setBackgroundColor:[UIColor colorWithPatternImage:pattern]];
 }
 

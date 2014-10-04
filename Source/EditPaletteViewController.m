@@ -43,7 +43,6 @@
 */
 - (IBAction)saveButtonClicked:(id)sender
 {
-  NSLog(@"changed text = %@", self.titleTextfield.text);
   [self.palettesManager updateEditedPalette:self.titleTextfield.text withId:self.currentPalette.index];
   [self performSegueWithIdentifier:@"ReturnToMain" sender:sender];
 }

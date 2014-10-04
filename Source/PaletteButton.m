@@ -69,4 +69,12 @@
   return self;
 }
 
+-(void)updateWithData:(NSDictionary *)data
+{
+  self.title             = [data objectForKey:@"title"];
+  self.speech_phrase     = [data objectForKey:@"speechPhrase"];
+  self.speech_speed_rate = [[data objectForKey:@"speechRate"] floatValue];
+  self.color             = [data objectForKey:@"color"];
+}
+
 @end
