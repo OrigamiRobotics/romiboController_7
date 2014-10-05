@@ -18,6 +18,7 @@
 @property (nonatomic, assign) int       owner_id;
 
 -(void) addButton:(PaletteButton*)button;
+-(void) addNewButton:(NSDictionary *)buttonData;
 -(void) deleteButton:(int)buttonId;
 -(PaletteButton*)getButton:(int)buttonId;
 -(id)initWithDictionary:(NSDictionary *)dict;

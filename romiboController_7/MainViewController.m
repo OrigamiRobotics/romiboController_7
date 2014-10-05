@@ -18,8 +18,12 @@
 #import "RomibowebAPIManager.h"
 #import "PaletteButtonsCollectionViewCell.h"
 #import "PaletteButtonColors.h"
+#import "GenericController.h"
 
 @interface MainViewController ()
+
+
+@property (strong, nonatomic)IBOutlet UIAlertView *alertView;
 
 @property (nonatomic, weak)UserPalettesManager* palettesManager;
 @property (nonatomic, strong)NSMutableDictionary* myPaletteIds;
@@ -37,11 +41,14 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *currentButtonSpeedSpeedRateLabel;
 
+@property (strong, nonatomic) IBOutlet UIButton *loginButton;
 
 @property (strong, nonatomic) IBOutlet UILabel *currentButtonColorLabel;
 @property (strong, nonatomic) IBOutlet UIButton *currentButtonColorSelector;
 
 @property (strong, nonatomic) IBOutlet UILabel *selectedPaletteTitleLabel;
+@property (weak, nonatomic) GenericController *genericController;
+@property (strong, nonatomic) IBOutlet UIButton *addNewButton;
 
 
 - (IBAction)sliderMoved:(UISlider *)sender;
@@ -49,6 +56,8 @@
 @end
 
 @implementation MainViewController
+
+
 
 - (void)viewDidLoad
 {
@@ -59,6 +68,7 @@
   self.speechSynth = [[AVSpeechSynthesizer alloc] init];
   
   [self setupMultipeerConnectivity];
+  self.genericController = [GenericController sharedGenericControllerInstance];
   
   //init palettes stuff
   [self initializePalettesManager];
@@ -74,7 +84,8 @@
   CGFloat blue  = 252.0f/255.0f;
 
   self.palettesListingTableView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
-  
+  self.palettesListingTableView.tableFooterView = [[UIView alloc] init];
+  [self registerAsObserver];
 }
 
 
@@ -167,15 +178,6 @@
   }
   NSLog(@"manageRobotConnection");
   
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-  if (buttonIndex == 1) {
-    [self.multipeerSession disconnect];
-    self.connectedToiPod = NO;
-    [self setupMultipeerConnectivity];
-  }
 }
 
 - (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
@@ -819,7 +821,7 @@ const CGFloat kButtonInset_y =   4.0;
 }
 
 
-- (void)registerAsPalettesManagerObserver
+- (void)registerAsObserver
 {
   
   /*
@@ -841,6 +843,11 @@ const CGFloat kButtonInset_y =   4.0;
    
                             context:NULL];
   
+  [self.genericController addObserver:self
+                           forKeyPath:@"selectedButtonMenuItem"
+                              options:(NSKeyValueObservingOptionNew)
+                              context:NULL];
+  
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -851,9 +858,18 @@ const CGFloat kButtonInset_y =   4.0;
 
                        context:(void *)context
 {
+  NSLog(@"Observed");
   if ([keyPath isEqual:@"observeMe"]) {
     self.paletteTitles = [self.palettesManager paletteTitles];
     [self.palettesListingTableView reloadData];
+  } else if ([keyPath isEqual:@"selectedButtonMenuItem"]){
+    NSString *selectedMenuItem = [(GenericController *)object selectedButtonMenuItem];
+    NSLog(@"selectedMenuItem = %@", selectedMenuItem);
+    if ([selectedMenuItem isEqualToString:@"New"]){
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self addNewPaletteButton];
+      });
+    }
   }
 }
 
@@ -882,5 +898,50 @@ const CGFloat kButtonInset_y =   4.0;
   
 }
 
+
+- (IBAction)addButtonToPalette:(id)sender
+{
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self addNewPaletteButton];
+  });
+}
+
+-(void)addNewPaletteButton
+{
+  int currentPaletteId = [self.palettesManager lastViewedPalette];
+  [self.palettesManager addDefaultButton:currentPaletteId];
+  [self initializePalettesManager];
+  [self.palettesListingTableView reloadData];
+  [self.paletteButtonsCollectionView reloadData];
+}
+
+
+- (IBAction)deleteSelectedPalette:(id)sender
+{
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Delete Palette?" message:@"Are you sure you want to delete the selected palette?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+  self.alertView.tag = 0;
+  [self.alertView show];
+}
+
+
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+  if (alertView.tag == 0){
+    if (buttonIndex == 1) {
+      int currentPaletteId = [self.palettesManager lastViewedPalette];
+      [self.palettesManager deletePalette:currentPaletteId];
+      [self initializePalettesManager];
+      [self.palettesListingTableView reloadData];
+      [self.paletteButtonsCollectionView reloadData];
+    }
+  } else {
+    if (buttonIndex == 1) {
+      [self.multipeerSession disconnect];
+      self.connectedToiPod = NO;
+      [self setupMultipeerConnectivity];
+    }
+  }
+}
 
 @end

@@ -16,7 +16,7 @@
 {
   if (self = [super init]){
     self.name     = @"Turquoise";
-    self.hexValue = @"13c8b0";
+    self.hexValue = @"#13c8b0";
   }
   
   return self;

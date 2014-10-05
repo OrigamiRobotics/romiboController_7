@@ -30,6 +30,7 @@
   self.selectButtonId = [self.palettesManager getLastViewedButtonIdFor:self.selectedPaletteId];
   [self setupAvailableColors];
   self.selectedButtonColorFromPopoverRow = -1;
+  self.buttonColorsListing.tableFooterView = [[UIView alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {

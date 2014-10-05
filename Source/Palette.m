@@ -24,7 +24,27 @@
   if (button.palette_id == -1) {
     button.palette_id = self.index;
   }
+  
+  if (button.index < 1){
+    NSArray * strButtonIds = [self.buttons allKeys];
+    NSMutableArray * mButtonIds = [[NSMutableArray alloc] init];
+    for (NSString * strId in strButtonIds){
+      [mButtonIds addObject:[NSNumber numberWithInt:[strId intValue]]];
+    }
+    int nextAvailableId = [[mButtonIds valueForKeyPath:@"@max.intValue"] intValue];
+    button.index = nextAvailableId + 1;
+  }
+  self.last_viewed_button_id = button.index;
+
   [self.buttons setObject:button forKey:[self buttonIdToString:button.index]];
+  NSLog(@"new button id = %d", button.index);
+}
+
+-(void)addNewButton:(NSDictionary *)buttonData
+{
+  PaletteButton *button = [[PaletteButton alloc] initWithDictionary:buttonData];
+  NSLog(@"new button title = %@", button.title);
+  [self addButton:button];
 }
 
 -(void) deleteButton:(int)buttonId

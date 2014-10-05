@@ -9,7 +9,7 @@
 #import "CreateOrEditButtonViewController.h"
 #import "UserPalettesManager.h"
 #import "PaletteButtonColors.h"
-
+#import "GenericController.h"
 
 @interface CreateOrEditButtonViewController ()
 
@@ -25,17 +25,20 @@
 @property (strong, nonatomic)NSDictionary* editedButtonValues;
 @property (assign, nonatomic)int selectButtonId;
 @property (assign, nonatomic) int selectedPaletteId;
+@property (weak, nonatomic) GenericController *genericController;
 
 @end
 
 @implementation CreateOrEditButtonViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
   self.palettesManager = [UserPalettesManager sharedPalettesManagerInstance];
   self.selectedPaletteId = [self.palettesManager lastViewedPalette];
   self.selectButtonId = [self.palettesManager getLastViewedButtonIdFor:self.selectedPaletteId];
+  self.genericController = [GenericController sharedGenericControllerInstance];
   [self prepopulateFieldsWithSelectedButton];
   self.selectedColorName = [[PaletteButtonColors sharedColorsManagerInstance] nameForHexValue:[self.palettesManager getButtonColor:self.selectButtonId forPalette:self.selectedPaletteId]];
 
@@ -70,15 +73,6 @@
   self.buttonSpeechRateLabel.text = [NSString stringWithFormat:@"%.1f", self.buttonSpeechRateSlider.value];
 }
 
-- (IBAction)buttonTitleTextfieldChanged2:(UITextField *)sender
-{
-}
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-  NSLog(@"textViewDidChange:");
-}
-
 -(NSDictionary*)makeButtonDataDictionary
 {
   return @{ @"title":self.buttonTitleTextfield.text,
@@ -88,6 +82,10 @@
         };
 }
 
+-(void)prepoluateFields{
+  [self prepopulateFieldsWithSelectedButton];
+
+}
 -(void) prepopulateFieldsWithSelectedButton
 {
   self.buttonTitleTextfield.text = [self.palettesManager getButtonTitle:self.selectButtonId forPalette:self.selectedPaletteId];
@@ -97,6 +95,13 @@
   self.buttonSpeechRateLabel.text = [NSString stringWithFormat:@"%0.1f", speechRate];
     NSString * buttonColor = [self.palettesManager getButtonColor:self.selectButtonId forPalette:self.selectedPaletteId];
   [self setColorFieldValues:buttonColor];
+}
+
+
+-(void)prePopulateFieldsWithNewButtonData
+{
+  NSLog(@"menu item = %@", [self.genericController selectedButtonMenuItem]);
+
 }
 
 - (UIColor *) colorFromHexString:(NSString *)hexString
@@ -122,6 +127,7 @@
 {
   NSLog(@"clicked");
 }
+
 
 #pragma mark - Olor Selector PopupViewController related
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -150,5 +156,6 @@
                                                          context:NULL];
   
 }
+
 
 @end

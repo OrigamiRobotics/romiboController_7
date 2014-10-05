@@ -20,7 +20,9 @@
 //we change this object to some arbitrary value then
 //all registered observers will be notified
 @property (nonatomic, copy) NSNumber* observeMe;
+@property (nonatomic, strong)NSDictionary * defaultButtonData;
 
+//palettes
 -(void)createPalette:(NSString*)title;
 -(void)addPalette:(Palette*)palette;
 -(void)deletePalette:(int)palette_id;
@@ -36,11 +38,18 @@
 -(void)updateLastViewedButton:(int)lastViewedButtonId forPalette:(int)paletteId;
 -(void)updateEditedPalette:(NSString*)title withId:(int)paletteId;
 -(NSString *)getPaletteTitle:(int)paletteId;
+
+-(void) addDefaultButton:(int)paletteId;
+
+//Button getters
 -(NSString *)getButtonTitle:(int)buttonId forPalette:(int)paletteId;
 -(float)getButtonSpeechSpeedRate:(int)buttonId forPalette:(int)paletteId;
 -(NSString *)getButtonSpeechPhrase:(int)buttonId forPalette:(int)paletteId;
 -(NSString *)getButtonColor:(int)buttonId forPalette:(int)paletteId;
 -(int)getLastViewedButtonIdFor:(int)paletteId;
+
+//button update
 -(void)updateButton:(int)buttonId withData:(NSDictionary*)buttonData forPalette:(int)paletteId;
+
 
 @end

@@ -43,9 +43,22 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   if (self = [super init]){
     self.highestPaletteId = 0;
     self.palettes = [[NSMutableDictionary alloc] init];
+    
     [[User sharedUserInstance] loadData];
+    [self initializeDefaultButtonData];
   }
   return self;
+}
+
+-(void)initializeDefaultButtonData
+{
+  self.defaultButtonData = @{
+                             @"title": @"I'm a button",
+                     @"speech_phrase": @"This is what I say",
+                 @"speech_speed_rate": @0.2,
+                             @"color": @"#13c8b0",
+                              @"size": @"Large",
+                             };
 }
 
 -(void)createPalette:(NSString *)title
@@ -53,6 +66,8 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   Palette *palette = [[Palette alloc] init];
   palette.title = title;
   [self addPalette:palette];
+  [self updateLastViewedPalette:palette.index];
+  [self addDefaultButton:palette.index];
 }
 
 -(void)addPalette:(Palette *)palette
@@ -70,6 +85,12 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 -(void)deletePalette:(int)palette_id
 {
   [self.palettes removeObjectForKey:[self paletteIdToString:palette_id]];
+  [self savePalettes];
+  NSArray * paletteIds = [self.palettes allKeys];
+  if ([paletteIds count] != 0){
+    [self updateLastViewedPalette:[[paletteIds firstObject] intValue]];
+  }
+  [self updateObserveMe];
 }
 
 -(void)loadPalettes
@@ -199,9 +220,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   [[self.palettes objectForKey:[self paletteIdToString:paletteId]] setLastViewedButtonId:lastViewedButtonId];
   [self savePalettes];
   [self updateObserveMe];
-  NSLog(@"last viewed palette id = %d", [self lastViewedPalette]);
-  NSLog(@"updated last viewed button, palette id recived = %d", paletteId);
-  NSLog(@"last viewed button = %d, %d", [self getLastViewedButtonIdFor:[self lastViewedPalette]], lastViewedButtonId);
 }
 
 -(void)updateEditedPalette:(NSString *)title withId:(int)palette_id
@@ -250,6 +268,12 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 -(void)updateButton:(int)buttonId withData:(NSDictionary *)buttonData forPalette:(int)paletteId
 {
   [[[self palettes] objectForKey:[self paletteIdToString:paletteId]] updateButton:buttonId withData:buttonData];
+  [self savePalettes];
+}
+
+-(void)addDefaultButton:(int)paletteId
+{
+  [[[self palettes] objectForKey:[self paletteIdToString:paletteId]] addNewButton:self.defaultButtonData];
   [self savePalettes];
 }
 

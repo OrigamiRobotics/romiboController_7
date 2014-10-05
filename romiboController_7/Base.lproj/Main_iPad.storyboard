@@ -53,11 +53,17 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fetch_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Tc-Zz-HIn">
                                         <rect key="frame" x="578" y="18" width="38" height="33"/>
                                     </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Danny Brown" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmb-ea-0Kk">
+                                        <rect key="frame" x="821" y="24" width="195" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WTX-UZ-YkV">
-                                <rect key="frame" x="286" y="123" width="728" height="278"/>
+                                <rect key="frame" x="286" y="138" width="728" height="408"/>
                                 <color key="backgroundColor" red="0.9960784912109375" green="0.97647064924240112" blue="0.95294123888015747" alpha="1" colorSpace="deviceRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="fUy-tV-Uso">
                                     <size key="itemSize" width="140" height="50"/>
@@ -115,13 +121,6 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="jOk-WE-zA0"/>
                                 </connections>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0wY-d0-bvf">
-                                <rect key="frame" x="219" y="573" width="806" height="1"/>
-                                <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MEg-BI-2OI" userLabel="View - Palette">
                                 <rect key="frame" x="71" y="68" width="210" height="700"/>
                                 <subviews>
@@ -184,7 +183,7 @@
                                         <rect key="frame" x="8" y="5" width="41" height="41"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h6H-3i-a6H">
-                                        <rect key="frame" x="584" y="1" width="40" height="40"/>
+                                        <rect key="frame" x="690" y="1" width="40" height="40"/>
                                         <size key="titleShadowOffset" width="-13" height="0.0"/>
                                         <state key="normal" image="edit_palette_icon.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -193,11 +192,20 @@
                                             <segue destination="5ku-fe-Yae" kind="modal" modalTransitionStyle="coverVertical" id="VZ8-CO-9DJ"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhQ-MJ-3iN">
+                                        <rect key="frame" x="630" y="3" width="35" height="35"/>
+                                        <state key="normal" image="delete_icon.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deleteSelectedPalette:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eWc-We-QfE"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.9960784912109375" green="0.97254908084869385" blue="0.94117653369903564" alpha="1" colorSpace="deviceRGB"/>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HMV-iI-4Sv">
-                                <rect key="frame" x="97" y="405" width="1004" height="173"/>
+                                <rect key="frame" x="25" y="367" width="1004" height="173"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tLm-lJ-8Qf">
                                         <rect key="frame" x="17" y="57" width="90" height="40"/>
@@ -341,7 +349,7 @@
                                         </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0b3-J2-p7H">
-                                        <rect key="frame" x="432" y="145" width="187" height="29"/>
+                                        <rect key="frame" x="432" y="146" width="187" height="29"/>
                                         <segments>
                                             <segment title="Hide"/>
                                             <segment title="Palettes"/>
@@ -417,31 +425,31 @@
                                 <color key="backgroundColor" red="0.14901961386203766" green="0.69411766529083252" blue="0.84705889225006104" alpha="1" colorSpace="deviceRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XYs-AE-8x7" userLabel="View - Edit" customClass="ADBannerView">
-                                <rect key="frame" x="283" y="574" width="746" height="186"/>
+                                <rect key="frame" x="283" y="547" width="746" height="213"/>
                                 <subviews>
                                     <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LrA-A2-ELW">
-                                        <rect key="frame" x="195" y="64" width="85" height="30"/>
+                                        <rect key="frame" x="195" y="91" width="85" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Speech Phrase:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SzI-hc-kEC">
-                                        <rect key="frame" x="8" y="73" width="123" height="21"/>
+                                        <rect key="frame" x="8" y="100" width="123" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Size" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H45-Lq-6GL">
-                                        <rect key="frame" x="323" y="63" width="33" height="21"/>
+                                        <rect key="frame" x="323" y="90" width="33" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Small" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DY-BP-pkv">
-                                        <rect key="frame" x="340" y="69" width="100" height="21"/>
+                                        <rect key="frame" x="340" y="96" width="100" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2j-Rz-y3X">
-                                        <rect key="frame" x="288" y="58" width="32" height="32"/>
+                                        <rect key="frame" x="288" y="85" width="32" height="32"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" backgroundImage="icon-arrow-left-b.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -451,7 +459,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SDm-A5-oVN">
-                                        <rect key="frame" x="139" y="63" width="32" height="32"/>
+                                        <rect key="frame" x="139" y="90" width="32" height="32"/>
                                         <state key="normal" backgroundImage="icon-speaker.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -460,25 +468,25 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Speech Rate:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJO-Ak-zAy">
-                                        <rect key="frame" x="337" y="11" width="99" height="21"/>
+                                        <rect key="frame" x="337" y="38" width="99" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stepper hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="OTj-hm-HWz">
-                                        <rect key="frame" x="131" y="3" width="94" height="29"/>
+                                        <rect key="frame" x="131" y="30" width="94" height="29"/>
                                     </stepper>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9k-Jt-q4o">
-                                        <rect key="frame" x="8" y="10" width="42" height="21"/>
+                                        <rect key="frame" x="8" y="37" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Color" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOm-Ek-yOd">
-                                        <rect key="frame" x="415" y="155" width="42" height="21"/>
+                                        <rect key="frame" x="415" y="182" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LRB-vg-cAU">
-                                        <rect key="frame" x="377" y="150" width="32" height="32"/>
+                                        <rect key="frame" x="377" y="177" width="32" height="32"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" backgroundImage="icon-arrow-left-b.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -488,7 +496,7 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aoU-Lh-03y" userLabel="View - color container">
-                                        <rect key="frame" x="470" y="146" width="75" height="40"/>
+                                        <rect key="frame" x="470" y="173" width="75" height="40"/>
                                         <subviews>
                                             <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NLL-d8-njh" userLabel="View - color">
                                                 <rect key="frame" x="2" y="2" width="71" height="36"/>
@@ -498,13 +506,13 @@
                                         <color key="backgroundColor" red="0.99858874082565308" green="0.93805527687072754" blue="0.87597030401229858" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eke-bP-OMP">
-                                        <rect key="frame" x="8" y="96" width="674" height="63"/>
+                                        <rect key="frame" x="8" y="123" width="674" height="63"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r8c-zP-qJG">
-                                        <rect key="frame" x="323" y="5" width="46" height="30"/>
+                                        <rect key="frame" x="323" y="32" width="46" height="30"/>
                                         <state key="normal" title="New" backgroundImage="smActionButton.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -513,57 +521,57 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Avz-my-Jf8">
-                                        <rect key="frame" x="233" y="5" width="64" height="30"/>
+                                        <rect key="frame" x="233" y="32" width="64" height="30"/>
                                         <state key="normal" title="Delete" backgroundImage="smActionButton.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <slider opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="G1R-Px-Qsp">
-                                        <rect key="frame" x="335" y="31" width="150" height="31"/>
+                                        <rect key="frame" x="335" y="58" width="150" height="31"/>
                                     </slider>
                                     <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.20" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OHo-k2-2ub">
-                                        <rect key="frame" x="77" y="0.0" width="54" height="30"/>
+                                        <rect key="frame" x="77" y="27" width="54" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gaR-d5-0xV">
-                                        <rect key="frame" x="8" y="31" width="312" height="30"/>
+                                        <rect key="frame" x="8" y="58" width="312" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TPq-2h-ree">
-                                        <rect key="frame" x="441" y="10" width="42" height="25"/>
+                                        <rect key="frame" x="441" y="37" width="42" height="25"/>
                                         <color key="backgroundColor" red="0.9960784912109375" green="0.97647064924240112" blue="0.95294123888015747" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Color:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Flx-hy-3I6">
-                                        <rect key="frame" x="531" y="11" width="42" height="21"/>
+                                        <rect key="frame" x="531" y="38" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3OT-Ox-jN8">
-                                        <rect key="frame" x="674" y="11" width="42" height="21"/>
+                                        <rect key="frame" x="674" y="38" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VD5-rl-Uoj">
-                                        <rect key="frame" x="531" y="31" width="151" height="30"/>
+                                        <rect key="frame" x="531" y="58" width="151" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bj-D2-Boa">
-                                        <rect key="frame" x="538" y="36" width="42" height="21"/>
+                                        <rect key="frame" x="538" y="63" width="42" height="21"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GLu-Xv-uua">
-                                        <rect key="frame" x="579" y="31" width="103" height="30"/>
+                                        <rect key="frame" x="579" y="58" width="103" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -571,15 +579,21 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jZY-ii-Pgd">
-                                        <rect key="frame" x="698" y="-2" width="40" height="40"/>
+                                        <rect key="frame" x="642" y="-3" width="40" height="40"/>
                                         <size key="titleShadowOffset" width="-13" height="0.0"/>
                                         <state key="normal" image="edit_palette_icon.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Y10-qV-PFE" kind="modal" modalTransitionStyle="coverVertical" id="Zjj-6J-lFY"/>
+                                            <segue destination="Y10-qV-PFE" kind="modal" identifier="PresentCreateEditView" modalTransitionStyle="coverVertical" id="Zjj-6J-lFY"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Currently Selected Button Details" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A4c-xY-sWr">
+                                        <rect key="frame" x="8" y="2" width="297" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.9960784912109375" green="0.96862751245498657" blue="0.93333339691162109" alpha="1" colorSpace="deviceRGB"/>
                             </view>
@@ -590,6 +604,33 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zwX-ik-4xB">
+                                <rect key="frame" x="868" y="116" width="119" height="30"/>
+                                <state key="normal" title="Buttons Menu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="xhq-8b-K97" kind="popover" popoverAnchorView="zwX-ik-4xB" id="GjX-mk-Oip">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0wY-d0-bvf">
+                                <rect key="frame" x="289" y="545" width="806" height="1"/>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Acm-iX-GeB">
+                                <rect key="frame" x="988" y="113" width="30" height="30"/>
+                                <state key="normal" title="Buttons Menu" image="070928-glossy-black-icon-alphanumeric-plus-sign-simple.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addButtonToPalette:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qKK-Qe-Thh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.9960784912109375" green="0.96862751245498657" blue="0.93333339691162109" alpha="1" colorSpace="deviceRGB"/>
                     </view>
@@ -602,6 +643,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="addNewButton" destination="Acm-iX-GeB" id="Pdk-uG-bFu"/>
                         <outlet property="connect_button" destination="0wq-4R-Tux" id="bYF-K8-mLH"/>
                         <outlet property="currentButtonColorLabel" destination="3Bj-D2-Boa" id="zWz-hQ-TpC"/>
                         <outlet property="currentButtonColorSelector" destination="GLu-Xv-uua" id="6lm-NS-dUV"/>
@@ -625,6 +667,7 @@
                         <outlet property="emote5_button" destination="SGJ-bG-iEC" id="Tiz-aE-7f6"/>
                         <outlet property="leftSideView_SegmentedControl" destination="0b3-J2-p7H" id="hF0-jg-uBa"/>
                         <outlet property="logIn_button" destination="SaO-VK-4bu" id="ESp-X4-xha"/>
+                        <outlet property="loginButton" destination="r2s-xB-2Ar" id="AWb-2z-o6U"/>
                         <outlet property="loginName_TextField" destination="4sv-f8-17M" id="U6N-dU-IAm"/>
                         <outlet property="paletteButtonsCollectionView" destination="WTX-UZ-YkV" id="bht-vh-dnW"/>
                         <outlet property="paletteView" destination="MEg-BI-2OI" id="Seh-ew-uyh"/>
@@ -639,12 +682,14 @@
                         <outlet property="text3_button" destination="zJd-Zj-5ut" id="s8e-vz-oIw"/>
                         <outlet property="text4_button" destination="qHK-Y7-5v9" id="R0y-yX-FFJ"/>
                         <outlet property="text5_button" destination="KBb-pJ-uez" id="rw0-vN-0vz"/>
+                        <segue destination="xhq-8b-K97" kind="custom" id="byS-wS-yq0"/>
+                        <segue destination="Y10-qV-PFE" kind="modal" id="aZb-75-Kaz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="dRN-cW-kJT"/>
             </objects>
-            <point key="canvasLocation" x="827" y="-678"/>
+            <point key="canvasLocation" x="1357" y="-863"/>
         </scene>
         <!--Palette Editor-->
         <scene sceneID="92p-f6-ANN">
@@ -1023,7 +1068,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fHP-YS-NMr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="481" y="-1010"/>
+            <point key="canvasLocation" x="283" y="-1004"/>
         </scene>
         <!--Button Colors Popover View Controller-->
         <scene sceneID="nqa-BH-2LZ">
@@ -1059,10 +1104,44 @@
             </objects>
             <point key="canvasLocation" x="1605.5" y="-1813"/>
         </scene>
-        <!--Edit Button-->
+        <!--Button Options-->
+        <scene sceneID="762-5G-jh2">
+            <objects>
+                <viewController title="Button Options" id="xhq-8b-K97" customClass="ButtonsMenuPopoverViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PAY-3N-Aau"/>
+                        <viewControllerLayoutGuide type="bottom" id="R03-Zw-8Yj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BQB-yV-y3l">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="40" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="zhE-Gi-e8k">
+                                <rect key="frame" x="0.0" y="-8" width="150" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="xhq-8b-K97" id="cU8-ga-LcK"/>
+                                    <outlet property="delegate" destination="xhq-8b-K97" id="5Cw-pp-LY3"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="150" height="200"/>
+                    <connections>
+                        <outlet property="tableView" destination="zhE-Gi-e8k" id="bW2-dj-xvM"/>
+                        <segue destination="Y10-qV-PFE" kind="modal" identifier="CreateOrEditButtonView" modalTransitionStyle="coverVertical" id="bRP-AS-jmN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Du9-Jy-wpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="-1407"/>
+        </scene>
+        <!--Create | Edit Button-->
         <scene sceneID="bFI-by-dva">
             <objects>
-                <viewController title="Edit Button" id="Y10-qV-PFE" customClass="CreateOrEditButtonViewController" sceneMemberID="viewController">
+                <viewController title="Create | Edit Button" id="Y10-qV-PFE" customClass="CreateOrEditButtonViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ccz-Me-WI5"/>
                         <viewControllerLayoutGuide type="bottom" id="g3z-3Y-upJ"/>
@@ -1173,7 +1252,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="modal" modalTransitionStyle="coverVertical" id="sn9-28-qip"/>
+                                    <segue destination="BYZ-38-t0r" kind="modal" id="jIb-Sg-p25"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kw6-qm-FvF">
@@ -1212,7 +1291,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bl3-Z1-7za" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1584" y="-1105"/>
+            <point key="canvasLocation" x="1677" y="-1195"/>
         </scene>
         <!--Edit Palette-->
         <scene sceneID="baO-bW-X83">
@@ -1289,7 +1368,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="070928-glossy-black-icon-alphanumeric-plus-sign-simple.png" width="512" height="512"/>
         <image name="Icon-Check-White.png" width="500" height="500"/>
+        <image name="delete_icon.png" width="20" height="22"/>
         <image name="edit_palette_icon.png" width="18" height="18"/>
         <image name="fetch_icon.png" width="68" height="56"/>
         <image name="icon-arrow-left-b.png" width="128" height="128"/>
@@ -1308,5 +1389,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="cjI-T5-dPc"/>
+        <segue reference="Zjj-6J-lFY"/>
+        <segue reference="byS-wS-yq0"/>
     </inferredMetricsTieBreakers>
 </document>
