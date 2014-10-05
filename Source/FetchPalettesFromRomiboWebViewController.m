@@ -59,7 +59,8 @@
   CGFloat green = 247.0f/255.0f;
   CGFloat blue  = 252.0f/255.0f;
   self.paletteSelectorTableView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
-  self.palettesSelectedToFetch = [[NSMutableSet alloc] init];
+  self.palettesSelectedToFetch  = [[NSMutableSet alloc] init];
+  self.fetchedPalettesTableView.tableFooterView = [[UIView alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
