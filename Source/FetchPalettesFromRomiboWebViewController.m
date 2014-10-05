@@ -118,6 +118,7 @@
 }
 
 #pragma mark - Palettes stuff
+
 -(void) initializePalettesManager
 {
   self.myPaletteIds = [[NSMutableDictionary alloc] init];

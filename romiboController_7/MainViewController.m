@@ -19,6 +19,7 @@
 #import "PaletteButtonsCollectionViewCell.h"
 #import "PaletteButtonColors.h"
 #import "GenericController.h"
+#import "User.h"
 
 @interface MainViewController ()
 
@@ -50,9 +51,12 @@
 @property (weak, nonatomic) GenericController *genericController;
 @property (strong, nonatomic) IBOutlet UIButton *addNewButton;
 
+@property (strong, nonatomic) IBOutlet UIButton *fetchPalettesButton;
+@property (strong, nonatomic) IBOutlet UILabel *logedInInfoLabel;
 
 - (IBAction)sliderMoved:(UISlider *)sender;
 @property (strong, nonatomic) IBOutlet UIButton *deleteCurrentButton;
+@property (strong, nonatomic) IBOutlet UIView *toolbarContainerView;
 
 @end
 
@@ -71,6 +75,7 @@
   [self setupMultipeerConnectivity];
   self.genericController = [GenericController sharedGenericControllerInstance];
   
+  [self setupRomiboWebUI];
   //init palettes stuff
   [self initializePalettesManager];
 
@@ -762,6 +767,17 @@ const CGFloat kButtonInset_y =   4.0;
   [[PaletteButtonColors sharedColorsManagerInstance] usePredefinedAvailableColors];
 }
 
+#pragma mark - RomiboWeb UI
+-(void) setupRomiboWebUI
+{
+  if ([[User sharedUserInstance] isLoggedIn]){
+    [self.toolbarContainerView setHidden:NO];
+    [self.loginButton setHidden:YES];
+  } else {
+    [self.toolbarContainerView setHidden:YES];
+    [self.loginButton setHidden:NO];
+  }
+}
 
 #pragma mark - Palettes stuff
 -(void) initializePalettesManager

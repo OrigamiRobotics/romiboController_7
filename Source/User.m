@@ -34,6 +34,7 @@ static User *sharedUserInstance = nil;
     self.last_name  = @"";
     self.email      = @"";
     self.last_viewed_palette_id = 0;
+    self.isLoggedIn = NO;
   }
   return self;
 }

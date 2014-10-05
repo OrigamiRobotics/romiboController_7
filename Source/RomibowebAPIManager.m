@@ -104,6 +104,7 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
 
     if (_currentRequestType == LoginRequest){
       [[User sharedUserInstance] fromDictionary:json];
+      [[User sharedUserInstance] setIsLoggedIn:YES];
     } else if (_currentRequestType == PalettesListRequest){
       self.fetchedPalettes = [[UserPalettesManager sharedPalettesManagerInstance] processPalettesFromRomibowebAPI:json];
     }

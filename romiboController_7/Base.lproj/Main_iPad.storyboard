@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -26,23 +25,8 @@
                                         <color key="textColor" red="0.14901961386203766" green="0.69411766529083252" blue="0.84705889225006104" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKp-gg-RBg">
-                                        <rect key="frame" x="481" y="18" width="95" height="30"/>
-                                        <state key="normal" title="Fetch">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="jzG-FV-CKI" kind="modal" modalTransitionStyle="coverVertical" id="1EB-Xo-RFk"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyr-Uh-4FZ">
-                                        <rect key="frame" x="611" y="18" width="46" height="30"/>
-                                        <state key="normal" title="Sync">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r2s-xB-2Ar">
-                                        <rect key="frame" x="930" y="18" width="46" height="30"/>
+                                        <rect key="frame" x="930" y="18" width="61" height="30"/>
                                         <state key="normal" title="Login">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -50,15 +34,36 @@
                                             <segue destination="Dfb-uD-pTy" kind="modal" modalTransitionStyle="coverVertical" id="IGQ-eE-AfM"/>
                                         </connections>
                                     </button>
-                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fetch_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Tc-Zz-HIn">
-                                        <rect key="frame" x="578" y="18" width="38" height="33"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Danny Brown" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmb-ea-0Kk">
-                                        <rect key="frame" x="821" y="24" width="195" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8e6-0M-Fb5">
+                                        <rect key="frame" x="138" y="0.0" width="882" height="59"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKp-gg-RBg">
+                                                <rect key="frame" x="466" y="15" width="95" height="30"/>
+                                                <state key="normal" title="Fetch">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="jzG-FV-CKI" kind="modal" modalTransitionStyle="coverVertical" id="1EB-Xo-RFk"/>
+                                                </connections>
+                                            </button>
+                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fetch_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Tc-Zz-HIn">
+                                                <rect key="frame" x="558" y="13" width="38" height="33"/>
+                                            </imageView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyr-Uh-4FZ">
+                                                <rect key="frame" x="591" y="13" width="46" height="30"/>
+                                                <state key="normal" title="Sync">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Danny Brown" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmb-ea-0Kk">
+                                                <rect key="frame" x="675" y="17" width="195" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -675,8 +680,10 @@
                         <outlet property="emote3_button" destination="Fyv-t8-AQk" id="cb9-h4-zjt"/>
                         <outlet property="emote4_button" destination="cSG-3Q-oKc" id="LmZ-O2-VYZ"/>
                         <outlet property="emote5_button" destination="SGJ-bG-iEC" id="Tiz-aE-7f6"/>
+                        <outlet property="fetchPalettesButton" destination="yKp-gg-RBg" id="Fqe-8q-VR2"/>
                         <outlet property="leftSideView_SegmentedControl" destination="0b3-J2-p7H" id="hF0-jg-uBa"/>
                         <outlet property="logIn_button" destination="SaO-VK-4bu" id="ESp-X4-xha"/>
+                        <outlet property="logedInInfoLabel" destination="fmb-ea-0Kk" id="QXt-WE-8oT"/>
                         <outlet property="loginButton" destination="r2s-xB-2Ar" id="AWb-2z-o6U"/>
                         <outlet property="loginName_TextField" destination="4sv-f8-17M" id="U6N-dU-IAm"/>
                         <outlet property="paletteButtonsCollectionView" destination="WTX-UZ-YkV" id="bht-vh-dnW"/>
@@ -692,6 +699,7 @@
                         <outlet property="text3_button" destination="zJd-Zj-5ut" id="s8e-vz-oIw"/>
                         <outlet property="text4_button" destination="qHK-Y7-5v9" id="R0y-yX-FFJ"/>
                         <outlet property="text5_button" destination="KBb-pJ-uez" id="rw0-vN-0vz"/>
+                        <outlet property="toolbarContainerView" destination="8e6-0M-Fb5" id="Xhy-zA-qdY"/>
                         <segue destination="xhq-8b-K97" kind="custom" id="byS-wS-yq0"/>
                         <segue destination="Y10-qV-PFE" kind="modal" id="aZb-75-Kaz"/>
                     </connections>

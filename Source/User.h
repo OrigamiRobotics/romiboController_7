@@ -16,6 +16,7 @@
 @property (nonatomic, copy)  NSString* last_name;
 @property (nonatomic, copy)  NSString* token;
 @property (nonatomic, assign, getter=lastViewedPaletteId, setter=setLastViewedPaletteId:)int last_viewed_palette_id;
+@property (nonatomic, assign)BOOL isLoggedIn;
 
 + (id)sharedUserInstance;
 - (void)save;
