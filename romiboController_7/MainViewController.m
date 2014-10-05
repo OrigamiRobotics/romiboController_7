@@ -773,7 +773,7 @@ const CGFloat kButtonInset_y =   4.0;
   if ([[User sharedUserInstance] isLoggedIn]){
     [self.toolbarContainerView setHidden:NO];
     [self.loginButton setHidden:YES];
-    NSString *loggedInInfo = [NSString stringWithFormat:@"Logged in as %@", [[User sharedUserInstance] name]];
+    NSString *loggedInInfo = [NSString stringWithFormat:@"%@", [[User sharedUserInstance] name]];
     self.logedInInfoLabel.text = loggedInInfo;
   } else {
     [self.toolbarContainerView setHidden:YES];
