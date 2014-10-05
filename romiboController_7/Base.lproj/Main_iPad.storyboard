@@ -35,7 +35,7 @@
                                             <segue destination="jzG-FV-CKI" kind="modal" modalTransitionStyle="coverVertical" id="1EB-Xo-RFk"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyr-Uh-4FZ">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eyr-Uh-4FZ">
                                         <rect key="frame" x="611" y="18" width="46" height="30"/>
                                         <state key="normal" title="Sync">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -50,7 +50,7 @@
                                             <segue destination="Dfb-uD-pTy" kind="modal" modalTransitionStyle="coverVertical" id="IGQ-eE-AfM"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fetch_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Tc-Zz-HIn">
+                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fetch_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Tc-Zz-HIn">
                                         <rect key="frame" x="578" y="18" width="38" height="33"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Danny Brown" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmb-ea-0Kk">
@@ -579,7 +579,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jZY-ii-Pgd">
-                                        <rect key="frame" x="642" y="-3" width="40" height="40"/>
+                                        <rect key="frame" x="687" y="-3" width="40" height="40"/>
                                         <size key="titleShadowOffset" width="-13" height="0.0"/>
                                         <state key="normal" image="edit_palette_icon.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -597,6 +597,15 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.9960784912109375" green="0.96862751245498657" blue="0.93333339691162109" alpha="1" colorSpace="deviceRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bg4-xd-Vac">
+                                <rect key="frame" x="927" y="545" width="35" height="35"/>
+                                <state key="normal" image="delete_icon.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteSelectedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7CZ-mi-giV"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DfL-zC-aYE">
                                 <rect key="frame" x="286" y="67" width="806" height="1"/>
                                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -604,7 +613,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zwX-ik-4xB">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zwX-ik-4xB">
                                 <rect key="frame" x="868" y="116" width="119" height="30"/>
                                 <state key="normal" title="Buttons Menu">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -651,6 +660,7 @@
                         <outlet property="currentButtonSpeechSpeedRate" destination="G1R-Px-Qsp" id="5dM-2V-QAS"/>
                         <outlet property="currentButtonSpeedSpeedRateLabel" destination="TPq-2h-ree" id="JmT-i4-FpK"/>
                         <outlet property="currentButtonTitle" destination="gaR-d5-0xV" id="cF2-dy-OWy"/>
+                        <outlet property="deleteCurrentButton" destination="bg4-xd-Vac" id="smi-Od-GSv"/>
                         <outlet property="editView" destination="XYs-AE-8x7" id="2Lv-tS-YLs"/>
                         <outlet property="edit_actionSpeechPhrase_TextView" destination="eke-bP-OMP" id="2Ln-FJ-pU6"/>
                         <outlet property="edit_actionSpeechRate_TextField" destination="OHo-k2-2ub" id="pjP-pB-Ujx"/>
@@ -1388,7 +1398,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="cjI-T5-dPc"/>
+        <segue reference="TdT-9o-Obf"/>
         <segue reference="Zjj-6J-lFY"/>
         <segue reference="byS-wS-yq0"/>
     </inferredMetricsTieBreakers>

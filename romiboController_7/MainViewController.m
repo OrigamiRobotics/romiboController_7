@@ -52,6 +52,7 @@
 
 
 - (IBAction)sliderMoved:(UISlider *)sender;
+@property (strong, nonatomic) IBOutlet UIButton *deleteCurrentButton;
 
 @end
 
@@ -813,13 +814,18 @@ const CGFloat kButtonInset_y =   4.0;
 
 -(void)handleSelectedButton
 {
-  NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:[NSNumber numberWithLong:self.selectedButtonCellRow]];
-  //get current palette and use it to get current button
-  PaletteButton *buttonForPalette = [self.palettesManager currentButton:buttonIdStr];
+  PaletteButton *buttonForPalette = [self extractCurrentSelectedButton];
   [self.palettesManager updateLastViewedButton:buttonForPalette.index forPalette:[self extractSelectedPaletteId]];
   [self displaySelectedButtonDetails:buttonForPalette];
 }
 
+-(PaletteButton *)extractCurrentSelectedButton
+{
+  NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:[NSNumber numberWithLong:self.selectedButtonCellRow]];
+  //get current palette and use it to get current button
+  PaletteButton *buttonForPalette = [self.palettesManager currentButton:buttonIdStr];
+  return buttonForPalette;
+}
 
 - (void)registerAsObserver
 {
@@ -923,11 +929,17 @@ const CGFloat kButtonInset_y =   4.0;
   [self.alertView show];
 }
 
+- (IBAction)deleteSelectedButton:(id)sender
+{
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Delete Palette Button?" message:@"Are you sure you want to delete the selected palette button?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+  self.alertView.tag = 1;
+  [self.alertView show];
+}
 
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-  if (alertView.tag == 0){
+  if (alertView.tag == 0){//delete palette
     if (buttonIndex == 1) {
       int currentPaletteId = [self.palettesManager lastViewedPalette];
       [self.palettesManager deletePalette:currentPaletteId];
@@ -935,6 +947,13 @@ const CGFloat kButtonInset_y =   4.0;
       [self.palettesListingTableView reloadData];
       [self.paletteButtonsCollectionView reloadData];
     }
+  } else if (alertView.tag == 1){//delete button
+    int currentPaletteId = [self.palettesManager lastViewedPalette];
+    PaletteButton *currentButton = [self extractCurrentSelectedButton];
+    [self.palettesManager deleteButton:currentButton.index forPalette:currentPaletteId];
+    [self initializePalettesManager];
+    [self.palettesListingTableView reloadData];
+    [self.paletteButtonsCollectionView reloadData];
   } else {
     if (buttonIndex == 1) {
       [self.multipeerSession disconnect];

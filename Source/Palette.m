@@ -50,7 +50,12 @@
 -(void) deleteButton:(int)buttonId
 {
   [self.buttons removeObjectForKey:[self buttonIdToString:buttonId]];
-  self.last_viewed_button_id = [self nextButtonId:buttonId];
+  NSArray *buttonIds = [self.buttons allKeys];
+  if ([buttonIds count] != 0){
+    self.last_viewed_button_id = [[buttonIds firstObject] intValue];
+  } else {
+    self.last_viewed_button_id = -1;
+  }
 }
 
 -(PaletteButton*)getButton:(int)buttonId

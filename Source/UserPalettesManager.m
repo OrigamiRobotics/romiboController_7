@@ -277,4 +277,10 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   [self savePalettes];
 }
 
+-(void)deleteButton:(int)buttonId forPalette:(int)paletteId
+{
+  [[[self palettes] objectForKey:[self paletteIdToString:paletteId]] deleteButton:buttonId];
+  [self savePalettes];
+}
+
 @end

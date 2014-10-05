@@ -16,9 +16,9 @@
 //using this to implement the KVO pattern (iOS's form of the observer design pattern)
 //client can register to be notified
 //when this object changes.
-//thus, wehever we add, delete, edit a palette etc.
+//thus, whenever we add, delete, edit a palette etc.
 //we change this object to some arbitrary value then
-//all registered observers will be notified
+//all registered observers would be notified
 @property (nonatomic, copy) NSNumber* observeMe;
 @property (nonatomic, strong)NSDictionary * defaultButtonData;
 
@@ -39,7 +39,7 @@
 -(void)updateEditedPalette:(NSString*)title withId:(int)paletteId;
 -(NSString *)getPaletteTitle:(int)paletteId;
 
--(void) addDefaultButton:(int)paletteId;
+
 
 //Button getters
 -(NSString *)getButtonTitle:(int)buttonId forPalette:(int)paletteId;
@@ -48,8 +48,10 @@
 -(NSString *)getButtonColor:(int)buttonId forPalette:(int)paletteId;
 -(int)getLastViewedButtonIdFor:(int)paletteId;
 
-//button update
+//button misc
 -(void)updateButton:(int)buttonId withData:(NSDictionary*)buttonData forPalette:(int)paletteId;
+-(void) addDefaultButton:(int)paletteId;
 
+-(void)deleteButton:(int)buttonId forPalette:(int)paletteId;
 
 @end
