@@ -72,6 +72,9 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(void)addPalette:(Palette *)palette
 {
+  if (self.palettes == NULL){
+    self.palettes = [[NSMutableDictionary alloc] init];
+  }
   [self assignHighestId];
   if (palette.index == -1) {
     self.highestPaletteId += 1;
@@ -79,6 +82,8 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   }
   [self.palettes setObject:palette forKey:[self paletteIdToString:palette.index]];
   [self savePalettes];
+  NSLog(@"added palette with id = %d", palette.index);
+  NSLog(@"updated palettes = %@", self.palettes);
   [self updateObserveMe];
 }
 
@@ -168,7 +173,7 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
       [processedPalettes setObject:palette forKey:[self paletteIdToString:palette.index]];
     }
   }
-  
+  NSLog(@"processed palettes = %@", processedPalettes);
   return [processedPalettes copy];
 }
 

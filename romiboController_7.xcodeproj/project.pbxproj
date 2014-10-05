@@ -437,7 +437,7 @@
 				ORGANIZATIONNAME = "Origami Robotics";
 				TargetAttributes = {
 					B1EDAF691910537600C17EBC = {
-						DevelopmentTeam = 9YYN96VW6R;
+						DevelopmentTeam = WTG4846AFW;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -445,6 +445,7 @@
 						};
 					};
 					B1EDAF8D1910537600C17EBC = {
+						DevelopmentTeam = WTG4846AFW;
 						TestTargetID = B1EDAF691910537600C17EBC;
 					};
 				};

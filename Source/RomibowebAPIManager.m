@@ -105,6 +105,7 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
     if (_currentRequestType == LoginRequest){
       [[User sharedUserInstance] fromDictionary:json];
       [[User sharedUserInstance] setIsLoggedIn:YES];
+      [[User sharedUserInstance] save];
     } else if (_currentRequestType == PalettesListRequest){
       self.fetchedPalettes = [[UserPalettesManager sharedPalettesManagerInstance] processPalettesFromRomibowebAPI:json];
     }
@@ -114,7 +115,6 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
     self.loginObservable = @"complete";
   } else if (_currentRequestType == PalettesListRequest){
     NSLog(@"got here nicely!");
-
     self.fetchPalettesObservable = @"complete";
   }
 }
