@@ -53,9 +53,10 @@ typedef enum {
   UIAlertViewDelegate
 >
 
-
+@property (nonatomic, strong) MCPeerID *peerID;
 @property (strong, nonatomic) MCSession * multipeerSession;
 @property (nonatomic, strong) MCBrowserViewController * multipeerBrowser;
+@property (nonatomic, strong) MCAdvertiserAssistant *advertiser;
 
 @property (assign, nonatomic) BOOL connectedToiPod;
 

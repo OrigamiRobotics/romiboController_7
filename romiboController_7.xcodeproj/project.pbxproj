@@ -35,7 +35,7 @@
 		55DD3A3719DE573B00457484 /* Icon-Check-White.png in Resources */ = {isa = PBXBuildFile; fileRef = 55DD3A3619DE573B00457484 /* Icon-Check-White.png */; };
 		55DD3A3919DE6A1200457484 /* edit_palette_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 55DD3A3819DE6A1200457484 /* edit_palette_icon.png */; };
 		55DD3A3C19DE72BA00457484 /* EditPaletteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DD3A3B19DE72BA00457484 /* EditPaletteViewController.m */; };
-		55DD3A3F19DE84CC00457484 /* CreateOrEditButtonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DD3A3E19DE84CC00457484 /* CreateOrEditButtonViewController.m */; };
+		55DD3A3F19DE84CC00457484 /* EditButtonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DD3A3E19DE84CC00457484 /* EditButtonViewController.m */; };
 		55DD3A4119E0628A00457484 /* 070928-glossy-black-icon-alphanumeric-plus-sign-simple.png in Resources */ = {isa = PBXBuildFile; fileRef = 55DD3A4019E0628900457484 /* 070928-glossy-black-icon-alphanumeric-plus-sign-simple.png */; };
 		55DD3A4419E0658800457484 /* ButtonsMenuPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DD3A4319E0658800457484 /* ButtonsMenuPopoverViewController.m */; };
 		B1BE549319248B5E00BEAA76 /* icon-arrow-left-b.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BE549119248B5E00BEAA76 /* icon-arrow-left-b.png */; };
@@ -126,8 +126,8 @@
 		55DD3A3819DE6A1200457484 /* edit_palette_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = edit_palette_icon.png; path = images/edit_palette_icon.png; sourceTree = "<group>"; };
 		55DD3A3A19DE72BA00457484 /* EditPaletteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditPaletteViewController.h; path = Source/EditPaletteViewController.h; sourceTree = SOURCE_ROOT; };
 		55DD3A3B19DE72BA00457484 /* EditPaletteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditPaletteViewController.m; path = Source/EditPaletteViewController.m; sourceTree = SOURCE_ROOT; };
-		55DD3A3D19DE84CC00457484 /* CreateOrEditButtonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateOrEditButtonViewController.h; path = Source/CreateOrEditButtonViewController.h; sourceTree = SOURCE_ROOT; };
-		55DD3A3E19DE84CC00457484 /* CreateOrEditButtonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateOrEditButtonViewController.m; path = Source/CreateOrEditButtonViewController.m; sourceTree = SOURCE_ROOT; };
+		55DD3A3D19DE84CC00457484 /* EditButtonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditButtonViewController.h; path = Source/EditButtonViewController.h; sourceTree = SOURCE_ROOT; };
+		55DD3A3E19DE84CC00457484 /* EditButtonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditButtonViewController.m; path = Source/EditButtonViewController.m; sourceTree = SOURCE_ROOT; };
 		55DD3A4019E0628900457484 /* 070928-glossy-black-icon-alphanumeric-plus-sign-simple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "070928-glossy-black-icon-alphanumeric-plus-sign-simple.png"; path = "images/070928-glossy-black-icon-alphanumeric-plus-sign-simple.png"; sourceTree = SOURCE_ROOT; };
 		55DD3A4219E0658800457484 /* ButtonsMenuPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonsMenuPopoverViewController.h; path = Source/ButtonsMenuPopoverViewController.h; sourceTree = SOURCE_ROOT; };
 		55DD3A4319E0658800457484 /* ButtonsMenuPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonsMenuPopoverViewController.m; path = Source/ButtonsMenuPopoverViewController.m; sourceTree = SOURCE_ROOT; };
@@ -241,8 +241,8 @@
 				555AA51219D9381F00372F1C /* ButtonColorsPopoverViewController.m */,
 				55DD3A4219E0658800457484 /* ButtonsMenuPopoverViewController.h */,
 				55DD3A4319E0658800457484 /* ButtonsMenuPopoverViewController.m */,
-				55DD3A3D19DE84CC00457484 /* CreateOrEditButtonViewController.h */,
-				55DD3A3E19DE84CC00457484 /* CreateOrEditButtonViewController.m */,
+				55DD3A3D19DE84CC00457484 /* EditButtonViewController.h */,
+				55DD3A3E19DE84CC00457484 /* EditButtonViewController.m */,
 				55DD3A3A19DE72BA00457484 /* EditPaletteViewController.h */,
 				55DD3A3B19DE72BA00457484 /* EditPaletteViewController.m */,
 				55B6BBE219DBE297000C0C1D /* FetchPalettesFromRomiboWebViewController.h */,
@@ -535,7 +535,7 @@
 				55444B2A19D2A53E00192456 /* User.m in Sources */,
 				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
 				55B6BBE419DBE297000C0C1D /* FetchPalettesFromRomiboWebViewController.m in Sources */,
-				55DD3A3F19DE84CC00457484 /* CreateOrEditButtonViewController.m in Sources */,
+				55DD3A3F19DE84CC00457484 /* EditButtonViewController.m in Sources */,
 				B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */,
 				B1EDAF871910537600C17EBC /* MainViewController.m in Sources */,
 				55B6D0BB19D8AE5C00A0526A /* SelectedButtonDetailsViewController.m in Sources */,

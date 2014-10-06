@@ -1,17 +1,17 @@
 //
-//  CreateOrEditButtonViewController.m
+//  EditButtonViewController.m
 //  romiboController_7
 //
 //  Created by Daniel Brown on 10/3/14.
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "CreateOrEditButtonViewController.h"
+#import "EditButtonViewController.h"
 #import "UserPalettesManager.h"
 #import "PaletteButtonColors.h"
 #import "GenericController.h"
 
-@interface CreateOrEditButtonViewController ()
+@interface EditButtonViewController ()
 
 @property (strong, nonatomic) IBOutlet UIButton *saveButton;
 @property (strong, nonatomic) IBOutlet UITextField *buttonTitleTextfield;
@@ -29,7 +29,7 @@
 
 @end
 
-@implementation CreateOrEditButtonViewController
+@implementation EditButtonViewController
 
 - (void)viewDidLoad
 {

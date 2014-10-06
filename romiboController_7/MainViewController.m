@@ -58,6 +58,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *deleteCurrentButton;
 @property (strong, nonatomic) IBOutlet UIView *toolbarContainerView;
 
+-(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+
 @end
 
 @implementation MainViewController
@@ -180,6 +182,7 @@
   }
   else {
     UIAlertView *disconnectView = [[UIAlertView alloc] initWithTitle:@"Disconnect from Robot?" message:@"Are you sure you want to disconect from the robot?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Disconnect", nil];
+    disconnectView.tag = 100;
     [disconnectView show];
   }
   NSLog(@"manageRobotConnection");
@@ -193,7 +196,7 @@
 
 - (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
 {
-  [self.multipeerBrowser dismissViewControllerAnimated:YES completion:nil];
+  //[self.multipeerBrowser dismissViewControllerAnimated:YES completion:nil];
   self.connectedToiPod = YES;
 }
 
@@ -212,14 +215,18 @@
   self.connectedToiPod = YES;
   if (state == MCSessionStateConnected) {
     dispatch_async(dispatch_get_main_queue(), ^{
+      NSLog(@"connected successfuly");
+
       [self.multipeerBrowser dismissViewControllerAnimated:YES completion:^{
-        
+        NSLog(@"connected successfuly");
       }];
       
     });
   }
   else {
     self.connectedToiPod = NO;
+    NSLog(@"connection failed");
+
   }
 }
 
@@ -319,144 +326,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
     NSData *paramsData = [NSKeyedArchiver archivedDataWithRootObject:params];
     [self sendDataToRobot:paramsData];
   }
-}
-
-
-
-- (IBAction) newButtonAction:(id)sender
-{
-  NSError * error;
-  rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
-  
-  NSEntityDescription *entity = [NSEntityDescription entityForName:@"PaletteEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  NSFetchRequest *request = [[NSFetchRequest alloc] init];
-  [request setEntity:entity];
-  
-  NSIndexPath * paletteIndexPath = self.palettesListingTableView.indexPathForSelectedRow;
-  NSInteger paletteCoreDataIndex = paletteIndexPath.row + 1; // indexing in coreData starts at 1, not 0
-  NSString *attributeName = @"index";
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %d",
-                            attributeName, paletteCoreDataIndex];
-  
-  [request setPredicate:(NSPredicate *)predicate];
-  
-  NSArray *fetchedPalettes = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  
-  PaletteEntity * selectedPaletteEntity = (PaletteEntity *) fetchedPalettes[0]; // Should only be one
-  
-  entity = [NSEntityDescription entityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  request = [[NSFetchRequest alloc] init];
-  [request setEntity:entity];
-  
-  NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  [request setSortDescriptors:@[descriptor]];
-  
-  NSArray *fetchedButtons = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  
-  entity = [NSEntityDescription entityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  request = [[NSFetchRequest alloc] init];
-  [request setEntity:entity];
-  
-  descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-  [request setSortDescriptors:@[descriptor]];
-  
-  NSArray *fetchedActions = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-  
-  
-  NSUInteger numButtons  = fetchedButtons.count;
-  NSUInteger numActions  = fetchedActions.count;
-  
-  
-  ButtonEntity * newButtonEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  
-  [newButtonEntity setTitle: self.edit_buttonTitle_TextField.text];
-  NSString * hexColorStr = [UIColor hexValuesFromUIColor:self.edit_buttonColorView.backgroundColor];
-  [newButtonEntity setColor: hexColorStr];
-  
-  
-  NSString * size = self.edit_buttonSize_Label.text;
-  if ([size isEqualToString:@"Small"])
-  {
-    [newButtonEntity setWidth:  [NSNumber numberWithInt:1]];
-    [newButtonEntity setHeight: [NSNumber numberWithInt:1]];
-  }
-  else if ([size isEqualToString:@"Medium"])
-  {
-    [newButtonEntity setWidth:  [NSNumber numberWithInt:2]];
-    [newButtonEntity setHeight: [NSNumber numberWithInt:1]];
-  }
-  else if ([size isEqualToString:@"Large"])
-  {
-    [newButtonEntity setWidth:  [NSNumber numberWithInt:4]];
-    [newButtonEntity setHeight: [NSNumber numberWithInt:1]];
-  }
-  
-  
-  // Go through the buttons in this palette to determine position of new button
-  NSInteger maxRow = 0;
-  for (ButtonEntity * buttonEntity in selectedPaletteEntity.buttons) {
-    if ([buttonEntity.row integerValue] > maxRow) {
-      maxRow = [buttonEntity.row integerValue];
-    }
-  }
-  
-  NSInteger maxColumnInLastRow = 0;
-  NSInteger lastWidth = 0;
-  for (ButtonEntity * buttonEntity in selectedPaletteEntity.buttons) {
-    if ([buttonEntity.row integerValue] == maxRow) {
-      if ([buttonEntity.column integerValue] > maxColumnInLastRow) {
-        maxColumnInLastRow = [buttonEntity.column integerValue];
-        lastWidth = [buttonEntity.width integerValue];
-      }
-    }
-  }
-  
-  NSInteger nextFreeColumn = maxColumnInLastRow += lastWidth;
-  if (nextFreeColumn + ([newButtonEntity.width integerValue] - 1) > 12) {
-    maxRow = maxRow + 1;
-    nextFreeColumn = 1;
-  }
-  
-  [newButtonEntity setRow    : [NSNumber numberWithInteger:maxRow]];
-  [newButtonEntity setColumn : [NSNumber numberWithInteger:nextFreeColumn]];
-  
-  
-  [newButtonEntity setPalette:selectedPaletteEntity];
-  numButtons++;
-  [newButtonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
-  
-  ActionEntity * actionEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ActionEntity" inManagedObjectContext:appDelegate.managedObjectContext];
-  [actionEntity setSpeechText  : self.edit_actionSpeechPhrase_TextView.text];
-  [actionEntity setSpeechSpeed : [NSNumber numberWithFloat: [self.edit_actionSpeechRate_TextField.text floatValue]]];
-  
-  [actionEntity setActionType:[NSNumber numberWithInt:eActionType_talk]];
-  numActions++;
-  [actionEntity setIndex: [NSNumber numberWithInt:(uint32_t)numActions]];
-  
-  [actionEntity setActions:nil];
-  [actionEntity setButton:newButtonEntity];
-  
-  NSSet * actionsSet = [NSSet setWithObject:actionEntity];
-  [newButtonEntity setActions:actionsSet];
-  
-  NSSet * buttonSet = [NSSet setWithObject:newButtonEntity];
-  if (selectedPaletteEntity.buttons == nil) {
-    [selectedPaletteEntity addButtons:buttonSet];
-  }
-  else {
-    NSMutableSet *newSet = [[NSMutableSet alloc] init];
-    [newSet setSet:selectedPaletteEntity.buttons];
-    [newSet unionSet:buttonSet];
-    [selectedPaletteEntity addButtons:newSet];
-  }
-  
-  [appDelegate.managedObjectContext save:nil];
-  
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self.palettesListingTableView reloadData];
-    [self displayButtonsForSelectedPalette: paletteIndexPath.row];
-  });
-  
 }
 
 - (IBAction)showColorPopoverAction:(id)sender
@@ -871,7 +740,10 @@ const CGFloat kButtonInset_y =   4.0;
                            forKeyPath:@"selectedButtonMenuItem"
                               options:(NSKeyValueObservingOptionNew)
                               context:NULL];
-  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(peerDidChangeStateWithNotification:)
+                                               name:@"MCDidChangeStateNotification"
+                                             object:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -972,7 +844,7 @@ const CGFloat kButtonInset_y =   4.0;
     [self initializePalettesManager];
     [self.palettesListingTableView reloadData];
     [self.paletteButtonsCollectionView reloadData];
-  } else {
+  } else if (alertView.tag == 100){//disconnect from iPhone/iPod
     if (buttonIndex == 1) {
       [self.multipeerSession disconnect];
       self.connectedToiPod = NO;

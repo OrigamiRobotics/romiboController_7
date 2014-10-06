@@ -82,8 +82,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   }
   [self.palettes setObject:palette forKey:[self paletteIdToString:palette.index]];
   [self savePalettes];
-  NSLog(@"added palette with id = %d", palette.index);
-  NSLog(@"updated palettes = %@", self.palettes);
   [self updateObserveMe];
 }
 
