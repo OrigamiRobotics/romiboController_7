@@ -78,7 +78,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WTX-UZ-YkV">
-                                <rect key="frame" x="286" y="138" width="728" height="408"/>
+                                <rect key="frame" x="286" y="146" width="728" height="400"/>
                                 <color key="backgroundColor" red="0.9960784912109375" green="0.97647064924240112" blue="0.95294123888015747" alpha="1" colorSpace="deviceRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="fUy-tV-Uso">
                                     <size key="itemSize" width="140" height="50"/>
@@ -91,7 +91,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="140" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cMo-Ce-1S4">
@@ -101,14 +101,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdQ-KN-jeR">
-                                                    <rect key="frame" x="0.0" y="0.0" width="140" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="50"/>
                                                     <color key="backgroundColor" red="0.14901961389999999" green="0.69411766529999996" blue="0.84705889229999998" alpha="1" colorSpace="deviceRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aji-cr-vN4">
-                                                    <rect key="frame" x="10" y="0.0" width="130" height="50"/>
+                                                    <rect key="frame" x="10" y="0.0" width="140" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     <gestureRecognizers/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -124,6 +124,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <size key="customSize" width="150" height="50"/>
                                         <connections>
                                             <outlet property="backgroundLabel" destination="fdQ-KN-jeR" id="cUz-Ve-Ads"/>
                                             <outlet property="checkmarkImage" destination="eoK-Kb-c9W" id="KfS-5S-Pf6"/>
@@ -527,34 +528,40 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jZY-ii-Pgd">
-                                        <rect key="frame" x="690" y="-3" width="40" height="40"/>
-                                        <size key="titleShadowOffset" width="-13" height="0.0"/>
-                                        <state key="normal" image="edit_palette_icon.png">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="Y10-qV-PFE" kind="modal" identifier="PresentCreateEditView" modalTransitionStyle="coverVertical" id="Zjj-6J-lFY"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Currently Selected Button Details" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A4c-xY-sWr">
                                         <rect key="frame" x="8" y="2" width="297" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7yf-po-eV7">
+                                        <rect key="frame" x="596" y="4" width="142" height="35"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bg4-xd-Vac">
+                                                <rect key="frame" x="45" y="0.0" width="35" height="35"/>
+                                                <state key="normal" image="delete_icon.png">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="deleteSelectedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7CZ-mi-giV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jZY-ii-Pgd">
+                                                <rect key="frame" x="97" y="-5" width="40" height="40"/>
+                                                <size key="titleShadowOffset" width="-13" height="0.0"/>
+                                                <state key="normal" image="edit_palette_icon.png">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="Y10-qV-PFE" kind="modal" identifier="PresentCreateEditView" modalTransitionStyle="coverVertical" id="Zjj-6J-lFY"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.9960784912109375" green="0.96862751245498657" blue="0.93333339691162109" alpha="1" colorSpace="deviceRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bg4-xd-Vac">
-                                <rect key="frame" x="910" y="545" width="35" height="35"/>
-                                <state key="normal" image="delete_icon.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="deleteSelectedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7CZ-mi-giV"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DfL-zC-aYE">
                                 <rect key="frame" x="282" y="67" width="806" height="1"/>
                                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -1345,7 +1352,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="jIb-Sg-p25"/>
+        <segue reference="TdT-9o-Obf"/>
         <segue reference="Zjj-6J-lFY"/>
         <segue reference="byS-wS-yq0"/>
     </inferredMetricsTieBreakers>

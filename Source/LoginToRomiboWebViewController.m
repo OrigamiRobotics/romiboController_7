@@ -36,10 +36,15 @@
   self.passwordTextField.secureTextEntry = YES;
   [[User sharedUserInstance] loadData];
 
-  self.emailAddressTextField.text = [[User sharedUserInstance] email];
   [self.emailAddressTextField setDelegate:self];
   [self.passwordTextField setDelegate:self];
-  [self.passwordTextField becomeFirstResponder];
+  
+  if ([[[User sharedUserInstance] email] isEqualToString:@""]){
+    [self.emailAddressTextField becomeFirstResponder];
+  } else {
+    self.emailAddressTextField.text = [[User sharedUserInstance] email];
+    [self.passwordTextField becomeFirstResponder];
+  }
 }
 
 - (void)didReceiveMemoryWarning {

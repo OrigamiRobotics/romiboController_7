@@ -68,19 +68,19 @@ static User *sharedUserInstance = nil;
   NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self];
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   
-  [defaults setObject:userData forKey:USER_STORAGE_KEY];
-  [defaults synchronize];
+//  [defaults setObject:userData forKey:[self useInfoStorageKeyForCurrentAccount]];
+//  [defaults synchronize];
 }
 
 -(void)loadData
 {
   if (self){
-    NSData *encodedUser = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORAGE_KEY];
+    NSData *encodedUser = [[NSUserDefaults standardUserDefaults] objectForKey:[self useInfoStorageKeyForCurrentAccount]];
     User *loadedUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
     self.user_id    = loadedUser.user_id;
     self.first_name = loadedUser.first_name;
     self.last_name  = loadedUser.last_name;
-    self.email      = loadedUser.email;
+    ////self.email      = loadedUser.email;
     self.token      = loadedUser.token;
     self.last_viewed_palette_id
                     = loadedUser.last_viewed_palette_id;
@@ -109,6 +109,19 @@ static User *sharedUserInstance = nil;
 {
   return [NSString stringWithFormat:@"First Name = %@\nLast Name = %@\nEmail = %@\nLast Viewed Palette = %d\n",
   self.first_name, self.last_name, self.email, self.last_viewed_palette_id];
+}
+
+-(NSString*)useInfoStorageKeyForCurrentAccount
+{
+  if ([self.email isEqualToString:@""]){
+    NSLog(@"got here1");
+    //return USER_STORAGE_KEY;
+    return @"XXXXXXX";
+  } else {
+    NSLog(@"got here 2");
+    return @"NNNNNNNNN";
+    //return [NSString stringWithFormat:@"%@%@", USER_STORAGE_KEY, self.email];
+  }
 }
 
 @end

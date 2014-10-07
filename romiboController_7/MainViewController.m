@@ -58,6 +58,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *deleteCurrentButton;
 @property (strong, nonatomic) IBOutlet UIView *toolbarContainerView;
 
+@property (strong, nonatomic) IBOutlet UIView *buttonDetailsToolbarContainer;
+
 -(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
 
 @end
@@ -84,7 +86,7 @@
   [self setupAvailableColors];
   
   // UI specific
-  NSLog(@"view did load");
+  [self.buttonDetailsToolbarContainer setHidden:YES];
   //set Palettes listing tableview background color
   self.palettesListingTableView.backgroundView = nil;
   CGFloat red   = 232.0f/255.0f;
@@ -605,8 +607,10 @@ const CGFloat kButtonInset_y =   4.0;
   Palette* palette = [[UserPalettesManager sharedPalettesManagerInstance] getSelectedPalette:lastViewedPaletteId];
   if (buttonForPalette.index == palette.last_viewed_button_id){
     [cell.checkmarkImage setHidden:NO];
+    [self.buttonDetailsToolbarContainer setHidden:NO];
   } else {
     [cell.checkmarkImage setHidden:YES];
+    [self.buttonDetailsToolbarContainer setHidden:YES];
   }
   
   return cell;
@@ -704,6 +708,12 @@ const CGFloat kButtonInset_y =   4.0;
   PaletteButton *buttonForPalette = [self extractCurrentSelectedButton];
   [self.palettesManager updateLastViewedButton:buttonForPalette.index forPalette:[self extractSelectedPaletteId]];
   [self displaySelectedButtonDetails:buttonForPalette];
+  [self sendSpeechPhraseToRobot:buttonForPalette.speech_phrase atSpeechRate:buttonForPalette.speech_speed_rate];
+  if (buttonForPalette == NULL){
+    [self.buttonDetailsToolbarContainer setHidden:YES];
+  } else {
+    [self.buttonDetailsToolbarContainer setHidden:NO];
+  }
 }
 
 -(PaletteButton *)extractCurrentSelectedButton
