@@ -7,8 +7,10 @@
 //
 
 #import "RomibowebAPIManager.h"
-#import "User.h"
+#import "UserAccountsManager.h"
 #import "UserPalettesManager.h"
+#import "PaletteButtonColorsManager.h"
+
 //TESTTING
 const NSString * kRomiboWebURI   = @"http://romiboweb-integration.herokuapp.com";
 //END OF TESTING VARIABLES
@@ -52,6 +54,7 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
     self.loginObservable = nil;
     self.fetchPalettesObservable = nil;
     self.fetchedPalettes = [[NSDictionary alloc] init];
+    self.registrationObservable = nil;
   }
   
   return self;
@@ -69,7 +72,7 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
   
   NSURL *url = [NSURL URLWithString:connectionUrl];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-  NSString * authToken = [[User sharedUserInstance] token];
+  NSString * authToken = [[UserAccountsManager sharedUserAccountManagerInstance] getCurrentUserToken];
   if (_currentRequestType != LoginRequest && _currentRequestType != RegistrationRequest){
     [request setValue:authToken forHTTPHeaderField:@"Authorization"];
   }
@@ -95,33 +98,61 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
   self.responseStatus = [headers objectForKey:@"Status"];
   
 //  NSLog(@"responde code returned = %ld", (long)self.responseCode);
-//  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-//
-//  NSLog(@"returned json = %@", json);
+  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+
+  //NSLog(@"returned json = %@", json);
 
   if ((self.responseCode == 200) || (self.responseCode == 201)){//success
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+    UserAccountsManager *userAccountsMgr = [UserAccountsManager sharedUserAccountManagerInstance];
 
     if (_currentRequestType == LoginRequest){
-      [[User sharedUserInstance] fromDictionary:json];
-      [[User sharedUserInstance] setIsLoggedIn:YES];
-      [[User sharedUserInstance] save];
+      [userAccountsMgr addUser:json];
+      [userAccountsMgr logInCurrentUser];
+    } else if (_currentRequestType == RegistrationRequest){
+      [userAccountsMgr addUser:json];
     } else if (_currentRequestType == PalettesListRequest){
       self.fetchedPalettes = [[UserPalettesManager sharedPalettesManagerInstance] processPalettesFromRomibowebAPI:json];
+    } else if (_currentRequestType == ColorsListRequest){
+      [[PaletteButtonColorsManager sharedColorsManagerInstance]  processColorsFromRomibowebAPI:json];
     }
   }
   
   if (_currentRequestType ==  LoginRequest){
     self.loginObservable = @"complete";
   } else if (_currentRequestType == PalettesListRequest){
-    NSLog(@"got here nicely!");
     self.fetchPalettesObservable = @"complete";
+  } else if (_currentRequestType == RegistrationRequest){
+    NSLog(@"registered successfully!");
+    self.registrationObservable = @"complete";
+  } else if (_currentRequestType == ColorsListRequest){
+    NSLog(@"fetched colors successfully!");
+    self.colorsObservable = @"complete";
   }
 }
 
--(void)registerNewUserAtRomiboWeb
+-(void)registerNewUserAtRomiboWeb:(NSString*)firstName
+                         lastName:(NSString*)lastName
+                            email:(NSString*)email
+                         password:(NSString*)password
+            password_confirmation:(NSString *)password_confirmation
+
 {
- 
+  _currentRequestType = RegistrationRequest;
+  NSString* registrationUrl = @"/api/v1/register";
+  NSString* registrationParams = @"{\"user\": {\"first_name\":\"";
+  registrationParams = [registrationParams stringByAppendingString:firstName];
+  registrationParams = [registrationParams stringByAppendingString:@"\",\"last_name\":\""];
+  registrationParams = [registrationParams stringByAppendingString:lastName];
+  registrationParams = [registrationParams stringByAppendingString:@"\",\"email\":\""];
+  registrationParams = [registrationParams stringByAppendingString:email];
+  registrationParams = [registrationParams stringByAppendingString:@"\",\"password\":\""];
+  registrationParams = [registrationParams stringByAppendingString:password];
+  registrationParams = [registrationParams stringByAppendingString:@"\",\"password_confirmation\":\""];
+  registrationParams = [registrationParams stringByAppendingString:password_confirmation];
+  registrationParams = [registrationParams stringByAppendingString:@"\"}}"];
+  
+  [self connectToRomiboWebApi:HttpPostMethod forUrl:registrationUrl withParams:registrationParams];
 }
 
 -(void)loginToRomiboWeb:(NSString*)email andPassword:(NSString *)password

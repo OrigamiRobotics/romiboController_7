@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *addPaletteTitle;
 @property (weak, nonatomic) IBOutlet UIButton *addPaletteButton;
+@property (strong, nonatomic) IBOutlet UITextField *paletteTitleTextfield;
 
 @end
 
@@ -33,7 +34,7 @@
   [super viewDidLoad];
   self.addPaletteButton.hidden = YES;
     // Do any additional setup after loading the view.
-
+  [self.paletteTitleTextfield becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

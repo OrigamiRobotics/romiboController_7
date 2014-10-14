@@ -1,28 +1,28 @@
 //
-//  PaletteButtonColors.m
+//  PaletteButtonColorsManager.m
 //  romiboController_7
 //
 //  Created by Daniel Brown on 9/28/14.
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "PaletteButtonColors.h"
+#import "PaletteButtonColorsManager.h"
 #import "ButtonColor.h"
 
 #define COLORS_STORAGE_KEY @"buttonColors"
 
 
-@implementation PaletteButtonColors
+@implementation PaletteButtonColorsManager
 
 
-static PaletteButtonColors *sharedButtonColorsManagerInstance = nil;
+static PaletteButtonColorsManager *sharedButtonColorsManagerInstance = nil;
 
 +(id)sharedColorsManagerInstance
 {
   if (sharedButtonColorsManagerInstance == nil){
     static dispatch_once_t predicate; //lock
     dispatch_once(&predicate, ^{
-      sharedButtonColorsManagerInstance = [[PaletteButtonColors alloc] init];
+      sharedButtonColorsManagerInstance = [[PaletteButtonColorsManager alloc] init];
     });
   }
   
@@ -97,7 +97,7 @@ static PaletteButtonColors *sharedButtonColorsManagerInstance = nil;
   for(id key in self.buttonColors){
     ButtonColor* buttonColor = [self.buttonColors objectForKey:key];
     if ([buttonColor.hexValue isEqualToString:hexValue]){
-      name = key;
+      name = buttonColor.name;
     }
   }
   return name;
@@ -118,6 +118,33 @@ static PaletteButtonColors *sharedButtonColorsManagerInstance = nil;
   return [NSArray arrayWithArray:names];
 }
 
+-(void)processColorsFromRomibowebAPI:(NSDictionary *)json
+{
+  //NSLog(@"json = %@", json);
+  NSMutableDictionary *processedColors = [[NSMutableDictionary alloc] init];
+  NSArray *palettesArray = [[NSArray alloc] initWithArray:json[@"button_colors"]];
+  if ([palettesArray count] != 0) {
+    for (id pal in palettesArray){
+      NSDictionary* colorDict = pal[@"button_color"];
+      ButtonColor *buttonColor = [[ButtonColor alloc] initWithDictionary:colorDict];
+      [processedColors setObject:buttonColor forKey:buttonColor.name];
+    }
+  }
 
+  if ([[processedColors allKeys] count] != 0) {
+    self.buttonColors = [processedColors mutableCopy];
+    [self saveColors];
+  }
+}
+
+-(void)initializeColors
+{
+  [self loadColors];
+  if ([[self.buttonColors allKeys] count] == 0) {
+    NSLog(@"loading predefined colors ...");
+    [self usePredefinedAvailableColors];
+  }
+  NSLog(@"colors = %@", self.buttonColors);
+}
 
 @end

@@ -163,7 +163,6 @@
     cell.textLabel.text = palette.title;
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     cell.selected = YES;
-
   }
   
   return cell;
@@ -276,6 +275,7 @@
   RomibowebAPIManager *apiManager = [RomibowebAPIManager sharedRomibowebManagerInstance];
   if ((apiManager.responseCode == 200) || (apiManager.responseCode == 201)){//success: fetch succeeded
     dispatch_async(dispatch_get_main_queue(), ^{
+      [apiManager getColorsListFromRomiboWeb];
       self.connectionStatusLabel.textColor = [UIColor colorWithRed:0.2/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0];
       NSString *successMessage = @"Successfully fetched the requested palettes from RomiboWeb.";
       self.connectionStatusLabel.text = successMessage;

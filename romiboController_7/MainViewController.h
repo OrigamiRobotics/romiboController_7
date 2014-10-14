@@ -68,8 +68,6 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIView * paletteView;
 @property (strong, nonatomic) IBOutlet UITableView * palettesListingTableView;
 @property (strong, nonatomic) IBOutlet UIView * editView;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *rightSideView_SegmentedControl;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *leftSideView_SegmentedControl;
 
 @property (strong, nonatomic) AVSpeechSynthesizer * speechSynth;
 
@@ -93,33 +91,16 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIButton * emote4_button;
 @property (strong, nonatomic) IBOutlet UIButton * emote5_button;
 
-@property (strong, nonatomic) IBOutlet UIButton * text1_button;
-@property (strong, nonatomic) IBOutlet UIButton * text2_button;
-@property (strong, nonatomic) IBOutlet UIButton * text3_button;
-@property (strong, nonatomic) IBOutlet UIButton * text4_button;
-@property (strong, nonatomic) IBOutlet UIButton * text5_button;
 
-
-@property (strong, nonatomic) IBOutlet UITextField * loginName_TextField;
-@property (strong, nonatomic) IBOutlet UITextField * password_TextFIeld;
-
-@property (strong, nonatomic) IBOutlet UIView *connect_button;
-@property (strong, nonatomic) IBOutlet UIButton *logIn_button;
+@property (strong, nonatomic) IBOutlet UIView *connectButton;
 
 @property (strong, nonatomic) NSArray* paletteTitles;
 
 - (IBAction)textAction:(id)sender;
 - (IBAction)emoteAction:(id)sender;
 
-- (IBAction)leftSideViewAction:(id)sender;
-- (IBAction)rightSideViewAction:(id)sender;
 
 - (IBAction) connectAction:(id)sender;
-
-- (IBAction) newButtonAction:(id)sender;
-- (IBAction) showColorPopoverAction:(id)sender;
-- (IBAction) showSizePopoverAction:(id)sender;
-- (IBAction) doActionFromButton:(id)sender;
 
 - (void) setEditButtonColor:(UIColor *) color;
 - (void) setEditButtonSize:(NSString *) sizeStr;

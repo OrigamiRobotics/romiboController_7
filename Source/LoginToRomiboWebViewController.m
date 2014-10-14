@@ -8,7 +8,7 @@
 
 #import "LoginToRomiboWebViewController.h"
 #import "RomibowebAPIManager.h"
-#import "User.h"
+#import "UserAccountsManager.h"
 
 
 @interface LoginToRomiboWebViewController ()
@@ -34,15 +34,16 @@
     // Do any additional setup after loading the view.
   [self.spinner stopAnimating];
   self.passwordTextField.secureTextEntry = YES;
-  [[User sharedUserInstance] loadData];
+  [[UserAccountsManager sharedUserAccountManagerInstance] loadAccounts];
 
   [self.emailAddressTextField setDelegate:self];
   [self.passwordTextField setDelegate:self];
   
-  if ([[[User sharedUserInstance] email] isEqualToString:@""]){
+  NSString *currentUserEmail = [[UserAccountsManager sharedUserAccountManagerInstance] getCurrentUserEmail];
+  if ([currentUserEmail isEqualToString:@""]){
     [self.emailAddressTextField becomeFirstResponder];
   } else {
-    self.emailAddressTextField.text = [[User sharedUserInstance] email];
+    self.emailAddressTextField.text = currentUserEmail;
     [self.passwordTextField becomeFirstResponder];
   }
 }
@@ -120,7 +121,7 @@
   if (apiManager.responseCode == 201){//success: loging succeeded
     dispatch_async(dispatch_get_main_queue(), ^{
       self.connectionStatusLabel.textColor = [UIColor colorWithRed:0.2/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0];
-      NSString *name = [[User sharedUserInstance] name];
+      NSString *name = [[UserAccountsManager sharedUserAccountManagerInstance] getCurrentUserName];
       NSString *successMessage = [NSString stringWithFormat: @"Successfully logged in to RomiboWeb as %@.", name];
       self.connectionStatusLabel.text = successMessage;
       if ([self.spinner isAnimating]) {
@@ -136,6 +137,8 @@
       NSLog(@"status = %@", apiManager.responseStatus);
       if ([apiManager.responseStatus isEqualToString:@"401 Unauthorized"]){
         failureMessage = @"Failed to log in to RomiboWeb. Invalid email/password combination.";
+      } else if (apiManager.responseCode == 501){
+        failureMessage = @"Failed to log in to RomiboWeb. Please ensure you have confirmed your registration.";
       } else {
         failureMessage = @"Failed to log in to RomiboWeb. Please try again.";
       }

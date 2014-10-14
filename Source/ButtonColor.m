@@ -57,4 +57,19 @@
   self.hexValue  = [dict objectForKey:@"value"];
 }
 
+-(instancetype)initWithDictionary:(NSDictionary *)json
+{
+  if (self = [super init]){
+    self.name     = @"";
+    self.hexValue = @"";
+    [self fromDictionary:json];
+  }
+  
+  return self;
+}
+
+-(NSString*)description
+{
+  return [NSString stringWithFormat:@"%@, %@", self.name, self.hexValue];
+}
 @end

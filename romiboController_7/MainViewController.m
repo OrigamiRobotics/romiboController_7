@@ -17,9 +17,9 @@
 #import "UserPalettesManager.h"
 #import "RomibowebAPIManager.h"
 #import "PaletteButtonsCollectionViewCell.h"
-#import "PaletteButtonColors.h"
-#import "GenericController.h"
-#import "User.h"
+#import "PaletteButtonColorsManager.h"
+#import "MenuSelectionsController.h"
+#import "UserAccountsManager.h"
 
 @interface MainViewController ()
 
@@ -44,11 +44,12 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
 
+@property (strong, nonatomic) IBOutlet UIButton *registrationButton;
 @property (strong, nonatomic) IBOutlet UILabel *currentButtonColorLabel;
 @property (strong, nonatomic) IBOutlet UIButton *currentButtonColorSelector;
 
 @property (strong, nonatomic) IBOutlet UILabel *selectedPaletteTitleLabel;
-@property (weak, nonatomic) GenericController *genericController;
+@property (weak, nonatomic) MenuSelectionsController *genericController;
 @property (strong, nonatomic) IBOutlet UIButton *addNewButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *fetchPalettesButton;
@@ -61,6 +62,15 @@
 @property (strong, nonatomic) IBOutlet UIView *buttonDetailsToolbarContainer;
 
 -(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+@property (strong, nonatomic) IBOutlet UIButton *deleteSelectedPaletteButton;
+@property (strong, nonatomic) IBOutlet UIButton *editSelectedPaletteButton;
+
+@property (strong, nonatomic) IBOutlet UIView *textToSpeechViewContainer;
+@property (strong, nonatomic) IBOutlet UIButton *switchUsersButton;
+@property (strong, nonatomic) IBOutlet UILabel *notificationLabel;
+@property (strong, nonatomic) IBOutlet UIView *quickButtonsContainer;
+@property (strong, nonatomic) IBOutlet UILabel *currentUserNameLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *connectedToIphoneImageView;
 
 @end
 
@@ -77,13 +87,14 @@
   self.speechSynth = [[AVSpeechSynthesizer alloc] init];
   
   [self setupMultipeerConnectivity];
-  self.genericController = [GenericController sharedGenericControllerInstance];
+  self.genericController = [MenuSelectionsController sharedGenericControllerInstance];
   
   [self setupRomiboWebUI];
+  [self setupAvailableColors];
+
   //init palettes stuff
   [self initializePalettesManager];
-
-  [self setupAvailableColors];
+  [self.connectedToIphoneImageView setHidden:YES];
   
   // UI specific
   [self.buttonDetailsToolbarContainer setHidden:YES];
@@ -217,10 +228,13 @@
   self.connectedToiPod = YES;
   if (state == MCSessionStateConnected) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      NSLog(@"connected successfuly");
-
       [self.multipeerBrowser dismissViewControllerAnimated:YES completion:^{
         NSLog(@"connected successfuly");
+        [self.textToSpeechViewContainer setHidden:NO];
+        [self.quickButtonsContainer setHidden:NO];
+        [self.connectedToIphoneImageView setHidden:NO];
+        [self.connectButton setHidden:YES];
+        [self.connectedToIphoneImageView setHidden:NO];
       }];
       
     });
@@ -228,7 +242,10 @@
   else {
     self.connectedToiPod = NO;
     NSLog(@"connection failed");
-
+    [self.textToSpeechViewContainer setHidden:YES];
+    [self.quickButtonsContainer setHidden:YES];
+    [self.connectButton setHidden:NO];
+    [self.connectedToIphoneImageView setHidden:YES];
   }
 }
 
@@ -301,34 +318,34 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
   [self sendSpeechPhraseToRobot:textToSpeak atSpeechRate:speechRate];
 }
 
-- (IBAction)emoteAction:(id)sender
-{
-  NSNumber *mood;
-  if ([sender isEqual:self.emote1_button]) {
-    mood = [NSNumber numberWithInteger:RMBOEyeMood_Curious];
-  }
-  else if ([sender isEqual:self.emote2_button]) {
-    mood = [NSNumber numberWithInteger:RMBOEyeMood_Excited];
-  }
-  else if ([sender isEqual:self.emote3_button]) {
-    mood = [NSNumber numberWithInteger:RMBOEyeMood_Indifferent];
-  }
-  else if ([sender isEqual:self.emote4_button]) {
-    mood = [NSNumber numberWithInteger:RMBOEyeMood_Twitterpated];
-  }
-  else if ([sender isEqual:self.emote5_button]) {
-    mood = [NSNumber numberWithInteger:RMBOEyeMood_Blink];
-  }
-  else {
-    return;
-  }
-  
-  if (self.connectedToiPod) {
-    NSDictionary *params = @{@"command" : kRMBOChangeMood, @"mood" : mood};
-    NSData *paramsData = [NSKeyedArchiver archivedDataWithRootObject:params];
-    [self sendDataToRobot:paramsData];
-  }
-}
+//- (IBAction)emoteAction:(id)sender
+//{
+//  NSNumber *mood;
+//  if ([sender isEqual:self.emote1_button]) {
+//    mood = [NSNumber numberWithInteger:RMBOEyeMood_Curious];
+//  }
+//  else if ([sender isEqual:self.emote2_button]) {
+//    mood = [NSNumber numberWithInteger:RMBOEyeMood_Excited];
+//  }
+//  else if ([sender isEqual:self.emote3_button]) {
+//    mood = [NSNumber numberWithInteger:RMBOEyeMood_Indifferent];
+//  }
+//  else if ([sender isEqual:self.emote4_button]) {
+//    mood = [NSNumber numberWithInteger:RMBOEyeMood_Twitterpated];
+//  }
+//  else if ([sender isEqual:self.emote5_button]) {
+//    mood = [NSNumber numberWithInteger:RMBOEyeMood_Blink];
+//  }
+//  else {
+//    return;
+//  }
+//  
+//  if (self.connectedToiPod) {
+//    NSDictionary *params = @{@"command" : kRMBOChangeMood, @"mood" : mood};
+//    NSData *paramsData = [NSKeyedArchiver archivedDataWithRootObject:params];
+//    [self sendDataToRobot:paramsData];
+//  }
+//}
 
 - (IBAction)showColorPopoverAction:(id)sender
 {
@@ -348,15 +365,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 	[self.sizePickerViewPopoverController presentPopoverFromRect:buttonRectInSelfView inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
-- (void) setEditButtonColor:(UIColor *) color
-{
-  self.edit_buttonColorView.backgroundColor = color;
-}
-
-- (void) setEditButtonSize:(NSString *) sizeStr
-{
-  self.edit_buttonSize_Label.text = sizeStr;
-}
 
 - (IBAction)speakEditSpeechPhrase:(id)sender
 {
@@ -478,10 +486,6 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (void) displayButtonsForSelectedPalette:(NSInteger)row
 {
-  //    if ([self.paletteTableView numberOfRowsInSection:0] == 0)
-  //        return;
-  NSLog(@"cell tapped");
-
   self.selectedTableRow = row;
   [self handleSelectedPalette];
 }
@@ -521,6 +525,9 @@ const CGFloat kButtonInset_y =   4.0;
   if ([strPaletteId intValue] == lastViewedPaletteId){
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     self.selectedTableRow = indexPath.row;
+  } else {
+    cell.accessoryType = UITableViewCellAccessoryNone;
+
   }
   return cell;
 }
@@ -594,6 +601,7 @@ const CGFloat kButtonInset_y =   4.0;
   NSString* buttonIdStr = [splitTitleAndId objectAtIndex:1];
   [self.myPaletteButtonIds setObject:buttonIdStr forKey:[NSNumber numberWithLong:indexPath.row]];
   NSString* title = [splitTitleAndId objectAtIndex:0];
+  title = [self truncateStringWithEllipsis:title];
   cell.foregroundLabel.text = [NSString stringWithFormat:@" %@", title];
   
   //get current palette and use it to get current button
@@ -607,12 +615,11 @@ const CGFloat kButtonInset_y =   4.0;
   Palette* palette = [[UserPalettesManager sharedPalettesManagerInstance] getSelectedPalette:lastViewedPaletteId];
   if (buttonForPalette.index == palette.last_viewed_button_id){
     [cell.checkmarkImage setHidden:NO];
-    [self.buttonDetailsToolbarContainer setHidden:NO];
   } else {
     [cell.checkmarkImage setHidden:YES];
-    [self.buttonDetailsToolbarContainer setHidden:YES];
   }
-  
+  [self.buttonDetailsToolbarContainer setHidden:NO];
+
   return cell;
 }
 
@@ -637,22 +644,67 @@ const CGFloat kButtonInset_y =   4.0;
 -(void)setupAvailableColors
 {
   //TODO: Thisis temporary until we can get a list of colors from RomiboWeb
-  [[PaletteButtonColors sharedColorsManagerInstance] usePredefinedAvailableColors];
+  [[PaletteButtonColorsManager sharedColorsManagerInstance] initializeColors];
 }
 
 #pragma mark - RomiboWeb UI
 -(void) setupRomiboWebUI
 {
-  if ([[User sharedUserInstance] isLoggedIn]){
+  UserAccountsManager *userAccountsMgr = [UserAccountsManager sharedUserAccountManagerInstance];
+
+  if ([userAccountsMgr numberOfUsers] > 1){
+    [self.switchUsersButton setHidden:NO];
+  } else {
+    [self.switchUsersButton setHidden:YES];
+  }
+  
+  [self displayAccountStatusNotification];
+  
+  if ([userAccountsMgr currentUserIsDefaultUser]){
+    [self.registrationButton setHidden:NO];
+    if ([userAccountsMgr numberOfUsers] > 1){
+      [self.loginButton setHidden:YES];
+    } else {
+      [self.loginButton setHidden:NO];
+    }
+
+    [self.toolbarContainerView setHidden:YES];
+  } else if ([userAccountsMgr currentUserIsLoggedIn]){
+    //[self.registrationButton setHidden:YES];
     [self.toolbarContainerView setHidden:NO];
     [self.loginButton setHidden:YES];
-    NSString *loggedInInfo = [NSString stringWithFormat:@"%@", [[User sharedUserInstance] name]];
-    self.logedInInfoLabel.text = loggedInInfo;
+//    NSString *loggedInInfo = [NSString stringWithFormat:@"%@", [userAccountsMgr getCurrentUserName]];
+//    self.logedInInfoLabel.text = loggedInInfo;
   } else {
     [self.toolbarContainerView setHidden:YES];
     [self.loginButton setHidden:NO];
   }
 }
+
+-(void)displayAccountStatusNotification
+{
+  UserAccountsManager *userAccountsMgr = [UserAccountsManager sharedUserAccountManagerInstance];
+  
+  if ([userAccountsMgr currentUserIsDefaultUser] ){
+    self.notificationLabel.textColor = [UIColor grayColor];
+    self.notificationLabel.text = @"Current account is not recognized as a valid RomiboWeb account.";
+  } else if ([userAccountsMgr currentUserIsRegisteredButUnconfirmed]){
+        self.notificationLabel.textColor = [UIColor redColor];
+    self.notificationLabel.text = @"Please confirm your RomiboWeb registration (Hint: Check your email).";
+  } else {
+    self.notificationLabel.textColor = [UIColor colorWithRed:0.0f green:102.05/255.0f blue:51.0f/255.0f alpha:1.0f];
+    self.notificationLabel.text = @"Current account is a valid RomiboWeb account.";
+  }
+  self.currentUserNameLabel.text = [userAccountsMgr getCurrentUserNameAndEmail];
+}
+
+#pragma mark - Palettes UI
+-(void)setupPalettesUI
+{
+  [self.deleteSelectedPaletteButton setHidden:YES];
+  [self.editSelectedPaletteButton setHidden:YES];
+}
+
 
 #pragma mark - Palettes stuff
 -(void) initializePalettesManager
@@ -700,7 +752,28 @@ const CGFloat kButtonInset_y =   4.0;
   [self.palettesManager updateLastViewedPalette:[self extractSelectedPaletteId]];
   int selectedPaletteId = [self extractSelectedPaletteId];
   Palette *palette = [self.palettesManager getSelectedPalette:selectedPaletteId];
-  self.selectedPaletteTitleLabel.text = palette.title;
+  if (palette) {
+    [self.deleteSelectedPaletteButton setHidden:NO];
+    [self.editSelectedPaletteButton setHidden:NO];
+    self.selectedPaletteTitleLabel.text = palette.title;
+    [self.addNewButton setHidden:NO];
+    [self.deleteCurrentButton setHidden:NO];
+
+  } else {
+    [self.deleteSelectedPaletteButton setHidden:YES];
+    [self.editSelectedPaletteButton setHidden:YES];
+    self.selectedPaletteTitleLabel.text = @"";
+    [self.addNewButton setHidden:YES];
+    [self.deleteCurrentButton setHidden:YES];
+  }
+}
+
+
+- (IBAction)deleteSelectedPalette:(id)sender
+{
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Delete Palette?" message:@"Are you sure you want to delete the selected palette?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+  self.alertView.tag = 0;
+  [self.alertView show];
 }
 
 -(void)handleSelectedButton
@@ -714,6 +787,7 @@ const CGFloat kButtonInset_y =   4.0;
   } else {
     [self.buttonDetailsToolbarContainer setHidden:NO];
   }
+  NSLog(@"selected button: title = %@, row = %@, col = %@", buttonForPalette.title, buttonForPalette.row, buttonForPalette.col);
 }
 
 -(PaletteButton *)extractCurrentSelectedButton
@@ -724,6 +798,7 @@ const CGFloat kButtonInset_y =   4.0;
   return buttonForPalette;
 }
 
+#pragma mark - Observers
 - (void)registerAsObserver
 {
   
@@ -739,43 +814,55 @@ const CGFloat kButtonInset_y =   4.0;
   
   NSLog(@"when called");
   [self.palettesManager addObserver:self
-   
                          forKeyPath:@"observeMe"
-   
                             options:(NSKeyValueObservingOptionNew)
-   
                             context:NULL];
   
   [self.genericController addObserver:self
                            forKeyPath:@"selectedButtonMenuItem"
                               options:(NSKeyValueObservingOptionNew)
                               context:NULL];
+  [self.genericController addObserver:self
+                           forKeyPath:@"selectedNewUser"
+                              options:(NSKeyValueObservingOptionNew)
+                              context:NULL];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(peerDidChangeStateWithNotification:)
                                                name:@"MCDidChangeStateNotification"
                                              object:nil];
+  UserAccountsManager *userAccountsMgr = [UserAccountsManager sharedUserAccountManagerInstance];
+  [userAccountsMgr addObserver:self
+                    forKeyPath:@"justLoggedInOservable"
+                       options:(NSKeyValueObservingOptionNew)
+                       context:NULL];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
-
                       ofObject:(id)object
-
                         change:(NSDictionary *)change
-
                        context:(void *)context
 {
-  NSLog(@"Observed");
   if ([keyPath isEqual:@"observeMe"]) {
     self.paletteTitles = [self.palettesManager paletteTitles];
     [self.palettesListingTableView reloadData];
   } else if ([keyPath isEqual:@"selectedButtonMenuItem"]){
-    NSString *selectedMenuItem = [(GenericController *)object selectedButtonMenuItem];
+    NSString *selectedMenuItem = [(MenuSelectionsController *)object selectedButtonMenuItem];
     NSLog(@"selectedMenuItem = %@", selectedMenuItem);
     if ([selectedMenuItem isEqualToString:@"New"]){
       dispatch_async(dispatch_get_main_queue(), ^{
         [self addNewPaletteButton];
       });
     }
+  } else if ([keyPath isEqual:@"selectedNewUser"]){
+    NSString *selectedNewUserEmail = [(MenuSelectionsController *)object selectedNewUser];
+    NSLog(@"selectedNewUser = %@", selectedNewUserEmail);
+    [self switchToSelectedUserAccount:selectedNewUserEmail];
+
+  } else if ([keyPath isEqual:@"justLoggedInOservable"]){
+    NSLog(@"just logged in");
+    dispatch_async(dispatch_get_main_queue(), ^{
+    [[RomibowebAPIManager sharedRomibowebManagerInstance] getColorsListFromRomiboWeb];
+    });
   }
 }
 
@@ -791,7 +878,7 @@ const CGFloat kButtonInset_y =   4.0;
 
   self.currentButtonColorLabel.backgroundColor = uiColor;
   self.currentButtonColorLabel.text = @"";
-  [self.currentButtonColorSelector setTitle:[[PaletteButtonColors sharedColorsManagerInstance] nameForHexValue:button.color] forState:UIControlStateNormal];
+  [self.currentButtonColorSelector setTitle:[[PaletteButtonColorsManager sharedColorsManagerInstance] nameForHexValue:button.color] forState:UIControlStateNormal];
 }
 
 - (UIColor *) colorFromHexString:(NSString *)hexString
@@ -821,14 +908,6 @@ const CGFloat kButtonInset_y =   4.0;
   [self.paletteButtonsCollectionView reloadData];
 }
 
-
-- (IBAction)deleteSelectedPalette:(id)sender
-{
-  self.alertView = [[UIAlertView alloc] initWithTitle:@"Delete Palette?" message:@"Are you sure you want to delete the selected palette?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-  self.alertView.tag = 0;
-  [self.alertView show];
-}
-
 - (IBAction)deleteSelectedButton:(id)sender
 {
   self.alertView = [[UIAlertView alloc] initWithTitle:@"Delete Palette Button?" message:@"Are you sure you want to delete the selected palette button?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
@@ -841,9 +920,17 @@ const CGFloat kButtonInset_y =   4.0;
 {
   if (alertView.tag == 0){//delete palette
     if (buttonIndex == 1) {
+      self.selectedPaletteTitleLabel.text = @"";
       int currentPaletteId = [self.palettesManager lastViewedPalette];
       [self.palettesManager deletePalette:currentPaletteId];
       [self initializePalettesManager];
+      if ((int)[self.palettesManager numberOfPalettes] < 1){
+        [self.deleteSelectedPaletteButton setHidden:YES];
+        [self.editSelectedPaletteButton setHidden:YES];
+      } else {
+        [self.deleteSelectedPaletteButton setHidden:NO];
+        [self.editSelectedPaletteButton setHidden:NO];
+      }
       [self.palettesListingTableView reloadData];
       [self.paletteButtonsCollectionView reloadData];
     }
@@ -852,6 +939,7 @@ const CGFloat kButtonInset_y =   4.0;
     PaletteButton *currentButton = [self extractCurrentSelectedButton];
     [self.palettesManager deleteButton:currentButton.index forPalette:currentPaletteId];
     [self initializePalettesManager];
+    [self setupRomiboWebUI];
     [self.palettesListingTableView reloadData];
     [self.paletteButtonsCollectionView reloadData];
   } else if (alertView.tag == 100){//disconnect from iPhone/iPod
@@ -862,5 +950,30 @@ const CGFloat kButtonInset_y =   4.0;
     }
   }
 }
+
+#pragma mark -- User Account
+
+-(void)switchToSelectedUserAccount:(NSString *)selectedUserEmail
+{
+  [[UserAccountsManager sharedUserAccountManagerInstance] switchCurrentUser:selectedUserEmail];
+  int lastViewedPaletteId = [[UserAccountsManager sharedUserAccountManagerInstance] lastViewedPaletteIdForCurrentUser];
+  [self.palettesManager updateLastViewedPalette:lastViewedPaletteId];
+  [self setupRomiboWebUI];
+  [self initializePalettesManager];
+}
+
+
+-(NSString*)truncateStringWithEllipsis:(NSString*)originalString
+{
+  int threshold = 20;
+  if ([originalString length] < threshold){
+    return originalString;
+  } else if ([originalString length] == threshold){
+    return [NSString stringWithFormat:@"%@...", originalString];
+  } else {
+    return [NSString stringWithFormat:@"%@...", [originalString substringToIndex:threshold - 1]];
+  }
+}
+
 
 @end

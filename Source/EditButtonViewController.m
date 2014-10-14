@@ -8,8 +8,8 @@
 
 #import "EditButtonViewController.h"
 #import "UserPalettesManager.h"
-#import "PaletteButtonColors.h"
-#import "GenericController.h"
+#import "PaletteButtonColorsManager.h"
+#import "MenuSelectionsController.h"
 
 @interface EditButtonViewController ()
 
@@ -25,7 +25,8 @@
 @property (strong, nonatomic)NSDictionary* editedButtonValues;
 @property (assign, nonatomic)int selectButtonId;
 @property (assign, nonatomic) int selectedPaletteId;
-@property (weak, nonatomic) GenericController *genericController;
+@property (weak, nonatomic) MenuSelectionsController *genericController;
+@property (weak, nonatomic)PaletteButtonColorsManager *colorsManager;
 
 @end
 
@@ -38,10 +39,15 @@
   self.palettesManager = [UserPalettesManager sharedPalettesManagerInstance];
   self.selectedPaletteId = [self.palettesManager lastViewedPalette];
   self.selectButtonId = [self.palettesManager getLastViewedButtonIdFor:self.selectedPaletteId];
-  self.genericController = [GenericController sharedGenericControllerInstance];
+  NSLog(@"selectButtonId = %d", self.selectButtonId);
+  self.genericController = [MenuSelectionsController sharedGenericControllerInstance];
   [self prepopulateFieldsWithSelectedButton];
-  self.selectedColorName = [[PaletteButtonColors sharedColorsManagerInstance] nameForHexValue:[self.palettesManager getButtonColor:self.selectButtonId forPalette:self.selectedPaletteId]];
+  self.colorsManager = [PaletteButtonColorsManager sharedColorsManagerInstance];
+  NSString *selectedButtonColor = [self.palettesManager getButtonColor:self.selectButtonId forPalette:self.selectedPaletteId];
+  NSLog(@"selectedbuttonColor = %@", selectedButtonColor);
+  self.selectedColorName = [self.colorsManager nameForHexValue:selectedButtonColor];
 
+  NSLog(@"selected button color = %@", self.selectedColorName);
   [self registerAsColorSelectorPopoverObserver];
 }
 
@@ -77,7 +83,7 @@
 {
   return @{ @"title":self.buttonTitleTextfield.text,
        @"speechRate":self.buttonSpeechRateLabel.text,
-            @"color":[[PaletteButtonColors sharedColorsManagerInstance] hexValueForName:self.selectedColorName],
+            @"color":[[PaletteButtonColorsManager sharedColorsManagerInstance] hexValueForName:self.selectedColorName],
      @"speechPhrase":self.buttonSpeechPhraseTextview.text
         };
 }
@@ -120,7 +126,7 @@
   
   self.selectedButtonColorLabel.backgroundColor = uiColor;
   self.selectedButtonColorLabel.text = @"";
-  [self.buttonColorSelectorButton setTitle:[[PaletteButtonColors sharedColorsManagerInstance] nameForHexValue:buttonColor] forState:UIControlStateNormal];
+  [self.buttonColorSelectorButton setTitle:[[PaletteButtonColorsManager sharedColorsManagerInstance] nameForHexValue:buttonColor] forState:UIControlStateNormal];
 }
 
 - (IBAction)colorSelectorClicked:(id)sender
@@ -139,15 +145,15 @@
                        context:(void *)context
 {
   if ([keyPath isEqual:@"selectedColorSelectorPopoverCellValue"]) {
-    self.selectedColorName = [(PaletteButtonColors*)object selectedColorSelectorPopoverCellValue];
-    NSString *buttonColorHexValue = [[PaletteButtonColors sharedColorsManagerInstance] hexValueForName:self.selectedColorName];
+    self.selectedColorName = [(PaletteButtonColorsManager*)object selectedColorSelectorPopoverCellValue];
+    NSString *buttonColorHexValue = [[PaletteButtonColorsManager sharedColorsManagerInstance] hexValueForName:self.selectedColorName];
     [self setColorFieldValues:buttonColorHexValue];
   }
 }
 
 - (void)registerAsColorSelectorPopoverObserver
 {
-  [[PaletteButtonColors sharedColorsManagerInstance] addObserver:self
+  [[PaletteButtonColorsManager sharedColorsManagerInstance] addObserver:self
    
                                                       forKeyPath:@"selectedColorSelectorPopoverCellValue"
    

@@ -1,16 +1,16 @@
 //
-//  GenericController.m
+//  MenuSelectionsController.m
 //  romiboController_7
 //
 //  Created by Daniel Brown on 10/4/14.
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "GenericController.h"
+#import "MenuSelectionsController.h"
 
-@implementation GenericController
+@implementation MenuSelectionsController
 
-static GenericController *sharedControllerInstance = nil;
+static MenuSelectionsController *sharedControllerInstance = nil;
 
 
 +(id)sharedGenericControllerInstance
@@ -18,7 +18,7 @@ static GenericController *sharedControllerInstance = nil;
   if (sharedControllerInstance == nil){
     static dispatch_once_t predicate; //lock
     dispatch_once(&predicate, ^{
-      sharedControllerInstance = [[GenericController alloc] init];
+      sharedControllerInstance = [[MenuSelectionsController alloc] init];
     });
   }
   
@@ -29,6 +29,7 @@ static GenericController *sharedControllerInstance = nil;
 {
   if (self = [super init]){
     self.selectedButtonMenuItem = @"";
+    self.selectedNewUser = @"";
   }
   
   return self;

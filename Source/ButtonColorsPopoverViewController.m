@@ -7,12 +7,12 @@
 //
 
 #import "ButtonColorsPopoverViewController.h"
-#import "PaletteButtonColors.h"
+#import "PaletteButtonColorsManager.h"
 #import "UserPalettesManager.h"
 
 @interface ButtonColorsPopoverViewController ()
 
-@property (nonatomic, weak)PaletteButtonColors* availableButtonColors;
+@property (nonatomic, weak)PaletteButtonColorsManager* colorsManager;
 @property (nonatomic, strong)NSMutableArray* buttonColorNames;
 @property (nonatomic, strong)NSMutableDictionary* buttonColorRowsAndNames;
 @property (weak, nonatomic) UserPalettesManager *palettesManager;
@@ -40,10 +40,10 @@
 
 -(void)setupAvailableColors
 {
-  self.availableButtonColors = [PaletteButtonColors sharedColorsManagerInstance];
-  //TODO: Thisis temporary until we can get a list of colors from RomiboWeb
-  [self.availableButtonColors usePredefinedAvailableColors];
-  self.buttonColorNames = [[NSMutableArray alloc] initWithArray:[self.availableButtonColors buttonColorNames]];
+  self.colorsManager = [PaletteButtonColorsManager sharedColorsManagerInstance];
+  [self.colorsManager initializeColors];
+  self.buttonColorNames = [[NSMutableArray alloc] initWithArray:[self.colorsManager buttonColorNames]];
+  NSLog(@"buton color names = %@", self.buttonColorNames);
   self.buttonColorRowsAndNames = [[NSMutableDictionary alloc] init];
 }
 
@@ -75,9 +75,11 @@
   
   NSString * buttonColor = [self.palettesManager getButtonColor:self.selectButtonId forPalette:self.selectedPaletteId];
 
-  NSString * buttonColorName = [self.availableButtonColors nameForHexValue:buttonColor];
-  UIColor *uiColor = [self colorFromHexString:[self.availableButtonColors hexValueForName:name]];
-  
+  NSString * buttonColorName = [self.colorsManager nameForHexValue:buttonColor];
+  NSLog(@"NAME = '%@'", name);
+  UIColor *uiColor = [self colorFromHexString:[self.colorsManager hexValueForName:name]];
+  NSLog(@"hexValueForName = '%@'", [self.colorsManager hexValueForName:name]);
+
   cell.backgroundColor = [UIColor whiteColor];
   cell.textLabel.backgroundColor = [UIColor clearColor];
   cell.textLabel.textColor = uiColor;
@@ -100,14 +102,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return [[[self.availableButtonColors buttonColors] allKeys] count];
+  return [[[self.colorsManager buttonColors] allKeys] count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    self.availableButtonColors.selectedColorSelectorPopoverCellValue = cell.textLabel.text;
+    self.colorsManager.selectedColorSelectorPopoverCellValue = cell.textLabel.text;
   });
 }
 
@@ -142,8 +144,8 @@
 
 - (UIColor *) colorFromHexString:(NSString *)hexString
 {
-  //NSString *stringColor = [NSString stringWithFormat:@"#%@", hexString];
-  // NSLog(@"converted hex value = %@", stringColor);
+  NSString *stringColor = [NSString stringWithFormat:@"#%@", hexString];
+   NSLog(@"converted hex value = %@", hexString);
   NSUInteger red, green, blue;
   sscanf([hexString UTF8String], "#%2lX%2lX%2lX", &red, &green, &blue);
   

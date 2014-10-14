@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface User : NSObject<NSCoding>
+@interface RomiboWebUser : NSObject<NSCoding>
 
 @property (nonatomic, assign)int user_id;
 @property (nonatomic, copy)  NSString* email;
@@ -16,11 +16,13 @@
 @property (nonatomic, copy)  NSString* last_name;
 @property (nonatomic, copy)  NSString* token;
 @property (nonatomic, assign, getter=lastViewedPaletteId, setter=setLastViewedPaletteId:)int last_viewed_palette_id;
+@property (nonatomic, assign) BOOL confirmed;
 @property (nonatomic, assign)BOOL isLoggedIn;
 
-+ (id)sharedUserInstance;
+//+ (id)sharedUserInstance;
 - (void)save;
 - (void)loadData;
+- (id)initWithDictionary:(NSDictionary *)dict;
 - (void)fromDictionary:(NSDictionary*) dict;
 - (NSString *)name;
 

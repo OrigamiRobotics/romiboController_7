@@ -6,32 +6,32 @@
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "User.h"
+#import "RomiboWebUser.h"
 #define USER_STORAGE_KEY @"romiboUser"
 
-@implementation User
+@implementation RomiboWebUser
 
-static User *sharedUserInstance = nil;
-
-+(id)sharedUserInstance
-{
-  if (sharedUserInstance == nil){
-    static dispatch_once_t predicate; //lock
-    dispatch_once(&predicate, ^{
-      sharedUserInstance = [[User alloc] init];
-    });
-  }
-  
-  return sharedUserInstance;
-}
+//static RomiboWebUser *sharedUserInstance = nil;
+//
+//+(id)sharedUserInstance
+//{
+//  if (sharedUserInstance == nil){
+//    static dispatch_once_t predicate; //lock
+//    dispatch_once(&predicate, ^{
+//      sharedUserInstance = [[RomiboWebUser alloc] init];
+//    });
+//  }
+//  
+//  return sharedUserInstance;
+//}
 
 -(id)init
 {
   if (self = [super init]){
     self.token      = @"";
     self.user_id    = 0;
-    self.first_name = @"";
-    self.last_name  = @"";
+    self.first_name = @"DEFAULT";
+    self.last_name  = @"USER";
     self.email      = @"";
     self.last_viewed_palette_id = 0;
     self.isLoggedIn = NO;
@@ -47,6 +47,7 @@ static User *sharedUserInstance = nil;
   [encoder encodeObject:self.email      forKey:@"email"];
   [encoder encodeObject:self.token      forKey:@"token"];
   [encoder encodeInteger:self.last_viewed_palette_id forKey:@"lastViewedPaletteId"];
+  [encoder encodeBool:  self.confirmed  forKey:@"confirmed"];
 }
 
 -(id)initWithCoder:(NSCoder *)decoder
@@ -59,7 +60,30 @@ static User *sharedUserInstance = nil;
     self.token      = [decoder decodeObjectForKey:@"token"];
     self.last_viewed_palette_id
                     = [decoder decodeIntForKey:@"lastViewedPaletteId"];
+    self.confirmed  = [decoder decodeBoolForKey:@"confirmed"];
   }
+  return self;
+}
+
+-(id)initWithDictionary:(NSDictionary *)dict
+{
+  if (self = [super init]){
+    NSString * tokenStr     = @"Token token=";
+    self.first_name = [dict objectForKey:@"first_name"];
+    self.last_name  = [dict objectForKey:@"last_name"];
+    self.email      = [dict objectForKey:@"email"];
+    self.token      = [tokenStr stringByAppendingString: [dict objectForKey:@"auth_token"]];
+    self.user_id    = [[dict objectForKey:@"id"] intValue];
+    self.last_viewed_palette_id
+    = [[dict objectForKey:@"last_viewed_palette_id"] intValue];
+    int confirmed = [[dict objectForKey:@"confirmed"] intValue];
+    if (confirmed == 1){
+      self.confirmed = YES;
+    } else {
+      self.confirmed = NO;
+    }
+  }
+  
   return self;
 }
 
@@ -76,14 +100,15 @@ static User *sharedUserInstance = nil;
 {
   if (self){
     NSData *encodedUser = [[NSUserDefaults standardUserDefaults] objectForKey:[self useInfoStorageKeyForCurrentAccount]];
-    User *loadedUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
+    RomiboWebUser *loadedUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
     self.user_id    = loadedUser.user_id;
     self.first_name = loadedUser.first_name;
     self.last_name  = loadedUser.last_name;
-    ////self.email      = loadedUser.email;
+    self.email      = loadedUser.email;
     self.token      = loadedUser.token;
     self.last_viewed_palette_id
                     = loadedUser.last_viewed_palette_id;
+    self.confirmed  = loadedUser.confirmed;
   }
 }
 
@@ -97,6 +122,13 @@ static User *sharedUserInstance = nil;
   self.user_id    = [[dict objectForKey:@"id"] intValue];
   self.last_viewed_palette_id
                   = [[dict objectForKey:@"last_viewed_palette_id"] intValue];
+  int confirmed = [[dict objectForKey:@"confirmed"] intValue];
+  NSLog(@"confirmed = %d", confirmed);
+  if (confirmed == 1){
+    self.confirmed = YES;
+  } else {
+    self.confirmed = NO;
+  }
   [self save];
 }
 
@@ -114,13 +146,9 @@ static User *sharedUserInstance = nil;
 -(NSString*)useInfoStorageKeyForCurrentAccount
 {
   if ([self.email isEqualToString:@""]){
-    NSLog(@"got here1");
-    //return USER_STORAGE_KEY;
-    return @"XXXXXXX";
+    return USER_STORAGE_KEY;
   } else {
-    NSLog(@"got here 2");
-    return @"NNNNNNNNN";
-    //return [NSString stringWithFormat:@"%@%@", USER_STORAGE_KEY, self.email];
+    return [NSString stringWithFormat:@"%@%@", USER_STORAGE_KEY, self.email];
   }
 }
 

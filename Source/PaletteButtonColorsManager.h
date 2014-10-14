@@ -1,5 +1,5 @@
 //
-//  PaletteButtonColors.h
+//  PaletteButtonColorsManager.h
 //  romiboController_7
 //
 //  Created by Daniel Brown on 9/28/14.
@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PaletteButtonColors : NSObject
+@interface PaletteButtonColorsManager : NSObject
 
 @property (nonatomic, strong)NSMutableDictionary* buttonColors;
-@property (nonatomic, copy)NSString* selectedColorSelectorPopoverCellValue;
+@property (nonatomic, strong)NSNumber *selectedColorSelectorPopoverCellValue;
 
 + (id)sharedColorsManagerInstance;
 
@@ -22,5 +22,7 @@
 -(void)loadColors;
 -(void)usePredefinedAvailableColors;
 -(NSArray*)buttonColorNames;
+-(void)processColorsFromRomibowebAPI:(NSDictionary *)json;
+-(void)initializeColors;
 
 @end

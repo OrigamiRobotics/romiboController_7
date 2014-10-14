@@ -16,6 +16,7 @@
 @property (nonatomic, assign, setter=setLastViewedButtonId:) int last_viewed_button_id;
 @property (nonatomic, strong) NSMutableDictionary* buttons;
 @property (nonatomic, assign) int       owner_id;
+@property (nonatomic, strong) NSDate * updated_at;
 
 -(void) addButton:(PaletteButton*)button;
 -(void) addNewButton:(NSDictionary *)buttonData;
@@ -31,5 +32,7 @@
 -(NSString *)getButtonSpeechPhrase:(int)buttonId;
 -(NSString *)getButtonColor:(int)buttonId;
 -(void)updateButton:(int)buttonId withData:(NSDictionary*)buttonData;
+-(NSString*)toJSONString;
+-(NSArray*)sortedButtonsArray;
 
 @end

@@ -8,9 +8,9 @@
 
 #import "UserPalettesManager.h"
 #import "Palette.h"
-#import "User.h"
+#import "UserAccountsManager.h"
 
-#define PALETTES_STORAGE_KEY @"userPalettes"
+#define PALETTES_STORAGE_KEY @"userPalettesFor"
 
 
 @interface UserPalettesManager()
@@ -20,6 +20,7 @@
 //this may conflict with an existing Palete id in the DB
 //and it should be resolved during synch
 @property (nonatomic, assign) int highestPaletteId;
+
 @end
 
 @implementation UserPalettesManager
@@ -44,7 +45,7 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
     self.highestPaletteId = 0;
     self.palettes = [[NSMutableDictionary alloc] init];
     
-    [[User sharedUserInstance] loadData];
+    [[UserAccountsManager sharedUserAccountManagerInstance] loadAccounts];
     [self initializeDefaultButtonData];
   }
   return self;
@@ -58,16 +59,20 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
                  @"speech_speed_rate": @0.2,
                              @"color": @"#13c8b0",
                               @"size": @"Large",
+                               @"row": @-1,
+                               @"col": @-1
                              };
 }
 
 -(void)createPalette:(NSString *)title
 {
   Palette *palette = [[Palette alloc] init];
+  palette.updated_at = [NSDate date];
   palette.title = title;
   [self addPalette:palette];
   [self updateLastViewedPalette:palette.index];
   [self addDefaultButton:palette.index];
+  
 }
 
 -(void)addPalette:(Palette *)palette
@@ -100,11 +105,10 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 {
   if (self.palettes == NULL)
     self.palettes = [[NSMutableDictionary alloc] init];
-  NSData *palettesData = [[NSUserDefaults standardUserDefaults] objectForKey:PALETTES_STORAGE_KEY];
+  NSData *palettesData = [[NSUserDefaults standardUserDefaults] objectForKey:[self paletteStorageKeyForCurrentUser]];
   
   NSDictionary *palettesDict = [NSKeyedUnarchiver unarchiveObjectWithData:palettesData];
   self.palettes = [palettesDict mutableCopy];
-
   [self assignHighestId];
   [self updateObserveMe];
 }
@@ -119,8 +123,18 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
   NSData *palettesData = [NSKeyedArchiver archivedDataWithRootObject:self.palettes];
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   
-  [defaults setObject:palettesData forKey:PALETTES_STORAGE_KEY];
+  [defaults setObject:palettesData forKey:[self paletteStorageKeyForCurrentUser]];
   [defaults synchronize];
+}
+
+-(NSString*)paletteStorageKeyForCurrentUser
+{
+  NSString *currentUserEmail = [[UserAccountsManager sharedUserAccountManagerInstance] getCurrentUserEmail];
+  if ( [currentUserEmail isEqualToString:@""]){
+    return PALETTES_STORAGE_KEY;
+  } else {
+    return [NSString stringWithFormat:@"%@%@", PALETTES_STORAGE_KEY, currentUserEmail];
+  }
 }
 
 -(NSArray *)paletteTitles
@@ -171,7 +185,6 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
       [processedPalettes setObject:palette forKey:[self paletteIdToString:palette.index]];
     }
   }
-  NSLog(@"processed palettes = %@", processedPalettes);
   return [processedPalettes copy];
 }
 
@@ -179,14 +192,14 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 {
   Palette* palette = [self.palettes objectForKey:[self paletteIdToString:paletteId]];
   if (palette){
-    [[User sharedUserInstance] setLastViewedPaletteId:paletteId];
+    [[UserAccountsManager sharedUserAccountManagerInstance] updateLastViewedPaletteForCurrentuser:paletteId];
   }
   return palette;
 }
 
 -(int)lastViewedPalette
 {
-  int lastViewedPalette = [[User sharedUserInstance] lastViewedPaletteId];
+  int lastViewedPalette = [[UserAccountsManager sharedUserAccountManagerInstance] lastViewedPaletteIdForCurrentUser];
   if (lastViewedPalette < 1){
     NSArray *palettesArray = [self.palettes allValues];
     if ([palettesArray count] != 0){
@@ -214,8 +227,7 @@ static UserPalettesManager *sharedUserPalettesManagerInstance = nil;
 
 -(void)updateLastViewedPalette:(int)lastViewdPaletteId
 {
-  [[User sharedUserInstance] setLastViewedPaletteId:lastViewdPaletteId];
-  [[User sharedUserInstance] save];
+  [[UserAccountsManager sharedUserAccountManagerInstance] updateLastViewedPaletteForCurrentuser:lastViewdPaletteId];
 }
 
 -(void)updateLastViewedButton:(int)lastViewedButtonId forPalette:(int)paletteId

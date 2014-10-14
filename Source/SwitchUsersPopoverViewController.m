@@ -1,39 +1,38 @@
 //
-//  ButtonMenusPopoverViewControlle.m
+//  SwitchUsersPopoverViewController.m
 //  romiboController_7
 //
-//  Created by Daniel Brown on 10/4/14.
+//  Created by Daniel Brown on 10/9/14.
 //  Copyright (c) 2014 Origami Robotics. All rights reserved.
 //
 
-#import "ButtonsMenuPopoverViewController.h"
+#import "SwitchUsersPopoverViewController.h"
 #import "MenuSelectionsController.h"
+#import "UserAccountsManager.h"
 
-@interface ButtonsMenuPopoverViewController ()
-
-@property (strong, nonatomic)NSArray* menuItems;
+@interface SwitchUsersPopoverViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic)MenuSelectionsController *genericController;
+@property (weak, nonatomic)MenuSelectionsController *menuSelectorController;
+@property (strong, nonatomic) NSArray *localUsers;
 
 @end
 
-@implementation ButtonsMenuPopoverViewController 
+@implementation SwitchUsersPopoverViewController
 
-- (void)viewDidLoad
-{
-  [super viewDidLoad];
+- (void)viewDidLoad {
+    [super viewDidLoad];
     // Do any additional setup after loading the view.
-  self.menuItems = [NSArray arrayWithObjects:@"New", @"Edit", nil];
+  self.localUsers = [[UserAccountsManager sharedUserAccountManagerInstance] nonCurrentLocalUserNamesAndEmails];
   // This will remove extra separators from tableview
   self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
   
-  self.genericController = [MenuSelectionsController sharedGenericControllerInstance];
+  self.menuSelectorController = [MenuSelectionsController sharedGenericControllerInstance];
+
 }
 
-- (void)didReceiveMemoryWarning
-{
-  [super didReceiveMemoryWarning];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
@@ -51,57 +50,35 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  static NSString * cellIdentifier = @"buttonColorsTableViewCell";
+  static NSString * cellIdentifier = @"switchUsersTableViewCell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
   
   if (cell == nil){
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
   }
   
-//  NSString* keyStr = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
-//  
-//  [self.buttonColorRowsAndNames setObject:[self.buttonColorNames objectAtIndex:indexPath.row] forKey:keyStr];
-//  NSString *name = [self.buttonColorRowsAndNames objectForKey:keyStr];
-//  cell.textLabel.text = name;
-//  
-//  NSString * buttonColor = [self.palettesManager getButtonColor:self.selectButtonId forPalette:self.selectedPaletteId];
-//  
-//  NSString * buttonColorName = [self.availableButtonColors nameForHexValue:buttonColor];
   UIColor *textColor = [self colorFromHexString:@"#3498db"];
-//  
-//  cell.backgroundColor = [UIColor whiteColor];
-//  cell.textLabel.backgroundColor = [UIColor clearColor];
+
   cell.textLabel.textColor = textColor;
-//  
-//  UIView *bgColorView = [[UIView alloc] init];
-//  bgColorView.backgroundColor = uiColor;
-//  [cell setSelectedBackgroundView:bgColorView];
-//  cell.textLabel.highlightedTextColor = [UIColor whiteColor];
-//  
-//  if ([name isEqualToString:buttonColorName]){
-//    [tableView
-//     selectRowAtIndexPath:indexPath
-//     animated:TRUE
-//     scrollPosition:UITableViewScrollPositionNone
-//     ];
-//  }
-  cell.textLabel.text = [self.menuItems objectAtIndex:indexPath.row];
+  cell.textLabel.font = [UIFont systemFontOfSize:14];
+
+  NSArray *userInfo = [[self.localUsers objectAtIndex:indexPath.row] componentsSeparatedByString:@"---+++---"];
+  cell.textLabel.text = userInfo[0];
   return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return [self.menuItems count];
+  return [self.localUsers count];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   dispatch_async(dispatch_get_main_queue(), ^{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self.genericController setSelectedButtonMenuItem:cell.textLabel.text];
     [self dismissViewControllerAnimated:YES completion:^{
-      [self.genericController setSelectedButtonMenuItem:@""];
-      }];
+      [self.menuSelectorController setSelectedNewUser:[self extractSelectedUserEmail:indexPath]];
+    }];
   });
 }
 
@@ -128,9 +105,14 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-  return @"Buttons Menu";
+  return @"Select a User";
 }
 
 
-
+-(NSString*)extractSelectedUserEmail:(NSIndexPath *)indexPath
+{
+  NSString *selection = [self.localUsers objectAtIndex:indexPath.row];
+  NSArray *strArray = [selection componentsSeparatedByString:@"---+++---"];
+  return strArray[1];
+}
 @end

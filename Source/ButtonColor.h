@@ -16,5 +16,6 @@
 
 
 -(instancetype)initWithName:(NSString*)name andHexValue:(NSString*)hexValue;
+-(instancetype)initWithDictionary:(NSDictionary*)json;
 
 @end

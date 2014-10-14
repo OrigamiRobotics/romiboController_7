@@ -30,9 +30,18 @@ typedef enum {
 @property (nonatomic, copy)   NSString     * loginObservable;
 @property (nonatomic, copy)   NSString     * fetchPalettesObservable;
 @property (nonatomic, strong) NSDictionary * fetchedPalettes;
+@property (nonatomic, copy)   NSString     * registrationObservable;
+@property (nonatomic, copy)   NSString     * colorsObservable;
+@property (nonatomic, strong) NSDictionary * fetchedColors;
+
+
 
 + (id)sharedRomibowebManagerInstance;
--(void)registerNewUserAtRomiboWeb;
+-(void)registerNewUserAtRomiboWeb:(NSString*)firstName
+                         lastName:(NSString*)lastName
+                            email:(NSString*)email
+                         password:(NSString*)password
+            password_confirmation:(NSString*)password_confirmation;
 -(void)loginToRomiboWeb:(NSString*)email andPassword:(NSString*)password;
 -(void)getUserPalettesFromRomiboWeb;
 -(void)getUsersListFromRomiboWeb;

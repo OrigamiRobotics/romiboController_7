@@ -15,12 +15,14 @@
 @property (nonatomic, copy)   NSString* speech_phrase;
 @property (nonatomic, assign) float     speech_speed_rate;
 @property (nonatomic, copy)   NSString* size;
-@property (nonatomic, assign) int       row;
-@property (nonatomic, assign) int       col;
+@property (nonatomic, strong) NSNumber*  row;
+@property (nonatomic, strong) NSNumber*  col;
 @property (nonatomic, copy)   NSString* color;
 @property (nonatomic, assign) int       palette_id;
 
 -(id)initWithDictionary:(NSDictionary*)dict;
+-(id)initWithPaletteButton:(PaletteButton*)paletteButton;
 -(void)updateWithData:(NSDictionary*)data;
+-(NSString*)toJSONString;
 
 @end
