@@ -74,6 +74,7 @@
 		B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */; };
 		B1EDAFBE19122F1C00C17EBC /* smActionButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFBC19122F1B00C17EBC /* smActionButton.png */; };
 		B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */; };
+		D7090E5919F20EE900345B9E /* JSAnalogueStick.m in Sources */ = {isa = PBXBuildFile; fileRef = D7090E5819F20EE900345B9E /* JSAnalogueStick.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +187,8 @@
 		B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = rmbo_paletteTableViewCell.xib; sourceTree = "<group>"; };
 		B1EDAFBC19122F1B00C17EBC /* smActionButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smActionButton.png; sourceTree = "<group>"; };
 		B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smActionButton@2x.png"; sourceTree = "<group>"; };
+		D7090E5719F20EE900345B9E /* JSAnalogueStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSAnalogueStick.h; sourceTree = "<group>"; };
+		D7090E5819F20EE900345B9E /* JSAnalogueStick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSAnalogueStick.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +234,8 @@
 		55444B2B19D2A58D00192456 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D7090E5719F20EE900345B9E /* JSAnalogueStick.h */,
+				D7090E5819F20EE900345B9E /* JSAnalogueStick.m */,
 				55444B2C19D2A5B100192456 /* RomibowebAPIManager.h */,
 				55444B2D19D2A5B100192456 /* RomibowebAPIManager.m */,
 				55444B2E19D2A5B100192456 /* UserPalettesManager.h */,
@@ -455,7 +460,7 @@
 				ORGANIZATIONNAME = "Origami Robotics";
 				TargetAttributes = {
 					B1EDAF691910537600C17EBC = {
-						DevelopmentTeam = WTG4846AFW;
+						DevelopmentTeam = 9YYN96VW6R;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -463,7 +468,7 @@
 						};
 					};
 					B1EDAF8D1910537600C17EBC = {
-						DevelopmentTeam = WTG4846AFW;
+						DevelopmentTeam = 9YYN96VW6R;
 						TestTargetID = B1EDAF691910537600C17EBC;
 					};
 				};
@@ -556,6 +561,7 @@
 				55444B2A19D2A53E00192456 /* RomiboWebUser.m in Sources */,
 				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
 				55B6BBE419DBE297000C0C1D /* FetchPalettesFromRomiboWebViewController.m in Sources */,
+				D7090E5919F20EE900345B9E /* JSAnalogueStick.m in Sources */,
 				55DD3A3F19DE84CC00457484 /* EditButtonViewController.m in Sources */,
 				B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */,
 				B1EDAF871910537600C17EBC /* MainViewController.m in Sources */,
@@ -694,7 +700,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Origami Robotics LLC (9YYN96VW6R)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "romiboController_7/romiboController_7-Prefix.pch";
 				INFOPLIST_FILE = "romiboController_7/romiboController_7-Info.plist";
@@ -709,7 +715,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Origami Robotics LLC (9YYN96VW6R)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "romiboController_7/romiboController_7-Prefix.pch";
 				INFOPLIST_FILE = "romiboController_7/romiboController_7-Info.plist";

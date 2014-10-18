@@ -107,6 +107,9 @@
   self.palettesListingTableView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
   self.palettesListingTableView.tableFooterView = [[UIView alloc] init];
   [self registerAsObserver];
+    
+    // Get updates from the analogueStick
+    [self.analogueStickview setDelegate:self];
 }
 
 
@@ -975,5 +978,12 @@ const CGFloat kButtonInset_y =   4.0;
   }
 }
 
+- (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick;
+{
+//    [self moveRobotWithX:analogueStick.xValue andY:analogueStick.yValue];
+    // ETJ DEBUG
+    NSLog(@"Analogue stick registered %.2f, %.2f",analogueStick.xValue, analogueStick.yValue);
+    // END DEBUG
+}
 
 @end

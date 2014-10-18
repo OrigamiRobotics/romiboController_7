@@ -11,6 +11,7 @@
 #import <CoreData/CoreData.h>
 #import "AVFoundation/AVFoundation.h"
 #import "PaletteButtonsCollectionViewCell.h"
+#import "JSAnalogueStick.h"
 
 
 //Commands
@@ -50,7 +51,8 @@ typedef enum {
   UIPopoverControllerDelegate,
   UIPickerViewDataSource,
   UIPickerViewDelegate,
-  UIAlertViewDelegate
+  UIAlertViewDelegate,
+  JSAnalogueStickDelegate
 >
 
 @property (nonatomic, strong) MCPeerID *peerID;
@@ -91,6 +93,8 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIButton * emote4_button;
 @property (strong, nonatomic) IBOutlet UIButton * emote5_button;
 
+@property (weak, nonatomic) IBOutlet JSAnalogueStick *analogueStickview;
+
 
 @property (strong, nonatomic) IBOutlet UIView *connectButton;
 
@@ -106,5 +110,7 @@ typedef enum {
 - (void) setEditButtonSize:(NSString *) sizeStr;
 
 - (void) displayButtonsForSelectedPalette:(NSInteger)index;
+
+- (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick;
 
 @end
