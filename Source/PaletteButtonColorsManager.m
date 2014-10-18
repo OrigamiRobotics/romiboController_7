@@ -31,7 +31,7 @@ static PaletteButtonColorsManager *sharedButtonColorsManagerInstance = nil;
 -(instancetype)init
 {
   if (self = [super init]){
-    self.selectedColorSelectorPopoverCellValue = [NSNumber numberWithInt:-1];
+    self.selectedColorSelectorPopoverCellValue = @""; //[NSNumber numberWithInt:-1];
   }
   
   return self;

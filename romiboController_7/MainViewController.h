@@ -49,8 +49,8 @@ typedef enum {
   NSURLSessionDataDelegate,
   NSURLSessionDelegate,
   UIPopoverControllerDelegate,
-  UIPickerViewDataSource,
-  UIPickerViewDelegate,
+//  UIPickerViewDataSource,
+//  UIPickerViewDelegate,
   UIAlertViewDelegate,
   JSAnalogueStickDelegate
 >
@@ -100,6 +100,26 @@ typedef enum {
 
 @property (strong, nonatomic) NSArray* paletteTitles;
 
+// Robot motion
+@property (nonatomic, strong) NSTimer *turningTimer;
+@property (nonatomic, assign) BOOL isTurningClockwise;
+@property (nonatomic, assign) BOOL isTurningCounterclockwise;
+@property (nonatomic, assign) CGFloat lastX;
+@property (nonatomic, assign) CGFloat lastY;
+// Bluetooth connection
+@property (nonatomic, assign) BOOL isScanning;
+@property (nonatomic, strong) NSDate *lastBTMessageTime;
+@property (nonatomic, assign) UInt32 lastBTCommandBytes;
+
+// Hardware state
+@property SInt8 last_leftMotor;
+@property SInt8 last_rightMotor;
+@property UInt8 last_tiltLeftRight;
+@property UInt8 last_tiltForwardBack;
+@property float leftRightMotorBalance;
+
+@property (nonatomic, assign) BOOL isV6Hardware;
+
 - (IBAction)textAction:(id)sender;
 // - (IBAction)emoteAction:(id)sender;
 
@@ -115,4 +135,8 @@ typedef enum {
 
 - (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick;
 
+//# pragma mark UIPickerViewDataSource Delegate methods
+//- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
+//- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
+//    
 @end

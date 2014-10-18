@@ -20,6 +20,7 @@
 #import "PaletteButtonColorsManager.h"
 #import "MenuSelectionsController.h"
 #import "UserAccountsManager.h"
+#import "ConnectionManager.h"
 
 @interface MainViewController ()
 
@@ -71,12 +72,13 @@
 @property (strong, nonatomic) IBOutlet UIImageView *connectedToIphoneImageView;
 
 // - (IBAction)sliderMoved:(UISlider *)sender;
-// - (void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+- (void)peerDidChangeStateWithNotification:(NSNotification *)notification;
 
 
 @end
 
 @implementation MainViewController
+
 
 
 
@@ -192,20 +194,35 @@
 
 - (void)manageRobotConnection
 {
-  if (self.connectedToiPod == NO) {
-    self.multipeerBrowser = [[MCBrowserViewController alloc] initWithServiceType:kRMBOServiceType session:self.multipeerSession];
-    [self.multipeerBrowser setMaximumNumberOfPeers:kRMBOMaxMutlipeerConnections];
-    [self.multipeerBrowser setDelegate:self];
-    [self presentViewController:self.multipeerBrowser animated:YES completion:nil];
-  }
-  else {
-    UIAlertView *disconnectView = [[UIAlertView alloc] initWithTitle:@"Disconnect from Robot?" message:@"Are you sure you want to disconect from the robot?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Disconnect", nil];
-    disconnectView.tag = 100;
-    [disconnectView show];
-  }
-  NSLog(@"manageRobotConnection");
-  
+    if (self.connectedToiPod == NO) {
+        self.multipeerBrowser = [[MCBrowserViewController alloc] initWithServiceType:kRMBOServiceType session:self.multipeerSession];
+        [self.multipeerBrowser setMaximumNumberOfPeers:kRMBOMaxMutlipeerConnections];
+        [self.multipeerBrowser setDelegate:self];
+        [self presentViewController:_multipeerBrowser animated:YES completion:nil];
+        
+        /* ETJ DEBUG
+         NOTE,19 Aug 2014: Previous versions of the robot had a single point of connection.
+         We now have A) an iPod for sound and eye animations, and
+         B) a custom Bluetooth LE board to control motors
+         
+         Below, we'll add the Bluetooth connection invisibly.  This is naive; in
+         a room where more than one Romibo is present, we need to make sure that
+         each robot's iPod and Bluetooth board are associated so we don't connect
+         to one Romibo's eyes and another Romibo's motors.
+         // END DEBUG */
+        
+        [self addTagButtonPressed:nil];
+    }
+    else {
+        UIAlertView *disconnectView = [[UIAlertView alloc] initWithTitle:@"Disconnect from Robot?"
+                                                                 message:@"Are you sure you want to disconect from the robot?"
+                                                                delegate:self
+                                                       cancelButtonTitle:@"Cancel"
+                                                       otherButtonTitles:@"Disconnect", nil];
+        [disconnectView show];
+    }
 }
+
 
 - (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
 {
@@ -217,7 +234,6 @@
   //[self.multipeerBrowser dismissViewControllerAnimated:YES completion:nil];
   self.connectedToiPod = YES;
 }
-
 
 - (void)setupMultipeerConnectivity
 {
@@ -294,15 +310,481 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 }
 
 
+#pragma mark - Bluetooth Connection
+
+- (IBAction) addTagButtonPressed:(id)sender
+{
+    if(!self.isScanning)
+    {
+        [self startScanForTags];
+    }
+    else
+    {
+        [self stopScanForTags];
+    }
+    
+}
+
+- (void) startScanForTags
+{
+    NSLog(@"Starting scan for new tags...");
+    [[ConnectionManager sharedInstance] startScanForTags];
+    
+    // self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(addTagButtonPressed:)];
+    
+    self.isScanning = YES;
+}
+
+- (void) stopScanForTags
+{
+    
+    //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTagButtonPressed:)];
+    
+    NSLog(@"Stopping scan for new tags.");
+    
+    
+    [[ConnectionManager sharedInstance] stopScanForTags];
+    self.isScanning = NO;
+}
+
+- (void) didUpdateData:(ProximityTag*)tag
+{
+    NSLog(@"RMBORobotControlViewController: didUpdateData called with tag %@",tag);
+    //    self.connection_Label.text = tag.name;
+    
+}
+
+- (void) didDiscoverTag:(ProximityTag*) tag
+{
+    NSLog(@"RMBORobotControlViewController: didDiscoverTag called with tag %@",tag);
+    tag.delegate = (id)self;
+    
+}
+
+- (void) didFailToConnect:(id)tag
+{
+    NSString *failMessage = [NSString stringWithFormat:@"The app couldn't connect to %@. \n\nThis usually indicates a previous bond. Go to the settings and clear it before you try again.", [tag name]];
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Failed to connect"
+                                                     message:failMessage
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"OK", nil];
+    [dialog show];
+    [self stopScanForTags];
+}
+
+
+- (void) isBluetoothEnabled:(bool)enabled
+{
+    NSLog(@"RMBORobotControlViewController: isBluetoothEnabled called with value %@",enabled?@"YES":@"NO");
+    
+    // [self.navigationItem.rightBarButtonItem setEnabled:enabled];
+}
+
+#pragma mark H A R D W A R E
+- (BOOL)detectV6Hardware
+{
+    // TODO: Really, we're better off with a version number rather than a V6 yes/no bit.
+    // FIXME: Replace this with valid detection code ASAP -ETJ 19 Aug 2014
+    return NO;
+}
+
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [_menuPopoverController dismissPopoverAnimated:YES];
+//    switch( [indexPath row]){
+//        case kRMBOConnectionMenuOption: [self manageRobotConnection]; break;
+//        case kRMBOEditorMenuOption:     [self loadEditorView]; break;
+//        case kRMBOShowkitLoginOption:   [self manageShowkitLogin]; break;
+//    }
+//    
+//}
+
+//- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+//{
+//    if ([alertView isEqual:_showkitLoginAlertView]) {
+//        if (buttonIndex == 1) {
+//            //            [ShowKit login:[NSString stringWithFormat:@"%@.%@", kRMBOShowkitAccountNumber, [[alertView textFieldAtIndex:0] text]]
+//            //                  password:[[alertView textFieldAtIndex:1] text]
+//            //       withCompletionBlock:^(NSString *const connectionStatus) {
+//            //                NSLog(@"%@", connectionStatus);
+//            //                [UIView animateWithDuration:0.4 animations:^{
+//            //                    [_manageShowKitButton setAlpha:1.0];
+//            //                }];
+//            //            }];
+//        }
+//    }
+//    else {
+//        if (buttonIndex == 1) {
+//            [_session disconnect];
+//            self.self.connectedToiPod = NO;
+//            // TODO: add method to disconnect from BTLE board here. -ETJ 20 Aug 2014
+//            [self setupMultipeerConnectivity];
+//        }
+//    }
+//}
+
+//- (void)actionDataSource:(RMBOActionDataSource *)dataSource userWantsRobotToSpeakPhrase:(NSString *)phrase atRate:(float)speechRate
+//{
+//    [self sendSpeechPhraseToRobot:phrase atSpeechRate:speechRate];
+//}
+
 - (void)sendSpeechPhraseToRobot:(NSString *)phrase atSpeechRate:(float)speechRate
 {
-  if (self.connectedToiPod) {
-    NSDictionary *params = @{@"command" : kRMBOSpeakPhrase, @"phrase" : phrase, @"speechRate" : [NSNumber numberWithFloat:speechRate]};
-    NSData *paramsData = [NSKeyedArchiver archivedDataWithRootObject:params];
-    
-    [self sendDataToRobot:paramsData];
-  }
+    if (self.connectedToiPod) {
+        NSDictionary *params = @{@"command" : kRMBOSpeakPhrase, @"phrase" : phrase, @"speechRate" : [NSNumber numberWithFloat:speechRate]};
+        [self sendCommandToRobot:params];
+        
+    }
 }
+
+- (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick
+{
+    [self moveRobotWithX:analogueStick.xValue andY:analogueStick.yValue];
+}
+
+- (void)moveRobotWithX:(CGFloat)xValue andY:(CGFloat)yValue
+{
+    if (self.self.connectedToiPod) {
+        
+        CGFloat xCheck = fabs(_lastX - xValue);
+        CGFloat yCheck = fabs(_lastY - yValue);
+        
+        float x = (float)xValue;
+        float y = (float)yValue;
+        
+        // ETJ DEBUG
+        NSLog(@"moveRobotWithX: %f  Y: %f   xCheck: %f  yCheck: %f", xValue, yValue, xCheck, yCheck);
+        // END DEBUG
+        
+        NSDictionary *params = @{@"command" : kRMBOMoveRobot, @"x" : [NSNumber numberWithFloat:x], @"y" : [NSNumber numberWithFloat:y]};
+        [self sendCommandToRobot:params];
+        
+        _lastX = xValue;
+        _lastY = yValue;
+    }
+}
+
+- (void)stopRobotMovement
+{
+    if (self.self.connectedToiPod) {
+        NSDictionary *params = @{@"command" : kRMBOStopRobotMovement, @"timestamp" : [NSDate date]};
+        [self sendCommandToRobot:params];
+    }
+}
+
+- (void)tiltRobotHeadToAngle:(CGFloat)angle
+{
+    if (self.self.connectedToiPod) {
+        NSDictionary *params = @{@"command" : kRMBOHeadTilt, @"angle" : [NSNumber numberWithFloat:(float)angle]};
+        [self sendCommandToRobot:params];
+    }
+}
+
+- (void)turnRobotClockwise:(id)sender
+{
+    if (self.self.connectedToiPod && self.isTurningClockwise) {
+        NSDictionary *params = @{@"command" : kRMBOTurnInPlaceClockwise, @"timestamp" : [NSDate date]};
+        [self sendCommandToRobot:params];
+    }
+}
+
+- (void)turnRobotCounterClockwise:(id)sender
+{
+    if (self.self.connectedToiPod && self.isTurningCounterclockwise) {
+        NSDictionary *params = @{@"command" : kRMBOTurnInPlaceCounterClockwise, @"timestamp" : [NSDate date]};
+        [self sendCommandToRobot:params];
+    }
+    
+}
+
+- (IBAction)beginTurnRobotInPlaceClockwiseAction:(id)sender
+{
+    [self turnRobotClockwise:self];
+    self.isTurningClockwise = YES;
+    self.turningTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(turnRobotClockwise:) userInfo:nil repeats:YES];
+}
+
+- (IBAction)beginTurnRobotInPlaceCounterClockwiseAction:(id)sender
+{
+    [self turnRobotCounterClockwise:self];
+    self.isTurningCounterclockwise = YES;
+    self.turningTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(turnRobotCounterClockwise:) userInfo:nil repeats:YES];
+}
+
+- (IBAction)endTurnRobotInPlaceClockwiseAction:(id)sender
+{
+    [self stopRobotMovement];
+    self.isTurningClockwise = NO;
+    [_turningTimer invalidate];
+    _turningTimer = nil;
+}
+
+- (IBAction)endTurnRobotInPlaceCounterClockwiseAction:(id)sender
+{
+    [self stopRobotMovement];
+    self.isTurningCounterclockwise = NO;
+    [self.turningTimer invalidate];
+    self.turningTimer = nil;
+}
+
+
+#pragma mark S T E E R I N G
+- (UInt32)commandBytesForLeftMotor:(SInt8)leftMotor
+                        rightMotor:(SInt8)rightMotor
+                     leftRightTilt:(UInt8)leftRightTilt
+                   forwardBackTilt:(UInt8)forwardBackTilt
+{
+    UInt32 commandBytes = 0;
+    UInt8 *cbPointer = (UInt8 *)&commandBytes;
+    cbPointer[0] = leftMotor;
+    cbPointer[1] = rightMotor;
+    cbPointer[2] = leftRightTilt;
+    cbPointer[3] = forwardBackTilt;
+    
+    return commandBytes;
+}
+
+- (void)motorStrengthsForAnalogStickX:(float)x
+                                    y:(float)y
+                             destLeft:(SInt8 *)destLeft
+                            destRight:(SInt8 *)destRight;
+{
+    // x & y should fall in (-1,1)
+    float lMotor, rMotor;
+    
+    // A Square region in the center of the analog stick where we default
+    // to no motion.
+    float centerZone = 0.5;
+    
+    // Define wedge-shaped turn-in-place zones
+    // from the center point of the pad to +/- turn_zone_angle degrees
+    // on either side.  In those zones, make motor speed identical and
+    // speed of turn based on distance from the center
+    // (not from the y-axis as in normal driving)
+    int turnOnlyZoneAngle = 15;
+    
+    // usually atan2 is y, x, but we want angle w.r.t x=0
+    // like a car, not y=0 like a cartesian graph
+    float theta = (float)(atan2( x, y)/M_PI * 180.0); // degrees
+    
+    // Centered joystick - no action
+    if  ((-centerZone/2 <= x && x <= centerZone/2) &&
+         (-centerZone/2 <= y && y <= centerZone/2)){
+        lMotor = 0;
+        rMotor = 0;
+    }
+    
+    // Turn-only zone
+    else if ( 90-turnOnlyZoneAngle <= fabs(theta) && fabs(theta) <= 90+turnOnlyZoneAngle){
+        // Relate speed of turn to distance from center
+        float motorSpeed = (float)sqrt( x*x + y*y);
+        
+        // Buuut... turns feel twitchy and too fast.  Instead, we want slower
+        // speed closer to the center and
+        motorSpeed = (float)pow( motorSpeed, 2);
+        
+        // because x & y describe a 2-unit square, not a circle,
+        // clip motorSpeed to 1
+        motorSpeed = MIN( 1, motorSpeed);
+        
+        int directionMult = theta >=0 ? 1 : -1;
+        lMotor = motorSpeed * directionMult;
+        rMotor = -1 * lMotor;
+    }
+    // Normal steering
+    else{
+        // Take base speed for both motors from y axis
+        lMotor = y;
+        rMotor = y;
+        
+        // Decrease speed of the motor in the direction of turn
+        // linearly from the center to the edge of the turn-only zone
+        float singleQuadrantTheta = (float)fabs(theta);
+        if (singleQuadrantTheta > 90){
+            singleQuadrantTheta = 180 - singleQuadrantTheta;
+        }
+        // 0 -> 1,   turnOnlyZoneAngle -> 0
+        float turnScale = (float)(1.0 - singleQuadrantTheta/(90 - turnOnlyZoneAngle));
+        
+        if (theta < 0){ lMotor *= turnScale;}
+        else{           rMotor *= turnScale;}
+    }
+    *destLeft = scaleToSInt8( lMotor, -1.0f, 1.0f);
+    *destRight = scaleToSInt8(rMotor, -1.0f, 1.0f);
+}
+
+SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
+{
+    int rangeMin = -128;
+    int rangeMax = 127;
+    float result = rangeMin + (x-domainMin)/(domainMax-domainMin) * (rangeMax-rangeMin);
+    return (SInt8)result;
+}
+
+- (void)balanceMotorBytesForLeftMotor:(SInt8)leftMotor
+                           rightMotor:(SInt8)rightMotor
+                             destLeft:(SInt8 *)destLeft
+                            destRight:(SInt8 *)destRight
+{
+    // DC motors usually will respond to identical voltages slightly differently.
+    // In order to make them function roughly equally (i.e., steering straight
+    // forward actually drives straight forward) apply the _leftRightMotorBalance
+    // multiplier to the motors.
+    
+    int correctedLeft = _last_leftMotor;
+    int correctedRight = _last_rightMotor;
+    
+    correctedRight *= _leftRightMotorBalance;
+    // If just applying the multiplier leaves the right side out of
+    // range, we should multiply the other side by _leftRightMotorBalance's
+    // reciprocal so both values are OK.
+    if (correctedRight > 127 || correctedRight < -128){
+        correctedRight = _last_rightMotor;
+        correctedLeft = (int)(_last_leftMotor * (1.0/_leftRightMotorBalance));
+    }
+    *destLeft = (SInt8)correctedLeft;
+    *destRight = (SInt8)correctedRight;
+}
+#pragma mark R A D I O   C O M M A N D S
+- (void)sendCommandToRobot:(NSDictionary *)commandDict;
+{
+    // ETJ DEBUG
+    // NSDictionary *actionTitlesDict = @{
+    //                                   kRMBOSpeakPhrase: @"Speak Phrase",
+    //                                   kRMBOMoveRobot: @"Move Robot",
+    //                                   kRMBOHeadTilt: @"Tilt Head",
+    //                                   kRMBODebugLogMessage: @"Debug Log Message",
+    //                                   kRMBOTurnInPlaceClockwise: @"Clockwise Turn",
+    //                                   kRMBOTurnInPlaceCounterClockwise: @"Counterclockwise Turn",
+    //                                   kRMBOStopRobotMovement: @"Stop Robot",
+    //                                   kRMBOChangeMood: @"Change Mood",
+    //                                   };
+    //NSLog( @"%@",(NSString *)actionTitlesDict[commandDict[@"command"]]);
+    // END DEBUG */
+    
+    // Parse data to see if it should be sent to the iPod (eyes, sound) or Bluetooth board
+    
+    // TODO: as more actions are added, they should be categorized here.
+    // NSArray *iPodCommands = @[kRMBOSpeakPhrase, kRMBOChangeMood, kRMBODebugLogMessage];
+    NSArray *btBoardCommands =  @[kRMBOMoveRobot, kRMBOHeadTilt, kRMBOTurnInPlaceClockwise,
+                                  kRMBOTurnInPlaceCounterClockwise, kRMBOStopRobotMovement];
+    
+    // FIXME: until RomiboClient can tell us whether it's using Romibo v6 hardware (using the Romo tank)
+    // or Romibo V7 hardware (using OLogic's custom motor drivers), we're just sending movement
+    // commands to _both_ the iPod and the custom board.  Remove these duplicated messages when
+    // RomiboClient has been updated enough to report its hardware version -- ETJ, 22 August 2014
+    NSData *paramsData = [NSKeyedArchiver archivedDataWithRootObject:commandDict];
+    [self sendDataToIPod:paramsData];
+    
+    if ( ( _isV6Hardware == NO) && [btBoardCommands containsObject:commandDict[@"command"]]){
+        // Package our data for the Bluetooth board and send it
+        [self sendCommandToBTBoard:commandDict];
+    }
+    
+    
+}
+
+- (void)sendCommandToBTBoard:(NSDictionary *)commandDict
+{
+    // Only send messages every 100 ms
+    NSTimeInterval minMessageGap= 0.1;
+    NSDate *curTime = [NSDate date];
+    if ( [curTime timeIntervalSinceDate:_lastBTMessageTime] < minMessageGap){
+        return;
+    }
+    
+    NSString *command = commandDict[@"command"];
+    
+    if ([command isEqualToString:kRMBOTurnInPlaceClockwise]){
+        // Let's say we turn at 50% speed
+        _last_leftMotor = 64;
+        _last_rightMotor = -64;
+    }
+    else if ([command isEqualToString:kRMBOTurnInPlaceCounterClockwise]){
+        _last_leftMotor = -64;
+        _last_rightMotor = 64;
+    }
+    else if ([command isEqualToString:kRMBOStopRobotMovement]){
+        _last_leftMotor = 0;
+        _last_rightMotor = 0;
+    }
+    else if ([command isEqualToString:kRMBOMoveRobot]){
+        float x = [commandDict[@"x"] floatValue];
+        float y = [commandDict[@"y"] floatValue];
+        
+        /*
+         Reading from the analog stick may take some fixing to get it intuitively
+         right. For now let's go with this. -ETJ 19 Aug 2014
+         -- Y gives speed as portion of max/min speed.
+         -- X & Y choose desired direction, balance between motors
+         */
+        SInt8 l, r;
+        [self motorStrengthsForAnalogStickX:x y:y destLeft:&l destRight:&r];
+        _last_leftMotor = l;
+        _last_rightMotor = r;
+        
+    }
+    else if ([command isEqualToString:kRMBOHeadTilt]){
+        // NOTE: Current (August 2014) versions of the Romibo hardware
+        // don't include a left/right tilt servo, but the Romibo
+        // firmware does.  So... we don't set _last_tiltLeftRight
+        // anywhere, but we could.  In which case we'd
+        // use two constants, kRMBOHeadTiltLeftRight & kRMBOHeadTiltForwardBack
+        // and set those separately. -ETJ 20 Aug 2014
+        
+        float angle = [commandDict[@"angle"] floatValue];
+        // FIXME: we should grab min and max from slider, not hardwired like here:
+        
+        _last_tiltForwardBack = (UInt8)((angle-60)/(120-60)* 255);
+        
+        // _last_tiltForwardBack = (UInt8)[commandDict[@"angle"] floatValue];
+        // ETJ DEBUG
+        NSLog(@"%@", commandDict[@"angle"]);
+        NSLog(@"kRMBOHeadTiltForwardBack set to %d", _last_tiltForwardBack);
+        // END DEBUG
+    }
+    SInt8 balancedLeft, balancedRight;
+    
+    // Correct any difference between motors
+    [self balanceMotorBytesForLeftMotor:_last_leftMotor
+                             rightMotor:_last_rightMotor
+                               destLeft: &balancedLeft
+                              destRight: &balancedRight];
+    
+    // Generate a 4 byte string to be sent to BT board
+    UInt32 commandBytes = [self commandBytesForLeftMotor:balancedLeft
+                                              rightMotor:balancedRight
+                                           leftRightTilt:_last_tiltLeftRight
+                                         forwardBackTilt:_last_tiltForwardBack];
+    
+    // Don't resend a message identical to the last one sent
+    if (commandBytes == _lastBTCommandBytes){ return;}
+    // ETJ DEBUG
+    UInt8 *cb = (UInt8 *)&commandBytes;
+    NSLog(@"commandBytes:  %d %d %d %d", (SInt8)cb[0], (SInt8)cb[1], cb[2], cb[3]);
+    CBPeripheral *btBoard = [ConnectionManager sharedInstance].connectedPeripheral;
+    NSLog(@"Bluetooth board is %@",btBoard);
+    // END DEBUG
+    
+    _lastBTMessageTime = [NSDate date];
+    _lastBTCommandBytes = commandBytes;
+    
+    [[ConnectionManager sharedInstance].connectedPeripheral writeValue:[NSData dataWithBytes:(void *)&commandBytes length:4]
+                                                     forCharacteristic:[ConnectionManager sharedInstance].connectToTag.romibo_characteristic_write
+                                                                  type:CBCharacteristicWriteWithResponse];        
+}
+
+- (void)sendDataToIPod:(NSData *)data
+{
+    NSError *error = nil;
+    [self.multipeerSession sendData:data
+                            toPeers:self.multipeerSession.connectedPeers
+                           withMode:MCSessionSendDataUnreliable
+                              error:&error];
+}
+
 
 #pragma mark - button actions
 
@@ -871,6 +1353,12 @@ const CGFloat kButtonInset_y =   4.0;
   }
 }
 
+- (void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+{
+    // ETJ DEBUG
+    NSLog(@"peerDidChangeStateWithNotification: %@",notification);
+    // END DEBUG
+}
 
 #pragma mark - Button Details Methods
 -(void)displaySelectedButtonDetails:(PaletteButton *)button
@@ -980,23 +1468,19 @@ const CGFloat kButtonInset_y =   4.0;
   }
 }
 
-- (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick;
-{
-//    [self moveRobotWithX:analogueStick.xValue andY:analogueStick.yValue];
-    // ETJ DEBUG
-    NSLog(@"Analogue stick registered %.2f, %.2f",analogueStick.xValue, analogueStick.yValue);
-    // END DEBUG
-}
-- (IBAction)turnClockwiseButtonAction:(id)sender {
-    // ETJ DEBUG
-    NSLog(@"clockwise button");
-    // END DEBUG
-    
-}
-- (IBAction)turnCounterclockwiseButtonAction:(id)sender {
-    // ETJ DEBUG
-    NSLog(@"conterclockwise button");
-    // END DEBUG
-}
 
+//# pragma mark UIPickerViewDataSource Delegate methods
+//- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
+//{
+//
+//}
+//- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
+//{
+//
+//}
+
+- (void) setEditButtonColor:(UIColor *) color;
+{}
+- (void) setEditButtonSize:(NSString *) sizeStr;
+{}
 @end

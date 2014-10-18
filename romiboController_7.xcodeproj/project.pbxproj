@@ -75,6 +75,9 @@
 		B1EDAFBE19122F1C00C17EBC /* smActionButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFBC19122F1B00C17EBC /* smActionButton.png */; };
 		B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */; };
 		D7090E5919F20EE900345B9E /* JSAnalogueStick.m in Sources */ = {isa = PBXBuildFile; fileRef = D7090E5819F20EE900345B9E /* JSAnalogueStick.m */; };
+		D7A7954619F2C715008C9587 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954119F2C715008C9587 /* ConnectionManager.m */; };
+		D7A7954719F2C715008C9587 /* ProximityTag.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954319F2C715008C9587 /* ProximityTag.m */; };
+		D7A7954819F2C715008C9587 /* TagLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954519F2C715008C9587 /* TagLocationManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +192,12 @@
 		B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smActionButton@2x.png"; sourceTree = "<group>"; };
 		D7090E5719F20EE900345B9E /* JSAnalogueStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSAnalogueStick.h; sourceTree = "<group>"; };
 		D7090E5819F20EE900345B9E /* JSAnalogueStick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSAnalogueStick.m; sourceTree = "<group>"; };
+		D7A7954019F2C715008C9587 /* ConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionManager.h; sourceTree = "<group>"; };
+		D7A7954119F2C715008C9587 /* ConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionManager.m; sourceTree = "<group>"; };
+		D7A7954219F2C715008C9587 /* ProximityTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProximityTag.h; sourceTree = "<group>"; };
+		D7A7954319F2C715008C9587 /* ProximityTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProximityTag.m; sourceTree = "<group>"; };
+		D7A7954419F2C715008C9587 /* TagLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagLocationManager.h; sourceTree = "<group>"; };
+		D7A7954519F2C715008C9587 /* TagLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagLocationManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +365,7 @@
 				55444B2B19D2A58D00192456 /* Controllers */,
 				55444B1B19D2A3DA00192456 /* Models */,
 				B1BE5495192492A700BEAA76 /* Core Data */,
+				D7A7953F19F2C715008C9587 /* Bluetooth_LE */,
 				B1EDAF821910537600C17EBC /* Main_iPad.storyboard */,
 				B1EDAF7C1910537600C17EBC /* rmbo_AppDelegate.h */,
 				B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */,
@@ -409,6 +419,19 @@
 				B1EDAF981910537700C17EBC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D7A7953F19F2C715008C9587 /* Bluetooth_LE */ = {
+			isa = PBXGroup;
+			children = (
+				D7A7954019F2C715008C9587 /* ConnectionManager.h */,
+				D7A7954119F2C715008C9587 /* ConnectionManager.m */,
+				D7A7954219F2C715008C9587 /* ProximityTag.h */,
+				D7A7954319F2C715008C9587 /* ProximityTag.m */,
+				D7A7954419F2C715008C9587 /* TagLocationManager.h */,
+				D7A7954519F2C715008C9587 /* TagLocationManager.m */,
+			);
+			path = Bluetooth_LE;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -544,9 +567,12 @@
 			files = (
 				55444B2919D2A53E00192456 /* PaletteButton.m in Sources */,
 				55444B3519D2A5DB00192456 /* AddNewPaletteViewController.m in Sources */,
+				D7A7954719F2C715008C9587 /* ProximityTag.m in Sources */,
 				55BA0C0E19E7485A0087B01D /* UserAccountsManager.m in Sources */,
+				D7A7954619F2C715008C9587 /* ConnectionManager.m in Sources */,
 				555AA51C19D9E9B500372F1C /* LoginToRomiboWebViewController.m in Sources */,
 				B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */,
+				D7A7954819F2C715008C9587 /* TagLocationManager.m in Sources */,
 				B1E64432192300CA00850F12 /* colorPickerViewController.m in Sources */,
 				B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */,
 				55444B2819D2A53E00192456 /* Palette.m in Sources */,
@@ -700,7 +726,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Origami Robotics LLC (9YYN96VW6R)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Evan Jones (HNTSFA2R46)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "romiboController_7/romiboController_7-Prefix.pch";
 				INFOPLIST_FILE = "romiboController_7/romiboController_7-Info.plist";
