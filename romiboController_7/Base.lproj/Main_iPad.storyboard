@@ -672,7 +672,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="dRN-cW-kJT"/>
             </objects>
-            <point key="canvasLocation" x="1656" y="-896"/>
+            <point key="canvasLocation" x="2332" y="-846"/>
         </scene>
         <!--Add New Palette-->
         <scene sceneID="92p-f6-ANN">
@@ -752,7 +752,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5h6-Tg-WTe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1520" y="103"/>
+            <point key="canvasLocation" x="874" y="359"/>
         </scene>
         <!--Login To Romibo Web View Controller-->
         <scene sceneID="FQU-bh-SKG">
@@ -868,7 +868,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HOk-jD-QXg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-536" y="-999"/>
+            <point key="canvasLocation" x="-104" y="-1267"/>
         </scene>
         <!--Fetch Palettes From Romibo Web View Controller-->
         <scene sceneID="gH1-hd-UJg">
@@ -1049,7 +1049,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fHP-YS-NMr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="283" y="-1004"/>
+            <point key="canvasLocation" x="-719" y="104"/>
         </scene>
         <!--Button Colors Popover View Controller-->
         <scene sceneID="nqa-BH-2LZ">
@@ -1083,7 +1083,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9jB-0c-qO6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1605.5" y="-1813"/>
+            <point key="canvasLocation" x="4123.5" y="-1209"/>
         </scene>
         <!--Button Options-->
         <scene sceneID="762-5G-jh2">
@@ -1117,7 +1117,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Du9-Jy-wpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1021" y="-1407"/>
+            <point key="canvasLocation" x="3429" y="-839"/>
         </scene>
         <!--Edit Button-->
         <scene sceneID="bFI-by-dva">
@@ -1272,7 +1272,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bl3-Z1-7za" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1677" y="-1195"/>
+            <point key="canvasLocation" x="4123" y="-2055"/>
         </scene>
         <!--Edit Palette-->
         <scene sceneID="baO-bW-X83">
@@ -1345,7 +1345,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nOz-kF-4uQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1939" y="-890"/>
+            <point key="canvasLocation" x="2243" y="466"/>
         </scene>
         <!--Register on RomiboWeb-->
         <scene sceneID="Jdd-Zt-yhJ">
@@ -1503,7 +1503,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tAa-cr-dCz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1119" y="-830"/>
+            <point key="canvasLocation" x="607" y="-386"/>
         </scene>
         <!--Switch Users-->
         <scene sceneID="jir-bN-R1x">
@@ -1536,7 +1536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XsY-hp-zIr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1469" y="-1413"/>
+            <point key="canvasLocation" x="3161" y="-233"/>
         </scene>
     </scenes>
     <resources>
@@ -1563,7 +1563,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="OwF-xw-aR3"/>
-        <segue reference="aZb-75-Kaz"/>
         <segue reference="byS-wS-yq0"/>
+        <segue reference="bRP-AS-jmN"/>
     </inferredMetricsTieBreakers>
 </document>
