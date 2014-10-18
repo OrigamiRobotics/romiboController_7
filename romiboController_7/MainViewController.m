@@ -985,5 +985,16 @@ const CGFloat kButtonInset_y =   4.0;
     NSLog(@"Analogue stick registered %.2f, %.2f",analogueStick.xValue, analogueStick.yValue);
     // END DEBUG
 }
+- (IBAction)turnClockwiseButtonAction:(id)sender {
+    // ETJ DEBUG
+    NSLog(@"clockwise button");
+    // END DEBUG
+    
+}
+- (IBAction)turnCounterclockwiseButtonAction:(id)sender {
+    // ETJ DEBUG
+    NSLog(@"conterclockwise button");
+    // END DEBUG
+}
 
 @end
