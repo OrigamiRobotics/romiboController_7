@@ -73,20 +73,31 @@ static PaletteButtonColorsManager *sharedButtonColorsManagerInstance = nil;
 
 -(NSDictionary*)predefinedButtonColors
 {
-  NSMutableDictionary* colorDict = [[NSMutableDictionary alloc] init];
-  NSArray* colorsArray = [NSArray arrayWithObjects:@"Red #c1392d",
-                          @"Yellow #f39b13",
-                          @"Green #27ae61",
-                          @"Turquoise #13c8b0",
-                          @"Blue #3498db",
-                          @"Purple #8d44af",
-                          @"Pink #fe7a7a", nil];
-  for (NSString *colr in colorsArray){
-    NSArray* splitColorValues = [colr componentsSeparatedByString:@" "];
-    NSString* name  = [splitColorValues objectAtIndex:0];
-    NSString* value = [splitColorValues objectAtIndex:1];
-    [colorDict setObject:value forKey:name];
-  }
+    NSMutableDictionary* colorDict = [@{
+                                        @"Red": @"#c1392d",
+                                        @"Yellow": @"#f39b13",
+                                        @"Green": @"#27ae61",
+                                        @"Turquoise": @"#13c8b0",
+                                        @"Blue": @"#3498db",
+                                        @"Purple": @"#8d44af",
+                                        @"Pink": @"#fe7a7a",
+                                        
+                                        } mutableCopy];
+//    
+//  NSMutableDictionary* colorDict = [[NSMutableDictionary alloc] init];
+//  NSArray* colorsArray = [NSArray arrayWithObjects:@"Red #c1392d",
+//                          @"Yellow #f39b13",
+//                          @"Green #27ae61",
+//                          @"Turquoise #13c8b0",
+//                          @"Blue #3498db",
+//                          @"Purple #8d44af",
+//                          @"Pink #fe7a7a", nil];
+//  for (NSString *colr in colorsArray){
+//    NSArray* splitColorValues = [colr componentsSeparatedByString:@" "];
+//    NSString* name  = [splitColorValues objectAtIndex:0];
+//    NSString* value = [splitColorValues objectAtIndex:1];
+//    [colorDict setObject:value forKey:name];
+//  }
   
   return colorDict;
 }

@@ -98,7 +98,7 @@ static RomibowebAPIManager *sharedRomibowebManagerInstance = nil;
   self.responseStatus = [headers objectForKey:@"Status"];
   
 //  NSLog(@"responde code returned = %ld", (long)self.responseCode);
-  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+  // NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
 
   //NSLog(@"returned json = %@", json);
 

@@ -101,13 +101,15 @@ typedef enum {
 @property (strong, nonatomic) NSArray* paletteTitles;
 
 - (IBAction)textAction:(id)sender;
-- (IBAction)emoteAction:(id)sender;
+// - (IBAction)emoteAction:(id)sender;
 
 
 - (IBAction) connectAction:(id)sender;
 
-- (void) setEditButtonColor:(UIColor *) color;
-- (void) setEditButtonSize:(NSString *) sizeStr;
+// FIXME: these EditButton methods have no implementations.
+// write the implementations or remove the calls to them in buttonSizePickerView
+ - (void) setEditButtonColor:(UIColor *) color;
+ - (void) setEditButtonSize:(NSString *) sizeStr;
 
 - (void) displayButtonsForSelectedPalette:(NSInteger)index;
 

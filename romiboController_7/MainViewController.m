@@ -55,13 +55,11 @@
 @property (strong, nonatomic) IBOutlet UIButton *fetchPalettesButton;
 @property (strong, nonatomic) IBOutlet UILabel *logedInInfoLabel;
 
-- (IBAction)sliderMoved:(UISlider *)sender;
 @property (strong, nonatomic) IBOutlet UIButton *deleteCurrentButton;
 @property (strong, nonatomic) IBOutlet UIView *toolbarContainerView;
 
 @property (strong, nonatomic) IBOutlet UIView *buttonDetailsToolbarContainer;
 
--(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
 @property (strong, nonatomic) IBOutlet UIButton *deleteSelectedPaletteButton;
 @property (strong, nonatomic) IBOutlet UIButton *editSelectedPaletteButton;
 
@@ -71,6 +69,10 @@
 @property (strong, nonatomic) IBOutlet UIView *quickButtonsContainer;
 @property (strong, nonatomic) IBOutlet UILabel *currentUserNameLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *connectedToIphoneImageView;
+
+// - (IBAction)sliderMoved:(UISlider *)sender;
+// - (void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+
 
 @end
 
@@ -887,8 +889,8 @@ const CGFloat kButtonInset_y =   4.0;
 - (UIColor *) colorFromHexString:(NSString *)hexString
 {
   NSString *stringColor = [NSString stringWithFormat:@"%@", hexString];
-  NSUInteger red, green, blue;
-  sscanf([stringColor UTF8String], "#%2lX%2lX%2lX", &red, &green, &blue);
+  int red, green, blue;
+  sscanf([stringColor UTF8String], "#%2X%2X%2X", &red, &green, &blue);
   
   return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
   
