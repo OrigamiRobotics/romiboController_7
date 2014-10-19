@@ -20,7 +20,6 @@
 #import "PaletteButtonColorsManager.h"
 #import "MenuSelectionsController.h"
 #import "UserAccountsManager.h"
-#import "ConnectionManager.h"
 
 @interface MainViewController ()
 
@@ -196,22 +195,9 @@
 {
     if (self.connectedToiPod == NO) {
         self.multipeerBrowser = [[MCBrowserViewController alloc] initWithServiceType:kRMBOServiceType session:self.multipeerSession];
-        [self.multipeerBrowser setMaximumNumberOfPeers:kRMBOMaxMutlipeerConnections];
+        [self.multipeerBrowser setMaximumNumberOfPeers:kRMBOMaxMultipeerConnections];
         [self.multipeerBrowser setDelegate:self];
         [self presentViewController:_multipeerBrowser animated:YES completion:nil];
-        
-        /* ETJ DEBUG
-         NOTE,19 Aug 2014: Previous versions of the robot had a single point of connection.
-         We now have A) an iPod for sound and eye animations, and
-         B) a custom Bluetooth LE board to control motors
-         
-         Below, we'll add the Bluetooth connection invisibly.  This is naive; in
-         a room where more than one Romibo is present, we need to make sure that
-         each robot's iPod and Bluetooth board are associated so we don't connect
-         to one Romibo's eyes and another Romibo's motors.
-         // END DEBUG */
-        
-        [self addTagButtonPressed:nil];
     }
     else {
         UIAlertView *disconnectView = [[UIAlertView alloc] initWithTitle:@"Disconnect from Robot?"
@@ -256,6 +242,20 @@
         [self.connectedToIphoneImageView setHidden:NO];
         [self.connectButton setHidden:YES];
         [self.connectedToIphoneImageView setHidden:NO];
+          
+          /* ETJ DEBUG
+           NOTE,19 Aug 2014: Previous versions of the robot had a single point of connection.
+           We now have A) an iPod for sound and eye animations, and
+           B) a custom Bluetooth LE board to control motors
+           
+           Below, we'll add the Bluetooth connection invisibly.  This is naive; in
+           a room where more than one Romibo is present, we need to make sure that
+           each robot's iPod and Bluetooth board are associated so we don't connect
+           to one Romibo's eyes and another Romibo's motors.
+           // END DEBUG */
+          
+          [self toggleTagScanning:nil];
+          
       }];
       
     });
@@ -306,13 +306,16 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 - (void)sendDataToRobot:(NSData *)data
 {
   NSError *error = nil;
-  [self.multipeerSession sendData:data toPeers:self.multipeerSession.connectedPeers withMode:MCSessionSendDataUnreliable error:&error];
+  [self.multipeerSession sendData:data
+                          toPeers:self.multipeerSession.connectedPeers
+                         withMode:MCSessionSendDataUnreliable
+                            error:&error];
 }
 
 
 #pragma mark - Bluetooth Connection
 
-- (IBAction) addTagButtonPressed:(id)sender
+- (IBAction)toggleTagScanning:(id)sender;
 {
     if(!self.isScanning)
     {
@@ -322,10 +325,9 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
     {
         [self stopScanForTags];
     }
-    
 }
 
-- (void) startScanForTags
+- (void)startScanForTags
 {
     NSLog(@"Starting scan for new tags...");
     [[ConnectionManager sharedInstance] startScanForTags];
@@ -389,47 +391,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
     return NO;
 }
 
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    [_menuPopoverController dismissPopoverAnimated:YES];
-//    switch( [indexPath row]){
-//        case kRMBOConnectionMenuOption: [self manageRobotConnection]; break;
-//        case kRMBOEditorMenuOption:     [self loadEditorView]; break;
-//        case kRMBOShowkitLoginOption:   [self manageShowkitLogin]; break;
-//    }
-//    
-//}
-
-//- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-//{
-//    if ([alertView isEqual:_showkitLoginAlertView]) {
-//        if (buttonIndex == 1) {
-//            //            [ShowKit login:[NSString stringWithFormat:@"%@.%@", kRMBOShowkitAccountNumber, [[alertView textFieldAtIndex:0] text]]
-//            //                  password:[[alertView textFieldAtIndex:1] text]
-//            //       withCompletionBlock:^(NSString *const connectionStatus) {
-//            //                NSLog(@"%@", connectionStatus);
-//            //                [UIView animateWithDuration:0.4 animations:^{
-//            //                    [_manageShowKitButton setAlpha:1.0];
-//            //                }];
-//            //            }];
-//        }
-//    }
-//    else {
-//        if (buttonIndex == 1) {
-//            [_session disconnect];
-//            self.self.connectedToiPod = NO;
-//            // TODO: add method to disconnect from BTLE board here. -ETJ 20 Aug 2014
-//            [self setupMultipeerConnectivity];
-//        }
-//    }
-//}
-
-//- (void)actionDataSource:(RMBOActionDataSource *)dataSource userWantsRobotToSpeakPhrase:(NSString *)phrase atRate:(float)speechRate
-//{
-//    [self sendSpeechPhraseToRobot:phrase atSpeechRate:speechRate];
-//}
-
 - (void)sendSpeechPhraseToRobot:(NSString *)phrase atSpeechRate:(float)speechRate
 {
     if (self.connectedToiPod) {
@@ -441,24 +402,36 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick
 {
+    // ETJ DEBUG
+    // NSLog(@"analogueStickDidChangeValue");
+    // END DEBUG
     [self moveRobotWithX:analogueStick.xValue andY:analogueStick.yValue];
+}
+
+- (IBAction)joystickTouchDidEndAction:(id)sender;
+{
+    // ETJ DEBUG
+    NSLog(@"joystickTouchDidEndAction");
+    // END DEBUG
+    [self stopRobotMovement];
 }
 
 - (void)moveRobotWithX:(CGFloat)xValue andY:(CGFloat)yValue
 {
-    if (self.self.connectedToiPod) {
-        
-        CGFloat xCheck = fabs(_lastX - xValue);
-        CGFloat yCheck = fabs(_lastY - yValue);
+    if (self.connectedToiPod) {
         
         float x = (float)xValue;
         float y = (float)yValue;
         
         // ETJ DEBUG
-        NSLog(@"moveRobotWithX: %f  Y: %f   xCheck: %f  yCheck: %f", xValue, yValue, xCheck, yCheck);
+        // CGFloat xCheck = fabs(_lastX - xValue);
+        // CGFloat yCheck = fabs(_lastY - yValue);
+        // NSLog(@"moveRobotWithX: %f  Y: %f   xCheck: %f  yCheck: %f", xValue, yValue, xCheck, yCheck);
         // END DEBUG
         
-        NSDictionary *params = @{@"command" : kRMBOMoveRobot, @"x" : [NSNumber numberWithFloat:x], @"y" : [NSNumber numberWithFloat:y]};
+        NSDictionary *params = @{@"command": kRMBOMoveRobot,
+                                 @"x": [NSNumber numberWithFloat:x],
+                                 @"y": [NSNumber numberWithFloat:y]};
         [self sendCommandToRobot:params];
         
         _lastX = xValue;
@@ -468,32 +441,36 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)stopRobotMovement
 {
-    if (self.self.connectedToiPod) {
-        NSDictionary *params = @{@"command" : kRMBOStopRobotMovement, @"timestamp" : [NSDate date]};
+    if (self.connectedToiPod) {
+        NSDictionary *params = @{@"command" : kRMBOStopRobotMovement,
+                                 @"timestamp" : [NSDate date]};
         [self sendCommandToRobot:params];
     }
 }
 
 - (void)tiltRobotHeadToAngle:(CGFloat)angle
 {
-    if (self.self.connectedToiPod) {
-        NSDictionary *params = @{@"command" : kRMBOHeadTilt, @"angle" : [NSNumber numberWithFloat:(float)angle]};
+    if (self.connectedToiPod) {
+        NSDictionary *params = @{@"command" : kRMBOHeadTilt,
+                                 @"angle" : [NSNumber numberWithFloat:(float)angle]};
         [self sendCommandToRobot:params];
     }
 }
 
 - (void)turnRobotClockwise:(id)sender
 {
-    if (self.self.connectedToiPod && self.isTurningClockwise) {
-        NSDictionary *params = @{@"command" : kRMBOTurnInPlaceClockwise, @"timestamp" : [NSDate date]};
+    if (self.connectedToiPod && self.isTurningClockwise) {
+        NSDictionary *params = @{@"command" : kRMBOTurnInPlaceClockwise,
+                                 @"timestamp" : [NSDate date]};
         [self sendCommandToRobot:params];
     }
 }
 
 - (void)turnRobotCounterClockwise:(id)sender
 {
-    if (self.self.connectedToiPod && self.isTurningCounterclockwise) {
-        NSDictionary *params = @{@"command" : kRMBOTurnInPlaceCounterClockwise, @"timestamp" : [NSDate date]};
+    if (self.connectedToiPod && self.isTurningCounterclockwise) {
+        NSDictionary *params = @{@"command" : kRMBOTurnInPlaceCounterClockwise,
+                                 @"timestamp" : [NSDate date]};
         [self sendCommandToRobot:params];
     }
     
@@ -503,14 +480,20 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 {
     [self turnRobotClockwise:self];
     self.isTurningClockwise = YES;
-    self.turningTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(turnRobotClockwise:) userInfo:nil repeats:YES];
+    self.turningTimer = [NSTimer scheduledTimerWithTimeInterval:0.25
+                                                         target:self
+                                                       selector:@selector(turnRobotClockwise:)
+                                                       userInfo:nil repeats:YES];
 }
 
 - (IBAction)beginTurnRobotInPlaceCounterClockwiseAction:(id)sender
 {
     [self turnRobotCounterClockwise:self];
     self.isTurningCounterclockwise = YES;
-    self.turningTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(turnRobotCounterClockwise:) userInfo:nil repeats:YES];
+    self.turningTimer = [NSTimer scheduledTimerWithTimeInterval:0.25
+                                                         target:self
+                                                       selector:@selector(turnRobotCounterClockwise:)
+                                                       userInfo:nil repeats:YES];
 }
 
 - (IBAction)endTurnRobotInPlaceClockwiseAction:(id)sender
@@ -530,7 +513,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 }
 
 
-#pragma mark S T E E R I N G
+#pragma mark - S T E E R I N G
 - (UInt32)commandBytesForLeftMotor:(SInt8)leftMotor
                         rightMotor:(SInt8)rightMotor
                      leftRightTilt:(UInt8)leftRightTilt
@@ -647,7 +630,7 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
     *destLeft = (SInt8)correctedLeft;
     *destRight = (SInt8)correctedRight;
 }
-#pragma mark R A D I O   C O M M A N D S
+#pragma mark - R A D I O   C O M M A N D S
 - (void)sendCommandToRobot:(NSDictionary *)commandDict;
 {
     // ETJ DEBUG
@@ -1299,7 +1282,6 @@ const CGFloat kButtonInset_y =   4.0;
    
    */
   
-  NSLog(@"when called");
   [self.palettesManager addObserver:self
                          forKeyPath:@"observeMe"
                             options:(NSKeyValueObservingOptionNew)
@@ -1319,7 +1301,7 @@ const CGFloat kButtonInset_y =   4.0;
                                              object:nil];
   UserAccountsManager *userAccountsMgr = [UserAccountsManager sharedUserAccountManagerInstance];
   [userAccountsMgr addObserver:self
-                    forKeyPath:@"justLoggedInOservable"
+                    forKeyPath:@"justLoggedInObservable"
                        options:(NSKeyValueObservingOptionNew)
                        context:NULL];
 }
@@ -1345,7 +1327,7 @@ const CGFloat kButtonInset_y =   4.0;
     NSLog(@"selectedNewUser = %@", selectedNewUserEmail);
     [self switchToSelectedUserAccount:selectedNewUserEmail];
 
-  } else if ([keyPath isEqual:@"justLoggedInOservable"]){
+  } else if ([keyPath isEqual:@"justLoggedInObservable"]){
     NSLog(@"just logged in");
     dispatch_async(dispatch_get_main_queue(), ^{
     [[RomibowebAPIManager sharedRomibowebManagerInstance] getColorsListFromRomiboWeb];

@@ -155,7 +155,7 @@ static PaletteButtonColorsManager *sharedButtonColorsManagerInstance = nil;
     NSLog(@"loading predefined colors ...");
     [self usePredefinedAvailableColors];
   }
-  NSLog(@"colors = %@", self.buttonColors);
+  // NSLog(@"colors = %@", self.buttonColors);
 }
 
 @end

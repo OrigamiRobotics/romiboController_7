@@ -17,7 +17,7 @@
 
 @end
 
-@interface JSAnalogueStick : UIView
+@interface JSAnalogueStick : UIControl
 
 @property (nonatomic, readonly) CGFloat xValue;
 @property (nonatomic, readonly) CGFloat yValue;

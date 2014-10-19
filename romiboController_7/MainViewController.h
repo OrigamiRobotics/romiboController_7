@@ -12,6 +12,7 @@
 #import "AVFoundation/AVFoundation.h"
 #import "PaletteButtonsCollectionViewCell.h"
 #import "JSAnalogueStick.h"
+#import "ConnectionManager.h"
 
 
 //Commands
@@ -24,7 +25,7 @@
 #define kRMBOStopRobotMovement @"kRMBOStopRobotMovement"
 #define kRMBOChangeMood @"kRMBOChangeMood"
 
-#define kRMBOMaxMutlipeerConnections 1
+#define kRMBOMaxMultipeerConnections 2
 #define kRMBOServiceType @"origami-romibo"
 
 
@@ -39,20 +40,21 @@ typedef enum {
 
 @interface MainViewController : UIViewController
 <
-  UITableViewDataSource,
-  UITableViewDelegate,
-  UICollectionViewDataSource,
-  UICollectionViewDelegate,
-  MCSessionDelegate,
-  MCBrowserViewControllerDelegate,
-  NSURLSessionTaskDelegate,
-  NSURLSessionDataDelegate,
-  NSURLSessionDelegate,
-  UIPopoverControllerDelegate,
-//  UIPickerViewDataSource,
-//  UIPickerViewDelegate,
-  UIAlertViewDelegate,
-  JSAnalogueStickDelegate
+    UITableViewDataSource,
+    UITableViewDelegate,
+    UICollectionViewDataSource,
+    UICollectionViewDelegate,
+    MCSessionDelegate,
+    MCBrowserViewControllerDelegate,
+    NSURLSessionTaskDelegate,
+    NSURLSessionDataDelegate,
+    NSURLSessionDelegate,
+    UIPopoverControllerDelegate,
+    //  UIPickerViewDataSource,
+    //  UIPickerViewDelegate,
+    UIAlertViewDelegate,
+    JSAnalogueStickDelegate,
+    ConnectionManagerDelegate
 >
 
 @property (nonatomic, strong) MCPeerID *peerID;
@@ -125,6 +127,7 @@ typedef enum {
 
 
 - (IBAction) connectAction:(id)sender;
+- (IBAction)toggleTagScanning:(id)sender;
 
 // FIXME: these EditButton methods have no implementations.
 // write the implementations or remove the calls to them in buttonSizePickerView

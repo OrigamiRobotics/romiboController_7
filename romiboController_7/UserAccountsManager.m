@@ -41,7 +41,7 @@ static UserAccountsManager *sharedAccountsInstance = nil;
   if (self = [super init]){
     self.lastUsedAccountEmail = @"";
     self.userAccounts = [[NSMutableDictionary alloc] init];
-    self.justLoggedInOservable = @"";
+    self.justLoggedInObservable = @"";
 
     [self loadAccounts];
     [self createDefaultUser];
@@ -145,7 +145,7 @@ static UserAccountsManager *sharedAccountsInstance = nil;
 {
   [[self.userAccounts objectForKey:self.lastUsedAccountEmail] setIsLoggedIn:YES];
   [self saveAccounts];
-  self.justLoggedInOservable = @"yes";
+  self.justLoggedInObservable = @"yes";
 }
 
 -(BOOL)currentUserIsLoggedIn
