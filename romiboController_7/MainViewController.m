@@ -21,6 +21,7 @@
 #import "MenuSelectionsController.h"
 #import "UserAccountsManager.h"
 
+#import "etj_macros.h"
 @interface MainViewController ()
 
 
@@ -243,7 +244,7 @@
                 [self.connectButton setHidden:YES];
                 [self.connectedToIphoneImageView setHidden:NO];
                 
-                /* ETJ DEBUG
+                /*
                  NOTE,19 Aug 2014: Previous versions of the robot had a single point of connection.
                  We now have A) an iPod for sound and eye animations, and
                  B) a custom Bluetooth LE board to control motors
@@ -252,8 +253,7 @@
                  a room where more than one Romibo is present, we need to make sure that
                  each robot's iPod and Bluetooth board are associated so we don't connect
                  to one Romibo's eyes and another Romibo's motors.
-                 // END DEBUG */
-                
+                 */
                 [self toggleTagScanning:nil];
                 
             }];
@@ -397,9 +397,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
         NSDictionary *params = @{@"command" : kRMBOSpeakPhrase,
                                  @"phrase" : phrase,
                                  @"speechRate" : @(speechRate)};
-        // ETJ DEBUG
-        NSLog(@"speechRate: %@",params[@"speechRate"]);
-        // END DEBUG
         [self sendCommandToRobot:params];
         
     }
@@ -407,17 +404,13 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick
 {
-    // ETJ DEBUG
-    // NSLog(@"analogueStickDidChangeValue");
-    // END DEBUG
     [self moveRobotWithX:analogueStick.xValue andY:analogueStick.yValue];
 }
 
 - (IBAction)joystickTouchDidEndAction:(id)sender;
 {
-    // ETJ DEBUG
-    NSLog(@"joystickTouchDidEndAction");
-    // END DEBUG
+    // NOTE: this isn't getting triggered despite being connected in the XIB.
+    // ETJ 19 Oct 2014
     [self stopRobotMovement];
 }
 
@@ -427,12 +420,6 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
         
         float x = (float)xValue;
         float y = (float)yValue;
-        
-        // ETJ DEBUG
-        // CGFloat xCheck = fabs(_lastX - xValue);
-        // CGFloat yCheck = fabs(_lastY - yValue);
-        // NSLog(@"moveRobotWithX: %f  Y: %f   xCheck: %f  yCheck: %f", xValue, yValue, xCheck, yCheck);
-        // END DEBUG
         
         NSDictionary *params = @{@"command": kRMBOMoveRobot,
                                  @"x": @(x),
@@ -460,7 +447,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
         NSDictionary *params = @{@"command" : kRMBOHeadTilt,
                                  @"angle" : @(angle),
                                  @"timestamp" : [NSDate date]};
-
+        
         [self sendCommandToRobot:params];
     }
 }
@@ -641,20 +628,6 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
 #pragma mark - R A D I O   C O M M A N D S
 - (void)sendCommandToRobot:(NSDictionary *)commandDict;
 {
-    // ETJ DEBUG
-    // NSDictionary *actionTitlesDict = @{
-    //                                   kRMBOSpeakPhrase: @"Speak Phrase",
-    //                                   kRMBOMoveRobot: @"Move Robot",
-    //                                   kRMBOHeadTilt: @"Tilt Head",
-    //                                   kRMBODebugLogMessage: @"Debug Log Message",
-    //                                   kRMBOTurnInPlaceClockwise: @"Clockwise Turn",
-    //                                   kRMBOTurnInPlaceCounterClockwise: @"Counterclockwise Turn",
-    //                                   kRMBOStopRobotMovement: @"Stop Robot",
-    //                                   kRMBOChangeMood: @"Change Mood",
-    //                                   };
-    //NSLog( @"%@",(NSString *)actionTitlesDict[commandDict[@"command"]]);
-    // END DEBUG */
-    
     // Parse data to see if it should be sent to the iPod (eyes, sound) or Bluetooth board
     
     // TODO: as more actions are added, they should be categorized here.
@@ -673,12 +646,18 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
         // Package our data for the Bluetooth board and send it
         [self sendCommandToBTBoard:commandDict];
     }
-    
-    
 }
 
 - (void)sendCommandToBTBoard:(NSDictionary *)commandDict
 {
+    // Get the board we want to be talking to, or print a warning if it's not
+    // around
+    CBPeripheral *btBoard = [ConnectionManager sharedInstance].connectedPeripheral;
+    if (btBoard == nil){
+        NSLog(@"sendCommandToBTBoard: no peripheral connected. Returning");
+        return;
+    }
+    
     // Only send messages every 100 ms
     NSTimeInterval minMessageGap= 0.1;
     NSDate *curTime = [NSDate date];
@@ -731,10 +710,9 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
         _last_tiltForwardBack = (UInt8)((angle-60)/(120-60)* 255);
         
         // _last_tiltForwardBack = (UInt8)[commandDict[@"angle"] floatValue];
-        // ETJ DEBUG
-        NSLog(@"%@", commandDict[@"angle"]);
-        NSLog(@"kRMBOHeadTiltForwardBack set to %d", _last_tiltForwardBack);
-        // END DEBUG
+
+        // NSLog(@"%@", commandDict[@"angle"]);
+        // NSLog(@"kRMBOHeadTiltForwardBack set to %d", _last_tiltForwardBack);
     }
     SInt8 balancedLeft, balancedRight;
     
@@ -752,19 +730,18 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
     
     // Don't resend a message identical to the last one sent
     if (commandBytes == _lastBTCommandBytes){ return;}
+
     // ETJ DEBUG
     UInt8 *cb = (UInt8 *)&commandBytes;
     NSLog(@"commandBytes:  %d %d %d %d", (SInt8)cb[0], (SInt8)cb[1], cb[2], cb[3]);
-    CBPeripheral *btBoard = [ConnectionManager sharedInstance].connectedPeripheral;
-    NSLog(@"Bluetooth board is %@",btBoard);
     // END DEBUG
     
     _lastBTMessageTime = [NSDate date];
     _lastBTCommandBytes = commandBytes;
     
-    [[ConnectionManager sharedInstance].connectedPeripheral writeValue:[NSData dataWithBytes:(void *)&commandBytes length:4]
-                                                     forCharacteristic:[ConnectionManager sharedInstance].connectToTag.romibo_characteristic_write
-                                                                  type:CBCharacteristicWriteWithResponse];
+    [btBoard writeValue:[NSData dataWithBytes:(void *)&commandBytes length:4]
+      forCharacteristic:[ConnectionManager sharedInstance].connectToTag.romibo_characteristic_write
+                   type:CBCharacteristicWriteWithResponse];
 }
 
 - (void)sendDataToIPod:(NSData *)data
@@ -796,34 +773,25 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
     [self sendSpeechPhraseToRobot:textToSpeak atSpeechRate:speechRate];
 }
 
-//- (IBAction)emoteAction:(id)sender
-//{
-//  NSNumber *mood;
-//  if ([sender isEqual:self.emote1_button]) {
-//    mood = @(RMBOEyeMood_Curious);
-//  }
-//  else if ([sender isEqual:self.emote2_button]) {
-//    mood = @(RMBOEyeMood_Excited);
-//  }
-//  else if ([sender isEqual:self.emote3_button]) {
-//    mood = @(RMBOEyeMood_Indifferent);
-//  }
-//  else if ([sender isEqual:self.emote4_button]) {
-//    mood = @(RMBOEyeMood_Twitterpated);
-//  }
-//  else if ([sender isEqual:self.emote5_button]) {
-//    mood = @(RMBOEyeMood_Blink);
-//  }
-//  else {
-//    return;
-//  }
-//
-//  if (self.connectedToiPod) {
-//    NSDictionary *params = @{@"command" : kRMBOChangeMood, @"mood" : mood};
-//    NSData *paramsData = [NSKeyedArchiver archivedDataWithRootObject:params];
-//    [self sendDataToRobot:paramsData];
-//  }
-//}
+- (IBAction)emoteAction:(id)sender
+{
+    NSNumber *mood;
+    NSDictionary *moodsForButtons = @{
+                                      NSV(self.emote1_button):@(RMBOEyeMood_Curious),
+                                      NSV(self.emote2_button):@(RMBOEyeMood_Excited),
+                                      NSV(self.emote3_button):@(RMBOEyeMood_Indifferent),
+                                      NSV(self.emote4_button):@(RMBOEyeMood_Twitterpated),
+                                      NSV(self.emote5_button):@(RMBOEyeMood_Blink)
+                                      };
+    
+    mood = (NSNumber *)moodsForButtons[ NSV(sender)];
+    if (mood == nil){ return;}
+        
+    if (self.connectedToiPod) {
+        NSDictionary *params = @{@"command" : kRMBOChangeMood, @"mood" : mood};
+        [self sendCommandToRobot:params];
+    }
+}
 
 - (IBAction)showColorPopoverAction:(id)sender
 {
@@ -831,7 +799,10 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
     
     CGRect buttonRectInSelfView = [self.editView convertRect:tappedButton.frame toView:self.view];
     
-    [self.colorPickerViewPopoverController presentPopoverFromRect:buttonRectInSelfView inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    [self.colorPickerViewPopoverController presentPopoverFromRect:buttonRectInSelfView
+                                                           inView:self.view
+                                         permittedArrowDirections:UIPopoverArrowDirectionRight
+                                                         animated:YES];
 }
 
 - (IBAction)showSizePopoverAction:(id)sender
@@ -840,7 +811,10 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
     
     CGRect buttonRectInSelfView = [self.editView convertRect:tappedButton.frame toView:self.view];
     
-    [self.sizePickerViewPopoverController presentPopoverFromRect:buttonRectInSelfView inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    [self.sizePickerViewPopoverController presentPopoverFromRect:buttonRectInSelfView
+                                                          inView:self.view
+                                        permittedArrowDirections:UIPopoverArrowDirectionRight
+                                                        animated:YES];
 }
 
 
@@ -882,7 +856,8 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
     // Fetch button with buttonIndex
     rmbo_AppDelegate * appDelegate = [[UIApplication sharedApplication] delegate];
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ButtonEntity" inManagedObjectContext:appDelegate.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ButtonEntity"
+                                              inManagedObjectContext:appDelegate.managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entity];
     
@@ -990,10 +965,10 @@ const CGFloat kButtonInset_y =   4.0;
     cell.textLabel.highlightedTextColor = [UIColor colorWithHexString:@"00517D"];
     NSArray *splitTitleAndId = [self.paletteTitles[indexPath.row] componentsSeparatedByString:@"---+++---"];
     
-    cell.textLabel.text = [splitTitleAndId objectAtIndex:0];
+    cell.textLabel.text = splitTitleAndId[0];
     
-    NSString *strPaletteId = [splitTitleAndId objectAtIndex:1];
-    [self.myPaletteIds setObject:strPaletteId forKey:[NSNumber numberWithLong:indexPath.row]];
+    NSString *strPaletteId = splitTitleAndId[1];
+    self.myPaletteIds[@(indexPath.row)] = strPaletteId;
     NSUInteger numberOfPalettes = [[UserPalettesManager sharedPalettesManagerInstance] numberOfPalettes];
     if ([[self.myPaletteIds allKeys] count] == numberOfPalettes ){
         [self highlightLastViewedPaletteCellInTable];
@@ -1047,8 +1022,9 @@ const CGFloat kButtonInset_y =   4.0;
         }
     }
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-    [self.palettesListingTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:
-     UITableViewScrollPositionNone];
+    [self.palettesListingTableView selectRowAtIndexPath:indexPath
+                                               animated:YES
+                                         scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1073,12 +1049,12 @@ const CGFloat kButtonInset_y =   4.0;
     PaletteButtonsCollectionViewCell *cell = (PaletteButtonsCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
-    NSArray *splitTitleAndId = [[self.buttonTitles objectAtIndex:indexPath.row] componentsSeparatedByString:@"---+++---"];
+    NSArray *splitTitleAndId = [self.buttonTitles[indexPath.row] componentsSeparatedByString:@"---+++---"];
     
     //set button title
-    NSString* buttonIdStr = [splitTitleAndId objectAtIndex:1];
-    [self.myPaletteButtonIds setObject:buttonIdStr forKey:[NSNumber numberWithLong:indexPath.row]];
-    NSString* title = [splitTitleAndId objectAtIndex:0];
+    NSString* buttonIdStr = splitTitleAndId[1];
+    self.myPaletteButtonIds[@(indexPath.row)] = buttonIdStr;
+    NSString* title = splitTitleAndId[0];
     title = [self truncateStringWithEllipsis:title];
     cell.foregroundLabel.text = [NSString stringWithFormat:@" %@", title];
     
@@ -1215,7 +1191,7 @@ const CGFloat kButtonInset_y =   4.0;
     if ([[self.myPaletteIds allKeys] count] == 0){//when first loaded
         selectPaletteId = [[UserPalettesManager sharedPalettesManagerInstance] lastViewedPalette];
     } else{
-        selectPaletteId = [[self.myPaletteIds objectForKey:[NSNumber numberWithLong:self.selectedTableRow]] intValue];
+        selectPaletteId = [[self.myPaletteIds objectForKey:@(self.selectedTableRow)] intValue];
         [[UserPalettesManager sharedPalettesManagerInstance] updateLastViewedPalette:selectPaletteId];
     }
     
@@ -1270,7 +1246,7 @@ const CGFloat kButtonInset_y =   4.0;
 
 -(PaletteButton *)extractCurrentSelectedButton
 {
-    NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:[NSNumber numberWithLong:self.selectedButtonCellRow]];
+    NSString* buttonIdStr = [self.myPaletteButtonIds objectForKey:@(self.selectedButtonCellRow)];
     //get current palette and use it to get current button
     PaletteButton *buttonForPalette = [self.palettesManager currentButton:buttonIdStr];
     return buttonForPalette;
@@ -1312,7 +1288,10 @@ const CGFloat kButtonInset_y =   4.0;
                       forKeyPath:@"justLoggedInObservable"
                          options:(NSKeyValueObservingOptionNew)
                          context:NULL];
+
 }
+     
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
@@ -1345,9 +1324,7 @@ const CGFloat kButtonInset_y =   4.0;
 
 - (void)peerDidChangeStateWithNotification:(NSNotification *)notification;
 {
-    // ETJ DEBUG
     NSLog(@"peerDidChangeStateWithNotification: %@",notification);
-    // END DEBUG
 }
 
 #pragma mark - Button Details Methods

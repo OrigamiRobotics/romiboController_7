@@ -218,7 +218,7 @@
 {
     NSString * palettesSpelling = [self.palettesSelectedToFetch count] == 1 ? @"palette" : @"palettes";
     NSString * strSelectedpaletteMsg = [NSString stringWithFormat:@"%ld %@ selected",
-                                        [self.palettesSelectedToFetch count], palettesSpelling];
+                                        (unsigned long)[self.palettesSelectedToFetch count], palettesSpelling];
     
     self.numberOfSelectedPalettesLabel.text = strSelectedpaletteMsg;
     if ([self.palettesSelectedToFetch count] > 0){

@@ -201,6 +201,7 @@
 		D7A7954519F2C715008C9587 /* TagLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagLocationManager.m; sourceTree = "<group>"; };
 		D7A7954A19F41DD1008C9587 /* UIColor+GSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+GSAdditions.h"; path = "romiboController_7/UIColor+GSAdditions.h"; sourceTree = "<group>"; };
 		D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+GSAdditions.m"; path = "romiboController_7/UIColor+GSAdditions.m"; sourceTree = "<group>"; };
+		D7A7954D19F43E25008C9587 /* etj_macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etj_macros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,6 +333,7 @@
 		B1EDAF611910537600C17EBC = {
 			isa = PBXGroup;
 			children = (
+				D7A7954D19F43E25008C9587 /* etj_macros.h */,
 				D7A7954A19F41DD1008C9587 /* UIColor+GSAdditions.h */,
 				D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */,
 				55444B3619D2A81700192456 /* Images */,

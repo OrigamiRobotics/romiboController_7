@@ -54,7 +54,7 @@ static UserAccountsManager *sharedAccountsInstance = nil;
   RomiboWebUser *user = [[RomiboWebUser alloc] init];
   RomiboWebUser *defaultUser = [self.userAccounts objectForKey:user.email];
   if (!defaultUser){
-    [self.userAccounts setObject:user forKey:user.email];
+    self.userAccounts[user.email]  =user;
     self.lastUsedAccountEmail = user.email;
     [self saveAccounts];
   }
