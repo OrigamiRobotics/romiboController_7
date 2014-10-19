@@ -9,6 +9,7 @@
 #import "SwitchUsersPopoverViewController.h"
 #import "MenuSelectionsController.h"
 #import "UserAccountsManager.h"
+#import "UIColor+GSAdditions.h"
 
 @interface SwitchUsersPopoverViewController ()
 
@@ -57,7 +58,7 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
   }
   
-  UIColor *textColor = [self colorFromHexString:@"#3498db"];
+  UIColor *textColor = [UIColor colorWithHexString:@"#3498db"];
 
   cell.textLabel.textColor = textColor;
   cell.textLabel.font = [UIFont systemFontOfSize:14];
@@ -90,17 +91,6 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
   //[cell setBackgroundColor:[UIColor colorWithPatternImage:pattern]];
-}
-
-- (UIColor *) colorFromHexString:(NSString *)hexString
-{
-  //NSString *stringColor = [NSString stringWithFormat:@"#%@", hexString];
-  // NSLog(@"converted hex value = %@", stringColor);
-  int red, green, blue;
-  sscanf([hexString UTF8String], "#%2X%2X%2X", &red, &green, &blue);
-  
-  return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
-  
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

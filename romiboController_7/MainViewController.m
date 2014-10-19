@@ -1349,21 +1349,11 @@ const CGFloat kButtonInset_y =   4.0;
   self.currentButtonSpeechPhrase.text        = button.speech_phrase;
   self.currentButtonSpeechSpeedRate.value    = button.speech_speed_rate;
   self.currentButtonSpeedSpeedRateLabel.text = [NSString stringWithFormat:@"%.1f", button.speech_speed_rate];
-  UIColor *uiColor = [self colorFromHexString:button.color];
+  UIColor *uiColor = [UIColor colorWithHexString:button.color];
 
   self.currentButtonColorLabel.backgroundColor = uiColor;
   self.currentButtonColorLabel.text = @"";
   [self.currentButtonColorSelector setTitle:[[PaletteButtonColorsManager sharedColorsManagerInstance] nameForHexValue:button.color] forState:UIControlStateNormal];
-}
-
-- (UIColor *) colorFromHexString:(NSString *)hexString
-{
-  NSString *stringColor = [NSString stringWithFormat:@"%@", hexString];
-  int red, green, blue;
-  sscanf([stringColor UTF8String], "#%2X%2X%2X", &red, &green, &blue);
-  
-  return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
-  
 }
 
 

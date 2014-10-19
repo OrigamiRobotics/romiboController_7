@@ -78,6 +78,7 @@
 		D7A7954619F2C715008C9587 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954119F2C715008C9587 /* ConnectionManager.m */; };
 		D7A7954719F2C715008C9587 /* ProximityTag.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954319F2C715008C9587 /* ProximityTag.m */; };
 		D7A7954819F2C715008C9587 /* TagLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954519F2C715008C9587 /* TagLocationManager.m */; };
+		D7A7954C19F41DD1008C9587 /* UIColor+GSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +199,8 @@
 		D7A7954319F2C715008C9587 /* ProximityTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProximityTag.m; sourceTree = "<group>"; };
 		D7A7954419F2C715008C9587 /* TagLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagLocationManager.h; sourceTree = "<group>"; };
 		D7A7954519F2C715008C9587 /* TagLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagLocationManager.m; sourceTree = "<group>"; };
+		D7A7954A19F41DD1008C9587 /* UIColor+GSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+GSAdditions.h"; path = "romiboController_7/UIColor+GSAdditions.h"; sourceTree = "<group>"; };
+		D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+GSAdditions.m"; path = "romiboController_7/UIColor+GSAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +332,8 @@
 		B1EDAF611910537600C17EBC = {
 			isa = PBXGroup;
 			children = (
+				D7A7954A19F41DD1008C9587 /* UIColor+GSAdditions.h */,
+				D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */,
 				55444B3619D2A81700192456 /* Images */,
 				B1EDAF731910537600C17EBC /* romiboController_7 */,
 				B1EDAF951910537600C17EBC /* romiboController_7Tests */,
@@ -570,6 +575,7 @@
 				D7A7954719F2C715008C9587 /* ProximityTag.m in Sources */,
 				55BA0C0E19E7485A0087B01D /* UserAccountsManager.m in Sources */,
 				D7A7954619F2C715008C9587 /* ConnectionManager.m in Sources */,
+				D7A7954C19F41DD1008C9587 /* UIColor+GSAdditions.m in Sources */,
 				555AA51C19D9E9B500372F1C /* LoginToRomiboWebViewController.m in Sources */,
 				B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */,
 				D7A7954819F2C715008C9587 /* TagLocationManager.m in Sources */,

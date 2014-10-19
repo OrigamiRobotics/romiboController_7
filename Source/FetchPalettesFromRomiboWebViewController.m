@@ -9,6 +9,7 @@
 #import "FetchPalettesFromRomiboWebViewController.h"
 #import "UserPalettesManager.h"
 #import "RomibowebAPIManager.h"
+#import "UIColor+GSAdditions.h"
 
 @interface FetchPalettesFromRomiboWebViewController ()
 
@@ -150,8 +151,8 @@
     bgview.opaque = YES;
     cell.selectedBackgroundView = bgview;
     [cell setBackgroundView:selectedBgView];
-    cell.textLabel.textColor = [self colorFromHexString:@"#6794A2"];
-    cell.textLabel.highlightedTextColor = [self colorFromHexString:@"#00517D"];
+    cell.textLabel.textColor = [UIColor colorWithHexString:@"#6794A2"];
+    cell.textLabel.highlightedTextColor = [UIColor colorWithHexString:@"#00517D"];
     NSArray *splitTitleAndId = [self.paletteTitles[indexPath.row] componentsSeparatedByString:@"---+++---"];
     
     cell.textLabel.text = [splitTitleAndId objectAtIndex:0];
@@ -201,16 +202,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   return 40.0;
-}
-
-- (UIColor *) colorFromHexString:(NSString *)hexString
-{
-  NSString *stringColor = [NSString stringWithFormat:@"%@", hexString];
-  NSUInteger red, green, blue;
-  sscanf([stringColor UTF8String], "#%2lX%2lX%2lX", &red, &green, &blue);
-  
-  return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
-  
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

@@ -10,6 +10,7 @@
 #import "UserPalettesManager.h"
 #import "PaletteButtonColorsManager.h"
 #import "MenuSelectionsController.h"
+#import "UIColor+GSAdditions.h"
 
 @interface EditButtonViewController ()
 
@@ -20,13 +21,13 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonColorSelectorButton;
 @property (strong, nonatomic) IBOutlet UILabel *selectedButtonColorLabel;
 @property (strong, nonatomic) IBOutlet UITextView *buttonSpeechPhraseTextview;
-@property (copy, nonatomic)NSString* selectedColorName;
+@property (copy, nonatomic) NSString* selectedColorName;
 @property (weak, nonatomic) UserPalettesManager *palettesManager;
-@property (strong, nonatomic)NSDictionary* editedButtonValues;
-@property (assign, nonatomic)int selectButtonId;
+@property (strong, nonatomic) NSDictionary* editedButtonValues;
+@property (assign, nonatomic) int selectButtonId;
 @property (assign, nonatomic) int selectedPaletteId;
 @property (weak, nonatomic) MenuSelectionsController *genericController;
-@property (weak, nonatomic)PaletteButtonColorsManager *colorsManager;
+@property (weak, nonatomic) PaletteButtonColorsManager *colorsManager;
 
 @end
 
@@ -88,7 +89,7 @@
         };
 }
 
--(void)prepoluateFields{
+-(void)prepopulateFields{
   [self prepopulateFieldsWithSelectedButton];
 
 }
@@ -110,19 +111,9 @@
 
 }
 
-- (UIColor *) colorFromHexString:(NSString *)hexString
-{
-  NSString *stringColor = [NSString stringWithFormat:@"%@", hexString];
-  int red, green, blue;
-  sscanf([stringColor UTF8String], "#%2X%2X%2X", &red, &green, &blue);
-  
-  return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
-  
-}
-
 -(void)setColorFieldValues:(NSString*)buttonColor
 {
-  UIColor *uiColor = [self colorFromHexString:buttonColor];
+  UIColor *uiColor = [UIColor colorWithHexString:buttonColor];
   
   self.selectedButtonColorLabel.backgroundColor = uiColor;
   self.selectedButtonColorLabel.text = @"";

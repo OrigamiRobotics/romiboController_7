@@ -9,6 +9,7 @@
 #import "ButtonColorsPopoverViewController.h"
 #import "PaletteButtonColorsManager.h"
 #import "UserPalettesManager.h"
+#import "UIColor+GSAdditions.h"
 
 @interface ButtonColorsPopoverViewController ()
 
@@ -77,7 +78,7 @@
 
   NSString * buttonColorName = [self.colorsManager nameForHexValue:buttonColor];
   NSLog(@"NAME = '%@'", name);
-  UIColor *uiColor = [self colorFromHexString:[self.colorsManager hexValueForName:name]];
+  UIColor *uiColor = [UIColor colorWithHexString:[self.colorsManager hexValueForName:name]];
   NSLog(@"hexValueForName = '%@'", [self.colorsManager hexValueForName:name]);
 
   cell.backgroundColor = [UIColor whiteColor];
@@ -142,16 +143,6 @@
   //[cell setBackgroundColor:[UIColor colorWithPatternImage:pattern]];
 }
 
-- (UIColor *) colorFromHexString:(NSString *)hexString
-{
-  // NSString *stringColor = [NSString stringWithFormat:@"#%@", hexString];
-  NSLog(@"converted hex value = %@", hexString);
-  int red, green, blue;
-  sscanf([hexString UTF8String], "#%2X%2X%2X", &red, &green, &blue);
-  
-  return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1];
-  
-}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
