@@ -204,7 +204,7 @@
         
         PaletteEntity * paletteEntity = [NSEntityDescription insertNewObjectForEntityForName:@"PaletteEntity" inManagedObjectContext:self.managedObjectContext];
         
-        [paletteEntity setIndex:[NSNumber numberWithInteger:numPalettes + 1]];
+        [paletteEntity setIndex:@(numPalettes + 1)];
         [paletteEntity setTitle:paletteDict[@"name"]];
 
         for (NSDictionary *actionDict in actionsDict) {
