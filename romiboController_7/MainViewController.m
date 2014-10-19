@@ -672,7 +672,7 @@ const CGFloat kButtonInset_y =   4.0;
   } else if ([userAccountsMgr currentUserIsLoggedIn]){
     //[self.registrationButton setHidden:YES];
     [self.toolbarContainerView setHidden:NO];
-    [self.loginButton setHidden:YES];
+    //[self.loginButton setHidden:YES];
 //    NSString *loggedInInfo = [NSString stringWithFormat:@"%@", [userAccountsMgr getCurrentUserName]];
 //    self.logedInInfoLabel.text = loggedInInfo;
   } else {
