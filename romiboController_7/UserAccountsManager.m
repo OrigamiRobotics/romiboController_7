@@ -41,7 +41,7 @@ static UserAccountsManager *sharedAccountsInstance = nil;
   if (self = [super init]){
     self.lastUsedAccountEmail = @"";
     self.userAccounts = [[NSMutableDictionary alloc] init];
-    self.justLoggedInOservable = @"";
+    self.justLoggedInObservable = @"";
 
     [self loadAccounts];
     [self createDefaultUser];
@@ -54,7 +54,7 @@ static UserAccountsManager *sharedAccountsInstance = nil;
   RomiboWebUser *user = [[RomiboWebUser alloc] init];
   RomiboWebUser *defaultUser = [self.userAccounts objectForKey:user.email];
   if (!defaultUser){
-    [self.userAccounts setObject:user forKey:user.email];
+    self.userAccounts[user.email]  =user;
     self.lastUsedAccountEmail = user.email;
     [self saveAccounts];
   }
@@ -145,7 +145,7 @@ static UserAccountsManager *sharedAccountsInstance = nil;
 {
   [[self.userAccounts objectForKey:self.lastUsedAccountEmail] setIsLoggedIn:YES];
   [self saveAccounts];
-  self.justLoggedInOservable = @"yes";
+  self.justLoggedInObservable = @"yes";
 }
 
 -(BOOL)currentUserIsLoggedIn

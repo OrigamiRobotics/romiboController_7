@@ -204,7 +204,7 @@
         
         PaletteEntity * paletteEntity = [NSEntityDescription insertNewObjectForEntityForName:@"PaletteEntity" inManagedObjectContext:self.managedObjectContext];
         
-        [paletteEntity setIndex:[NSNumber numberWithInteger:numPalettes + 1]];
+        [paletteEntity setIndex:@(numPalettes + 1)];
         [paletteEntity setTitle:paletteDict[@"name"]];
 
         for (NSDictionary *actionDict in actionsDict) {
@@ -218,14 +218,14 @@
             [buttonEntity setTitle:actionDict[@"buttonTitle"]];
             [buttonEntity setPalette:paletteEntity];
             numButtons++;
-            [buttonEntity setIndex:[NSNumber numberWithInt:(uint32_t)numButtons]];
+            [buttonEntity setIndex:@((uint32_t)numButtons)];
             NSLog(@"numButtons          : %d", (uint32_t)numButtons);
 
             ActionEntity * actionEntity = [NSEntityDescription insertNewObjectForEntityForName:@"ActionEntity" inManagedObjectContext:self.managedObjectContext];
             [actionEntity setSpeechText:actionDict[@"speechPhrase"]];
             [actionEntity setSpeechSpeed:actionDict[@"speechSpeedRate"]];
             numActions++;
-            [actionEntity setIndex: [NSNumber numberWithInt:(uint32_t)numActions]];
+            [actionEntity setIndex: @((uint32_t)numActions)];
             NSLog(@"numActions          : %d", (uint32_t)numActions);
 
             [actionEntity setActions:nil];
@@ -257,7 +257,5 @@
 
     }
 }
-
-
-
 @end
+

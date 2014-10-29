@@ -11,7 +11,7 @@
 @interface PaletteButtonColorsManager : NSObject
 
 @property (nonatomic, strong)NSMutableDictionary* buttonColors;
-@property (nonatomic, strong)NSNumber *selectedColorSelectorPopoverCellValue;
+@property (nonatomic, strong)NSString *selectedColorSelectorPopoverCellValue;
 
 + (id)sharedColorsManagerInstance;
 

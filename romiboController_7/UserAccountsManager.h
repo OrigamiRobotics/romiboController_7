@@ -34,7 +34,7 @@
 -(void)logInCurrentUser;
 -(void)switchCurrentUser:(NSString*)email;
 
-@property (nonatomic, copy)  NSString* justLoggedInOservable;
+@property (nonatomic, copy)  NSString* justLoggedInObservable;
 
 
 @end

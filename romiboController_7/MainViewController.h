@@ -11,6 +11,8 @@
 #import <CoreData/CoreData.h>
 #import "AVFoundation/AVFoundation.h"
 #import "PaletteButtonsCollectionViewCell.h"
+#import "JSAnalogueStick.h"
+#import "ConnectionManager.h"
 
 
 //Commands
@@ -23,7 +25,7 @@
 #define kRMBOStopRobotMovement @"kRMBOStopRobotMovement"
 #define kRMBOChangeMood @"kRMBOChangeMood"
 
-#define kRMBOMaxMutlipeerConnections 1
+#define kRMBOMaxMultipeerConnections 2
 #define kRMBOServiceType @"origami-romibo"
 
 
@@ -38,19 +40,21 @@ typedef enum {
 
 @interface MainViewController : UIViewController
 <
-  UITableViewDataSource,
-  UITableViewDelegate,
-  UICollectionViewDataSource,
-  UICollectionViewDelegate,
-  MCSessionDelegate,
-  MCBrowserViewControllerDelegate,
-  NSURLSessionTaskDelegate,
-  NSURLSessionDataDelegate,
-  NSURLSessionDelegate,
-  UIPopoverControllerDelegate,
-  UIPickerViewDataSource,
-  UIPickerViewDelegate,
-  UIAlertViewDelegate
+    UITableViewDataSource,
+    UITableViewDelegate,
+    UICollectionViewDataSource,
+    UICollectionViewDelegate,
+    MCSessionDelegate,
+    MCBrowserViewControllerDelegate,
+    NSURLSessionTaskDelegate,
+    NSURLSessionDataDelegate,
+    NSURLSessionDelegate,
+    UIPopoverControllerDelegate,
+    //  UIPickerViewDataSource,
+    //  UIPickerViewDelegate,
+    UIAlertViewDelegate,
+    JSAnalogueStickDelegate,
+    ConnectionManagerDelegate
 >
 
 @property (nonatomic, strong) MCPeerID *peerID;
@@ -91,20 +95,51 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIButton * emote4_button;
 @property (strong, nonatomic) IBOutlet UIButton * emote5_button;
 
+@property (weak, nonatomic) IBOutlet JSAnalogueStick *analogueStickview;
+
 
 @property (strong, nonatomic) IBOutlet UIView *connectButton;
 
 @property (strong, nonatomic) NSArray* paletteTitles;
 
+// Robot motion
+@property (nonatomic, strong) NSTimer *turningTimer;
+@property (nonatomic, assign) BOOL isTurningClockwise;
+@property (nonatomic, assign) BOOL isTurningCounterclockwise;
+@property (nonatomic, assign) CGFloat lastX;
+@property (nonatomic, assign) CGFloat lastY;
+// Bluetooth connection
+@property (nonatomic, assign) BOOL isScanning;
+@property (nonatomic, strong) NSDate *lastBTMessageTime;
+@property (nonatomic, assign) UInt32 lastBTCommandBytes;
+
+// Hardware state
+@property SInt8 last_leftMotor;
+@property SInt8 last_rightMotor;
+@property UInt8 last_tiltLeftRight;
+@property UInt8 last_tiltForwardBack;
+@property float leftRightMotorBalance;
+
+@property (nonatomic, assign) BOOL isV6Hardware;
+
 - (IBAction)textAction:(id)sender;
-- (IBAction)emoteAction:(id)sender;
+// - (IBAction)emoteAction:(id)sender;
 
 
 - (IBAction) connectAction:(id)sender;
+- (IBAction)toggleTagScanning:(id)sender;
 
-- (void) setEditButtonColor:(UIColor *) color;
-- (void) setEditButtonSize:(NSString *) sizeStr;
+// FIXME: these EditButton methods have no implementations.
+// write the implementations or remove the calls to them in buttonSizePickerView
+ - (void) setEditButtonColor:(UIColor *) color;
+ - (void) setEditButtonSize:(NSString *) sizeStr;
 
 - (void) displayButtonsForSelectedPalette:(NSInteger)index;
 
+- (void)analogueStickDidChangeValue:(JSAnalogueStick *)analogueStick;
+
+//# pragma mark UIPickerViewDataSource Delegate methods
+//- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
+//- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
+//    
 @end

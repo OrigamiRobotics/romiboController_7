@@ -89,8 +89,8 @@
 
 -(void)save
 {
-  NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self];
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//  NSData *userData = [NSKeyedArchiver archivedDataWithRootObject:self];
+//  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   
 //  [defaults setObject:userData forKey:[self useInfoStorageKeyForCurrentAccount]];
 //  [defaults synchronize];

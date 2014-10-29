@@ -74,6 +74,11 @@
 		B1EDAFBB1911A69900C17EBC /* rmbo_paletteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */; };
 		B1EDAFBE19122F1C00C17EBC /* smActionButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFBC19122F1B00C17EBC /* smActionButton.png */; };
 		B1EDAFBF19122F1C00C17EBC /* smActionButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */; };
+		D7090E5919F20EE900345B9E /* JSAnalogueStick.m in Sources */ = {isa = PBXBuildFile; fileRef = D7090E5819F20EE900345B9E /* JSAnalogueStick.m */; };
+		D7A7954619F2C715008C9587 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954119F2C715008C9587 /* ConnectionManager.m */; };
+		D7A7954719F2C715008C9587 /* ProximityTag.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954319F2C715008C9587 /* ProximityTag.m */; };
+		D7A7954819F2C715008C9587 /* TagLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954519F2C715008C9587 /* TagLocationManager.m */; };
+		D7A7954C19F41DD1008C9587 /* UIColor+GSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +191,17 @@
 		B1EDAFB91911A69900C17EBC /* rmbo_paletteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = rmbo_paletteTableViewCell.xib; sourceTree = "<group>"; };
 		B1EDAFBC19122F1B00C17EBC /* smActionButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smActionButton.png; sourceTree = "<group>"; };
 		B1EDAFBD19122F1B00C17EBC /* smActionButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smActionButton@2x.png"; sourceTree = "<group>"; };
+		D7090E5719F20EE900345B9E /* JSAnalogueStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSAnalogueStick.h; sourceTree = "<group>"; };
+		D7090E5819F20EE900345B9E /* JSAnalogueStick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSAnalogueStick.m; sourceTree = "<group>"; };
+		D7A7954019F2C715008C9587 /* ConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionManager.h; sourceTree = "<group>"; };
+		D7A7954119F2C715008C9587 /* ConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionManager.m; sourceTree = "<group>"; };
+		D7A7954219F2C715008C9587 /* ProximityTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProximityTag.h; sourceTree = "<group>"; };
+		D7A7954319F2C715008C9587 /* ProximityTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProximityTag.m; sourceTree = "<group>"; };
+		D7A7954419F2C715008C9587 /* TagLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagLocationManager.h; sourceTree = "<group>"; };
+		D7A7954519F2C715008C9587 /* TagLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagLocationManager.m; sourceTree = "<group>"; };
+		D7A7954A19F41DD1008C9587 /* UIColor+GSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+GSAdditions.h"; path = "romiboController_7/UIColor+GSAdditions.h"; sourceTree = "<group>"; };
+		D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+GSAdditions.m"; path = "romiboController_7/UIColor+GSAdditions.m"; sourceTree = "<group>"; };
+		D7A7954D19F43E25008C9587 /* etj_macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etj_macros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +247,8 @@
 		55444B2B19D2A58D00192456 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D7090E5719F20EE900345B9E /* JSAnalogueStick.h */,
+				D7090E5819F20EE900345B9E /* JSAnalogueStick.m */,
 				55444B2C19D2A5B100192456 /* RomibowebAPIManager.h */,
 				55444B2D19D2A5B100192456 /* RomibowebAPIManager.m */,
 				55444B2E19D2A5B100192456 /* UserPalettesManager.h */,
@@ -315,6 +333,9 @@
 		B1EDAF611910537600C17EBC = {
 			isa = PBXGroup;
 			children = (
+				D7A7954D19F43E25008C9587 /* etj_macros.h */,
+				D7A7954A19F41DD1008C9587 /* UIColor+GSAdditions.h */,
+				D7A7954B19F41DD1008C9587 /* UIColor+GSAdditions.m */,
 				55444B3619D2A81700192456 /* Images */,
 				B1EDAF731910537600C17EBC /* romiboController_7 */,
 				B1EDAF951910537600C17EBC /* romiboController_7Tests */,
@@ -351,6 +372,7 @@
 				55444B2B19D2A58D00192456 /* Controllers */,
 				55444B1B19D2A3DA00192456 /* Models */,
 				B1BE5495192492A700BEAA76 /* Core Data */,
+				D7A7953F19F2C715008C9587 /* Bluetooth_LE */,
 				B1EDAF821910537600C17EBC /* Main_iPad.storyboard */,
 				B1EDAF7C1910537600C17EBC /* rmbo_AppDelegate.h */,
 				B1EDAF7D1910537600C17EBC /* rmbo_AppDelegate.m */,
@@ -406,6 +428,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D7A7953F19F2C715008C9587 /* Bluetooth_LE */ = {
+			isa = PBXGroup;
+			children = (
+				D7A7954019F2C715008C9587 /* ConnectionManager.h */,
+				D7A7954119F2C715008C9587 /* ConnectionManager.m */,
+				D7A7954219F2C715008C9587 /* ProximityTag.h */,
+				D7A7954319F2C715008C9587 /* ProximityTag.m */,
+				D7A7954419F2C715008C9587 /* TagLocationManager.h */,
+				D7A7954519F2C715008C9587 /* TagLocationManager.m */,
+			);
+			path = Bluetooth_LE;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -455,7 +490,7 @@
 				ORGANIZATIONNAME = "Origami Robotics";
 				TargetAttributes = {
 					B1EDAF691910537600C17EBC = {
-						DevelopmentTeam = WTG4846AFW;
+						DevelopmentTeam = 9YYN96VW6R;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -463,7 +498,7 @@
 						};
 					};
 					B1EDAF8D1910537600C17EBC = {
-						DevelopmentTeam = WTG4846AFW;
+						DevelopmentTeam = 9YYN96VW6R;
 						TestTargetID = B1EDAF691910537600C17EBC;
 					};
 				};
@@ -539,9 +574,13 @@
 			files = (
 				55444B2919D2A53E00192456 /* PaletteButton.m in Sources */,
 				55444B3519D2A5DB00192456 /* AddNewPaletteViewController.m in Sources */,
+				D7A7954719F2C715008C9587 /* ProximityTag.m in Sources */,
 				55BA0C0E19E7485A0087B01D /* UserAccountsManager.m in Sources */,
+				D7A7954619F2C715008C9587 /* ConnectionManager.m in Sources */,
+				D7A7954C19F41DD1008C9587 /* UIColor+GSAdditions.m in Sources */,
 				555AA51C19D9E9B500372F1C /* LoginToRomiboWebViewController.m in Sources */,
 				B1EDAFBA1911A69900C17EBC /* rmbo_paletteTableViewCell.m in Sources */,
+				D7A7954819F2C715008C9587 /* TagLocationManager.m in Sources */,
 				B1E64432192300CA00850F12 /* colorPickerViewController.m in Sources */,
 				B1EDAF7E1910537600C17EBC /* rmbo_AppDelegate.m in Sources */,
 				55444B2819D2A53E00192456 /* Palette.m in Sources */,
@@ -556,6 +595,7 @@
 				55444B2A19D2A53E00192456 /* RomiboWebUser.m in Sources */,
 				B1E64437192300F600850F12 /* buttonSizePickerViewController.m in Sources */,
 				55B6BBE419DBE297000C0C1D /* FetchPalettesFromRomiboWebViewController.m in Sources */,
+				D7090E5919F20EE900345B9E /* JSAnalogueStick.m in Sources */,
 				55DD3A3F19DE84CC00457484 /* EditButtonViewController.m in Sources */,
 				B1E6443B1923120700850F12 /* UIColor+RMBOColors.m in Sources */,
 				B1EDAF871910537600C17EBC /* MainViewController.m in Sources */,
@@ -695,10 +735,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "romiboController_7/romiboController_7-Prefix.pch";
 				INFOPLIST_FILE = "romiboController_7/romiboController_7-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -710,10 +752,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "romiboController_7/romiboController_7-Prefix.pch";
 				INFOPLIST_FILE = "romiboController_7/romiboController_7-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
