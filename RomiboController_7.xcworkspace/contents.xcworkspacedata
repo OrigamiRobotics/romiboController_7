@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:romiboController_7.xcodeproj">
+      location = "group:RomiboController.xcodeproj">
    </FileRef>
 </Workspace>
