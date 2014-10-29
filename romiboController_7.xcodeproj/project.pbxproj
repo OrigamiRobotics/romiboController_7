@@ -444,9 +444,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B1EDAF691910537600C17EBC /* romiboController_7 */ = {
+		B1EDAF691910537600C17EBC /* RomiboController */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B1EDAF9F1910537700C17EBC /* Build configuration list for PBXNativeTarget "romiboController_7" */;
+			buildConfigurationList = B1EDAF9F1910537700C17EBC /* Build configuration list for PBXNativeTarget "RomiboController" */;
 			buildPhases = (
 				B1EDAF661910537600C17EBC /* Sources */,
 				B1EDAF671910537600C17EBC /* Frameworks */,
@@ -456,7 +456,7 @@
 			);
 			dependencies = (
 			);
-			name = romiboController_7;
+			name = RomiboController;
 			productName = romiboController_7;
 			productReference = B1EDAF6A1910537600C17EBC /* romiboController_7.app */;
 			productType = "com.apple.product-type.application";
@@ -516,7 +516,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B1EDAF691910537600C17EBC /* romiboController_7 */,
+				B1EDAF691910537600C17EBC /* RomiboController */,
 				B1EDAF8D1910537600C17EBC /* romiboController_7Tests */,
 			);
 		};
@@ -624,7 +624,7 @@
 /* Begin PBXTargetDependency section */
 		B1EDAF941910537600C17EBC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B1EDAF691910537600C17EBC /* romiboController_7 */;
+			target = B1EDAF691910537600C17EBC /* RomiboController */;
 			targetProxy = B1EDAF931910537600C17EBC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -815,7 +815,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B1EDAF9F1910537700C17EBC /* Build configuration list for PBXNativeTarget "romiboController_7" */ = {
+		B1EDAF9F1910537700C17EBC /* Build configuration list for PBXNativeTarget "RomiboController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B1EDAFA01910537700C17EBC /* Debug */,
