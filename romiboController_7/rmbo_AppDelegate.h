@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 @interface rmbo_AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -18,5 +19,6 @@
 @property (strong, nonatomic) NSManagedObjectContext       * managedObjectContext;
 @property (strong, nonatomic) NSManagedObjectModel         * managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator * persistentStoreCoordinator;
+@property (strong, nonatomic) MCSession * multipeerSession;
 
 @end

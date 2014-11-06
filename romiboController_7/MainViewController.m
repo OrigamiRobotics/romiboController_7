@@ -86,7 +86,8 @@
 {
   [super viewDidLoad];
   
-  self.connectedToiPod = NO;
+  [self setupMultipeerSession];
+  [self showConnected:[self isConnectedToiPod]];
   
   self.speechSynth = [[AVSpeechSynthesizer alloc] init];
   
@@ -98,7 +99,6 @@
 
   //init palettes stuff
   [self initializePalettesManager];
-  [self.connectedToIphoneImageView setHidden:YES];
   
   // UI specific
   [self.buttonDetailsToolbarContainer setHidden:YES];
@@ -194,7 +194,7 @@
 
 - (void)manageRobotConnection
 {
-  if (self.connectedToiPod == NO) {
+  if (![self isConnectedToiPod]) {
     self.multipeerBrowser = [[MCBrowserViewController alloc] initWithServiceType:kRMBOServiceType session:self.multipeerSession];
         [self.multipeerBrowser setMaximumNumberOfPeers:kRMBOMaxMultipeerConnections];
     [self.multipeerBrowser setDelegate:self];
@@ -220,29 +220,21 @@
 - (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
 {
   //[self.multipeerBrowser dismissViewControllerAnimated:YES completion:nil];
-  self.connectedToiPod = YES;
 }
 
 - (void)setupMultipeerConnectivity
 {
-  MCPeerID *peerId = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
-  self.multipeerSession = [[MCSession alloc] initWithPeer:peerId];
   [self.multipeerSession setDelegate:self];
-  
 }
 
 
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
-  self.connectedToiPod = YES;
   if (state == MCSessionStateConnected) {
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.multipeerBrowser dismissViewControllerAnimated:YES completion:^{
         NSLog(@"connected successfuly");
-        [self.textToSpeechViewContainer setHidden:NO];
-        [self.quickButtonsContainer setHidden:NO];
-        [self.connectedToIphoneImageView setHidden:NO];
-        [self.connectButton setTitle:@"" forState:UIControlStateNormal];
+        [self showConnected:true];
         
                 /*
                  NOTE,19 Aug 2014: Previous versions of the robot had a single point of connection.
@@ -262,12 +254,8 @@
   }
   else if (state == MCSessionStateNotConnected) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      self.connectedToiPod = NO;
       NSLog(@"connection failed");
-      [self.textToSpeechViewContainer setHidden:YES];
-      [self.quickButtonsContainer setHidden:YES];
-      [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
-      [self.connectedToIphoneImageView setHidden:YES];
+      [self showConnected:false];
     });
   }
 }
@@ -395,7 +383,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)sendSpeechPhraseToRobot:(NSString *)phrase atSpeechRate:(float)speechRate
 {
-  if (self.connectedToiPod) {
+  if ([self isConnectedToiPod]) {
         NSDictionary *params = @{@"command" : kRMBOSpeakPhrase,
                                  @"phrase" : phrase,
                                  @"speechRate" : @(speechRate)};
@@ -418,7 +406,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)moveRobotWithX:(CGFloat)xValue andY:(CGFloat)yValue
 {
-    if (self.connectedToiPod) {
+    if ([self isConnectedToiPod]) {
         
         float x = (float)xValue;
         float y = (float)yValue;
@@ -436,7 +424,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)stopRobotMovement
 {
-    if (self.connectedToiPod) {
+    if ([self isConnectedToiPod]) {
         NSDictionary *params = @{@"command" : kRMBOStopRobotMovement,
                                  @"timestamp" : [NSDate date]};
         [self sendCommandToRobot:params];
@@ -445,7 +433,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)tiltRobotHeadToAngle:(CGFloat)angle
 {
-    if (self.connectedToiPod) {
+    if ([self isConnectedToiPod]) {
         NSDictionary *params = @{@"command" : kRMBOHeadTilt,
                                  @"angle" : @(angle),
                                  @"timestamp" : [NSDate date]};
@@ -456,7 +444,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)turnRobotClockwise:(id)sender
 {
-    if (self.connectedToiPod && self.isTurningClockwise) {
+    if ([self isConnectedToiPod] && self.isTurningClockwise) {
         NSDictionary *params = @{@"command" : kRMBOTurnInPlaceClockwise,
                                  @"timestamp" : [NSDate date]};
         [self sendCommandToRobot:params];
@@ -465,7 +453,7 @@ typedef NS_ENUM(NSInteger, RMBOEyeMood) {
 
 - (void)turnRobotCounterClockwise:(id)sender
 {
-    if (self.connectedToiPod && self.isTurningCounterclockwise) {
+    if ([self isConnectedToiPod] && self.isTurningCounterclockwise) {
         NSDictionary *params = @{@"command" : kRMBOTurnInPlaceCounterClockwise,
                                  @"timestamp" : [NSDate date]};
         [self sendCommandToRobot:params];
@@ -789,7 +777,7 @@ SInt8 scaleToSInt8( float x, float domainMin, float domainMax)
     mood = (NSNumber *)moodsForButtons[ NSV(sender)];
     if (mood == nil){ return;}
         
-    if (self.connectedToiPod) {
+    if ([self isConnectedToiPod]) {
         NSDictionary *params = @{@"command" : kRMBOChangeMood, @"mood" : mood};
         [self sendCommandToRobot:params];
     }
@@ -1397,7 +1385,6 @@ const CGFloat kButtonInset_y =   4.0;
   } else if (alertView.tag == 100){//disconnect from iPhone/iPod
     if (buttonIndex == 1) {
       [self.multipeerSession disconnect];
-      self.connectedToiPod = NO;
       [self setupMultipeerConnectivity];
     }
   }
@@ -1442,4 +1429,42 @@ const CGFloat kButtonInset_y =   4.0;
 {}
 - (void) setEditButtonSize:(NSString *) sizeStr;
 {}
+
+- (void) setupMultipeerSession
+{
+  rmbo_AppDelegate *appDel = (rmbo_AppDelegate *)[[UIApplication sharedApplication] delegate];
+  if (appDel.multipeerSession) {
+    self.multipeerSession = appDel.multipeerSession;
+  } else {
+    MCPeerID *peerId = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
+    self.multipeerSession = [[MCSession alloc] initWithPeer:peerId];
+    
+    // Persist session even when pushing modal views.
+    // Note that this is a quick hack...not good architecture! In fact, this view controller
+    //   needs quite a bit of refactoring/slimming down.
+    appDel.multipeerSession = self.multipeerSession;
+  }
+}
+
+- (BOOL) isConnectedToiPod
+{
+  if ([self.multipeerSession.connectedPeers count] > 0)
+    return true;
+  return false;
+}
+
+- (void) showConnected:(BOOL) isConnected
+{
+  if (isConnected) {
+    [self.textToSpeechViewContainer setHidden:NO];
+    [self.quickButtonsContainer setHidden:NO];
+    [self.connectedToIphoneImageView setHidden:NO];
+    [self.connectButton setTitle:@"" forState:UIControlStateNormal];
+  } else {
+    [self.textToSpeechViewContainer setHidden:YES];
+    [self.quickButtonsContainer setHidden:YES];
+    [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
+    [self.connectedToIphoneImageView setHidden:YES];
+  }
+}
 @end
