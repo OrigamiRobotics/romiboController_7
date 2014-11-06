@@ -201,11 +201,12 @@
         [self presentViewController:_multipeerBrowser animated:YES completion:nil];
   }
   else {
-        UIAlertView *disconnectView = [[UIAlertView alloc] initWithTitle:@"Disconnect from Robot?"
-                                                                 message:@"Are you sure you want to disconect from the robot?"
-                                                                delegate:self
-                                                       cancelButtonTitle:@"Cancel"
-                                                       otherButtonTitles:@"Disconnect", nil];
+    UIAlertView *disconnectView = [[UIAlertView alloc] initWithTitle:@"Disconnect from Robot?"
+                                                             message:@"Are you sure you want to disconect from the robot?"
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                                   otherButtonTitles:@"Disconnect", nil];
+    disconnectView.tag = 100;
     [disconnectView show];
   }
 }
@@ -241,9 +242,8 @@
         [self.textToSpeechViewContainer setHidden:NO];
         [self.quickButtonsContainer setHidden:NO];
         [self.connectedToIphoneImageView setHidden:NO];
-        [self.connectButton setHidden:YES];
-        [self.connectedToIphoneImageView setHidden:NO];
-                
+        [self.connectButton setTitle:@"" forState:UIControlStateNormal];
+        
                 /*
                  NOTE,19 Aug 2014: Previous versions of the robot had a single point of connection.
                  We now have A) an iPod for sound and eye animations, and
@@ -260,13 +260,15 @@
       
     });
   }
-  else {
-    self.connectedToiPod = NO;
-    NSLog(@"connection failed");
-    [self.textToSpeechViewContainer setHidden:YES];
-    [self.quickButtonsContainer setHidden:YES];
-    [self.connectButton setHidden:NO];
-    [self.connectedToIphoneImageView setHidden:YES];
+  else if (state == MCSessionStateNotConnected) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      self.connectedToiPod = NO;
+      NSLog(@"connection failed");
+      [self.textToSpeechViewContainer setHidden:YES];
+      [self.quickButtonsContainer setHidden:YES];
+      [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
+      [self.connectedToIphoneImageView setHidden:YES];
+    });
   }
 }
 

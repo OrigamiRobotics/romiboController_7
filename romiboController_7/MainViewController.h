@@ -98,7 +98,7 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet JSAnalogueStick *analogueStickview;
 
 
-@property (strong, nonatomic) IBOutlet UIView *connectButton;
+@property (strong, nonatomic) IBOutlet UIButton *connectButton;
 
 @property (strong, nonatomic) NSArray* paletteTitles;
 
