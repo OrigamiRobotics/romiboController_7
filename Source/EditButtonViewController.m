@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonColorSelectorButton;
 @property (strong, nonatomic) IBOutlet UILabel *selectedButtonColorLabel;
 @property (strong, nonatomic) IBOutlet UITextView *buttonSpeechPhraseTextview;
+@property (weak, nonatomic) IBOutlet UIButton *previewButton;
 @property (copy, nonatomic) NSString* selectedColorName;
 @property (weak, nonatomic) UserPalettesManager *palettesManager;
 @property (strong, nonatomic) NSDictionary* editedButtonValues;
@@ -28,6 +29,7 @@
 @property (assign, nonatomic) int selectedPaletteId;
 @property (weak, nonatomic) MenuSelectionsController *genericController;
 @property (weak, nonatomic) PaletteButtonColorsManager *colorsManager;
+@property (nonatomic, strong) AVSpeechSynthesizer *speechSynth;
 
 @end
 
@@ -125,6 +127,24 @@
   NSLog(@"clicked");
 }
 
+#pragma mark - Preview Speech
+- (IBAction)previewSpeechAction:(id)sender
+{
+  if (!_speechSynth) {
+    _speechSynth = [[AVSpeechSynthesizer alloc] init];
+    [_speechSynth setDelegate:self];
+  }
+  AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:self.buttonSpeechPhraseTextview.text];
+  [utterance setRate:self.buttonSpeechRateSlider.value];
+  [utterance setVoice:[AVSpeechSynthesisVoice voiceWithLanguage:[AVSpeechSynthesisVoice currentLanguageCode]]];
+  [_previewButton setEnabled:NO];
+  [_speechSynth speakUtterance:utterance];
+}
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance *)utterance
+{
+  [_previewButton setEnabled:YES];
+}
 
 #pragma mark - Olor Selector PopupViewController related
 - (void)observeValueForKeyPath:(NSString *)keyPath

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface EditButtonViewController : UIViewController<UITextViewDelegate>
+@interface EditButtonViewController : UIViewController<UITextViewDelegate, AVSpeechSynthesizerDelegate>
 
 @end

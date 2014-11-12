@@ -1186,7 +1186,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="4pG-Gx-3Zf">
-                                        <rect key="frame" x="8" y="96" width="674" height="63"/>
+                                        <rect key="frame" x="8" y="96" width="638" height="82"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="yes" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
@@ -1249,6 +1249,18 @@
                                             <segue destination="iga-Tp-2mH" kind="popover" popoverAnchorView="1Nw-As-wds" id="eQy-Ae-3ec">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                             </segue>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2hd-CJ-RPR">
+                                        <rect key="frame" x="674" y="122" width="64" height="42"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="speaker" backgroundImage="actionButton">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="previewSpeechAction:" destination="Y10-qV-PFE" eventType="touchUpInside" id="R5n-3u-ZiF"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1577,6 +1589,7 @@
     <resources>
         <image name="070928-glossy-black-icon-alphanumeric-plus-sign-simple.png" width="512" height="512"/>
         <image name="Icon-Check-White.png" width="500" height="500"/>
+        <image name="actionButton" width="215" height="48"/>
         <image name="clock" width="64" height="64"/>
         <image name="connected_to_iphone.png" width="212" height="63"/>
         <image name="counter" width="64" height="64"/>
@@ -1591,6 +1604,7 @@
         <image name="palettes_table_cell_bg_image.png" width="376" height="94"/>
         <image name="palettes_table_cell_bg_image_selected.png" width="386" height="94"/>
         <image name="smActionButton.png" width="162" height="47"/>
+        <image name="speaker" width="32" height="32"/>
         <image name="whiteBorderButton.png" width="200" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -1599,8 +1613,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="KtT-0P-0eU"/>
-        <segue reference="aZb-75-Kaz"/>
         <segue reference="byS-wS-yq0"/>
+        <segue reference="jIb-Sg-p25"/>
+        <segue reference="aZb-75-Kaz"/>
     </inferredMetricsTieBreakers>
 </document>
